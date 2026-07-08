@@ -60,7 +60,7 @@
   /* ---------- ヘッダー ---------- */
   header.app{position:sticky; top:0; z-index:40; background:rgba(255,255,255,.94); backdrop-filter:blur(10px);
     border-bottom:1px solid var(--line);}
-  .hd{max-width:1480px; margin:0 auto; padding:9px 18px; display:flex; align-items:center; gap:12px;}
+  .hd{max-width:1880px; margin:0 auto; padding:9px 18px; display:flex; align-items:center; gap:12px;}
   .logo{display:flex; align-items:center; gap:10px; cursor:pointer; border:0; background:none; padding:0; text-align:left; flex:0 0 auto;}
   .logo .mk{width:34px; height:34px; border-radius:9px; background:var(--brand);
     display:grid; place-items:center; color:#fff; font-weight:800; font-size:19px; font-family:var(--serif); box-shadow:var(--shadow-s);}
@@ -131,12 +131,12 @@
     min-width:18px; height:18px; display:grid; place-items:center; padding:0 5px; font-weight:800;}
 
   /* ---------- 3カラムレイアウト ---------- */
-  .layout{max-width:1480px; margin:0 auto; padding:0 18px; display:grid; grid-template-columns:1fr; gap:20px;}
+  .layout{max-width:1880px; margin:0 auto; padding:0 18px; display:grid; grid-template-columns:1fr; gap:20px;}
   .layout > *{min-width:0;}
   aside.side{display:none;}
   aside.dcol{display:none;}
   @media(min-width:1100px){
-    .layout{grid-template-columns:236px minmax(0,1fr) clamp(400px,33vw,470px);}
+    .layout{grid-template-columns:236px minmax(0,1fr) clamp(430px,46vw,920px);}
     aside.side{display:block;}
     aside.dcol{display:block;}
   }
@@ -312,9 +312,7 @@
 
   /* ---------- 企業カード ---------- */
   .cards{display:grid; grid-template-columns:1fr; gap:12px; padding-bottom:8px;}
-  @media(min-width:620px){ .cards{grid-template-columns:1fr 1fr;} }
-  @media(min-width:780px) and (max-width:1099px){ .cards{grid-template-columns:1fr;} }
-  @media(min-width:1350px){ .cards{grid-template-columns:1fr 1fr;} }
+  @media(min-width:620px){ .cards{grid-template-columns:repeat(auto-fill,minmax(295px,1fr));} }
   .cards.lv{grid-template-columns:1fr !important;}
 
   .card{position:relative; background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
@@ -468,6 +466,12 @@
   .dtabs button[aria-current="true"]{color:var(--brand-d); border-bottom-color:var(--brand); font-family:var(--serif); font-weight:800;}
   .dtab{display:none; padding-top:4px;}
   .dtab.on{display:block;}
+  /* 広い画面では詳細タブの中身を見開き2カラムのダッシュボードに（.w2は全幅パネル） */
+  @media(min-width:1100px){
+    .dtab.on{display:grid; grid-template-columns:1fr 1fr; gap:13px; align-items:start; padding-top:16px;}
+    .dtab.on .panel{margin-top:0;}
+    .dtab.on .panel.w2{grid-column:1/-1;}
+  }
 
   .panel{background:var(--surface); border:1px solid var(--line-2); border-radius:var(--r-s); padding:15px 15px 14px; margin-top:12px;}
   .panel h3{font-size:13.5px; font-weight:800; margin:0 0 12px; display:flex; align-items:center; gap:8px; letter-spacing:.04em;
@@ -1815,7 +1819,7 @@ function openDetail(no){
 
   /* 会社概要タブ：このタブだけで企業の全体像がつかめる「見開きダッシュボード」構成 */
   var tabOverview=''
-    +'<div class="panel"><h3><span class="lbl">能力値</span>6項目・参考指標</h3><div class="radarwrap">'
+    +'<div class="panel w2"><h3><span class="lbl">能力値</span>6項目・参考指標</h3><div class="radarwrap">'
       +'<div>'+radarSVG(d.stats,{size:200})+'</div>'
       +'<div class="axislist">'+axHTML+'</div></div></div>'
     +'<div class="panel"><h3><span class="lbl">環境</span>数字で見る働き方<small>（参考値）</small></h3>'
@@ -1837,7 +1841,7 @@ function openDetail(no){
     +'</div></div>'
     +'<div class="panel"><h3><span class="lbl">初任給</span><small>（月給・参考値）</small></h3>'+startpayHTML+'</div>'
     +'<div class="panel"><h3><span class="lbl">人物像</span>求める人物像（採用情報より要約）</h3><div class="persons">'+personsHTML+'</div></div>'
-    +'<div class="panel"><h3><span class="lbl">選考</span>選考フローの目安</h3><div class="flow">'+flowHTML+'</div></div>'
+    +'<div class="panel w2"><h3><span class="lbl">選考</span>選考フローの目安</h3><div class="flow">'+flowHTML+'</div></div>'
     +'<div class="panel"><h3><span class="lbl">声</span>社員の声<small>（編集部ヒアリング風・イメージ）</small></h3>'+voiceHTML+'</div>'
     +'<div class="panel"><h3><span class="lbl">評価</span>社員からの評価<small>（能力値より換算・参考）</small></h3><div class="rates">'+ratesHTML+'</div></div>';
 
@@ -1847,7 +1851,7 @@ function openDetail(no){
   }).join("");
   var jobsHTML=d.jobs.map(function(j){ return '<span>'+icon("doc",12)+j+'</span>'; }).join("");
   var tabBiz=''
-    +'<div class="panel"><h3><span class="lbl">事業</span>どんな会社？</h3><p class="lead-txt">'+d.feature+'</p></div>'
+    +'<div class="panel w2"><h3><span class="lbl">事業</span>どんな会社？</h3><p class="lead-txt">'+d.feature+'</p></div>'
     +'<div class="panel"><h3><span class="lbl">職種</span>おもな募集職種（参考）</h3><div class="chips2">'+jobsHTML+'</div></div>'
     +(rels?'<div class="panel"><h3><span class="lbl">参照</span>あわせて見たい企業 →</h3><div class="relrow">'+rels+'</div></div>':'');
 
@@ -1863,13 +1867,13 @@ function openDetail(no){
         +'<div class="stat"><div class="k">'+icon("person",12)+'平均年齢</div><div class="v">'+d.avgAge+'<small>歳</small></div></div>'
       +'</div></div>'
     +'<div class="panel"><h3><span class="lbl">福利厚生</span>ハイライト（参考）</h3><div class="chips2">'+welHTML+'</div></div>'
-    +'<div class="panel"><h3><span class="lbl">所感</span>働き方・ここがポイント</h3><p class="lead-txt">'+d.point+'</p></div>';
+    +'<div class="panel w2"><h3><span class="lbl">所感</span>働き方・ここがポイント</h3><p class="lead-txt">'+d.point+'</p></div>';
 
   /* 選考タブ */
   var tabSel=''
     +'<div class="panel"><h3><span class="lbl">初任給</span><small>（月給・参考値）</small></h3>'+startpayHTML+'</div>'
     +'<div class="panel"><h3><span class="lbl">人物像</span>求める人物像（採用情報より要約）</h3><div class="persons">'+personsHTML+'</div></div>'
-    +'<div class="panel"><h3><span class="lbl">選考</span>選考フローの目安</h3><div class="flow">'+flowHTML+'</div>'
+    +'<div class="panel w2"><h3><span class="lbl">選考</span>選考フローの目安</h3><div class="flow">'+flowHTML+'</div>'
       +'<p style="margin:10px 0 0; font-size:11.5px; color:var(--ink-3)">※年度・職種により異なります。必ず最新の募集要項をご確認ください。</p></div>'
     +'<div class="panel"><h3><span class="lbl">機会</span>インターン・説明会（参考）</h3>'
       +'<div style="display:grid;gap:9px">'
