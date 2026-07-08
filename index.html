@@ -816,6 +816,22 @@
   .estamp{font-size:9.5px; font-weight:800; font-family:var(--serif); letter-spacing:.05em; border-radius:5px; padding:1px 6px; border:1.2px solid; line-height:1.6;}
   .estamp.i{color:#0A7F71; border-color:rgba(14,159,146,.55); background:rgba(14,159,146,.07);}
   .estamp.m{color:#B3402F; border-color:rgba(196,80,60,.55); background:rgba(196,80,60,.07);}
+  .estamp.n{color:#8F6E20; border-color:rgba(176,138,46,.55); background:rgba(176,138,46,.08);}
+
+  /* A2: わたしのメモ（選考メモ帳） */
+  .memo-wrap{margin-top:12px; border:1px solid var(--line); border-radius:var(--r-s); background:var(--surface); overflow:hidden;}
+  .memo-head{display:flex; align-items:center; gap:8px; width:100%; border:0; background:none; padding:11px 14px; font-size:12.5px; font-weight:800; color:var(--ink); cursor:pointer; font-family:var(--sans); text-align:left;}
+  .memo-head svg{color:#8F6E20; flex:0 0 auto;}
+  .memo-hint{font-size:10.5px; font-weight:800; color:#8F6E20; background:#F7EFDC; border-radius:99px; padding:2px 9px;}
+  .memo-head .chev{margin-left:auto; color:var(--ink-3); transition:transform .18s ease; font-size:11px;}
+  .memo-head[aria-expanded="true"] .chev{transform:rotate(180deg);}
+  .memo-body{padding:0 14px 12px;}
+  .memo-body textarea{width:100%; min-height:132px; resize:vertical; border:1px solid var(--line); border-radius:10px; padding:6px 12px 12px;
+    font:inherit; font-size:13px; line-height:26px; color:var(--ink); background-color:#FDFCF9;
+    background-image:repeating-linear-gradient(transparent 0, transparent 25px, rgba(32,39,47,.07) 25px, rgba(32,39,47,.07) 26px);
+    background-attachment:local;}
+  .memo-body textarea:focus{outline:2px solid rgba(14,159,146,.3); border-color:var(--brand);}
+  .memo-foot{display:flex; justify-content:space-between; font-size:11px; color:var(--ink-3); margin-top:7px;}
 
   /* やることリスト */
   .todobar{display:flex; align-items:center; gap:12px; margin:2px 0 12px;}
@@ -1184,6 +1200,7 @@ store.profile.axes = store.profile.axes || [];
 store.vm = store.vm==="lv" ? "lv" : "grid";
 store.entry = (store.entry && typeof store.entry==="object" && !Array.isArray(store.entry))? store.entry : {}; /* {企業no:{i:インターン応募済,m:本選考応募済}} */
 store.todos = Array.isArray(store.todos)? store.todos : []; /* {id,txt,kind,no,due,time,done} */
+store.memos = (store.memos && typeof store.memos==="object" && !Array.isArray(store.memos))? store.memos : {}; /* A2: {企業no:{t:本文,u:"更新日"}} */
 
 var state={ view:"list", q:"", cat:"", kana:"", region:"", job:"", wel:"", startMin:0, ckd:[], entryF:"",
   featureId:"", sort:"no", page:1, cmpMode:false, cmp:[], detail:0, rank:"fame", notifOpen:false };
@@ -1261,10 +1278,12 @@ function markSeen(no){ if(store.seen.indexOf(no)<0){ store.seen.push(no); saveSt
 /* ---- エントリー記録（インターン/本選考） ---- */
 function esc(s){ return String(s).replace(/[&<>"']/g,function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
 function entryOf(no){ return store.entry[no]||{}; }
+function escHTML(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 function estampsHTML(no){
   var e=entryOf(no), s="";
   if(e.i) s+='<span class="estamp i">インターン応募済</span>';
   if(e.m) s+='<span class="estamp m">本選考応募済</span>';
+  if(store.memos[no] && store.memos[no].t) s+='<span class="estamp n">メモ</span>';
   return '<span class="estamps" data-es="'+no+'">'+s+'</span>';
 }
 function toggleEntry(no,k){
@@ -2169,6 +2188,18 @@ function openDetail(no){
       +'<button class="ebtn m" data-eno="'+no+'" data-ek="m" aria-pressed="'+(entryOf(no).m?"true":"false")+'"><span class="edot"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>本選考応募済</button>'
       +'<button class="ebtn t" id="d-addtodo">＋やること</button>'
     +'</div>'
+    +(function(){
+      var memo=store.memos[no];
+      return '<div class="memo-wrap">'
+        +'<button class="memo-head" id="memo-toggle" aria-expanded="false">'
+          +'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l4 4L8 20l-5 1 1-5L17 3z"/></svg>'
+          +'わたしのメモ<span class="memo-hint" id="memo-hint"'+(memo&&memo.t?'':' style="display:none"')+'>メモあり</span><span class="chev">▼</span></button>'
+        +'<div class="memo-body" id="memo-body" style="display:none">'
+          +'<textarea id="memo-ta" placeholder="志望動機の下書き、面接で聞かれたこと、OB・OG訪問で聞いた話など、自由にメモできます。（自動保存・この端末のみ）">'+(memo?escHTML(memo.t):'')+'</textarea>'
+          +'<div class="memo-foot"><span id="memo-status">'+(memo?'最終更新 '+memo.u:'')+'</span><span id="memo-count">'+(memo?memo.t.length:0)+'文字</span></div>'
+        +'</div>'
+      +'</div>';
+    })()
     +'<div class="dtabs" id="dtabs">'
       +'<button data-tab="t1" aria-current="true">会社概要</button>'
       +'<button data-tab="t2">事業内容</button>'
@@ -2191,6 +2222,31 @@ function openDetail(no){
   el("detail-body").innerHTML=html;
   el("dcol-in").scrollTop=0;
   if(el("d-axset")) el("d-axset").addEventListener("click",function(){ openModal("m-profile"); });
+  /* A2: わたしのメモ（開閉・自動保存） */
+  if(el("memo-toggle")){
+    el("memo-toggle").addEventListener("click",function(){
+      var open=this.getAttribute("aria-expanded")==="true";
+      this.setAttribute("aria-expanded", open?"false":"true");
+      el("memo-body").style.display=open?"none":"block";
+      if(!open) el("memo-ta").focus();
+    });
+    var mtimer=null;
+    el("memo-ta").addEventListener("input",function(){
+      var ta=this;
+      el("memo-count").textContent=ta.value.length+"文字";
+      el("memo-status").textContent="…";
+      if(mtimer) clearTimeout(mtimer);
+      mtimer=setTimeout(function(){
+        var v=ta.value;
+        if(v.trim()){ store.memos[no]={t:v, u:todayKey().replace(/-/g,".")}; }
+        else delete store.memos[no];
+        saveStore();
+        el("memo-status").textContent = v.trim()? "保存しました（この端末のみ）" : "";
+        var hint=el("memo-hint"); if(hint) hint.style.display = v.trim()? "" : "none";
+        document.querySelectorAll('.estamps[data-es="'+no+'"]').forEach(function(s){ s.outerHTML=estampsHTML(no); });
+      },600);
+    });
+  }
 
   el("d-close").addEventListener("click",closeDetail);
   el("d-save").addEventListener("click",function(){ toggleSaved(d.no); });
