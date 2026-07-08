@@ -46,6 +46,11 @@
 
 このリポジトリ（GitHub）が**唯一の本番置き場**です。ここを更新すると1〜2分で全員のアプリに反映されます。
 
+### はじめる前に（1回だけ）
+
+編集する人はGitHubアカウント（無料）を作り、リポジトリのオーナーから**招待**を受けてください。
+（オーナー側の操作：リポジトリの Settings → Collaborators → Add people で相手のGitHubユーザー名を入力）
+
 ### かんたん編集（ブラウザだけで完結・インストール不要）
 
 1. GitHubで [`data.js`](https://github.com/sysmiyazaki0806-tech/shukatsu-jiten/blob/main/data.js) を開く
