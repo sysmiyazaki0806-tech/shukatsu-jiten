@@ -818,6 +818,20 @@
   .estamp.m{color:#B3402F; border-color:rgba(196,80,60,.55); background:rgba(196,80,60,.07);}
   .estamp.n{color:#8F6E20; border-color:rgba(176,138,46,.55); background:rgba(176,138,46,.08);}
 
+  /* 履歴ビュー */
+  .histlist{display:grid; gap:6px;}
+  .hrow{display:grid; grid-template-columns:34px 1fr auto; gap:10px; align-items:center; border:0; background:none; padding:7px 6px; border-radius:9px; cursor:pointer; text-align:left; font-family:var(--sans);}
+  .hrow:hover{background:var(--brand-l,#E7F5F3);}
+  .hrow .hn{font-size:13px; font-weight:700; color:var(--ink); min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .hrow .ht{font-size:11px; color:var(--ink-3); white-space:nowrap;}
+  .histchips{display:flex; flex-wrap:wrap; gap:8px;}
+  .hchip{display:inline-flex; align-items:center; border:1px solid var(--line); border-radius:99px; background:var(--surface); overflow:hidden;}
+  .hchip .hq{border:0; background:none; padding:7px 12px; font-size:12.5px; font-weight:700; color:var(--ink); cursor:pointer; font-family:var(--sans);}
+  .hchip .hq:hover{color:var(--brand-d);}
+  .hchip .hcnt{margin-left:6px; font-size:10.5px; color:var(--brand-d); background:#E7F5F3; border-radius:99px; padding:1px 7px;}
+  .hchip .hx{border:0; background:none; padding:7px 10px 7px 2px; font-size:13px; color:var(--ink-3); cursor:pointer;}
+  .hchip .hx:hover{color:#B3402F;}
+
   /* A2: わたしのメモ（選考メモ帳） */
   .memo-wrap{margin-top:12px; border:1px solid var(--line); border-radius:var(--r-s); background:var(--surface); overflow:hidden;}
   .memo-head{display:flex; align-items:center; gap:8px; width:100%; border:0; background:none; padding:11px 14px; font-size:12.5px; font-weight:800; color:var(--ink); cursor:pointer; font-family:var(--sans); text-align:left;}
@@ -930,6 +944,7 @@
         <button data-go="todo"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.5l2.5 2.5 5-5.5"/></svg></span>やることリスト<span class="cnt" id="snav-todo" style="display:none">0</span></button>
         <button data-go="fortune"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.4 4.2L18 8.5l-4.6 1.3L12 14l-1.4-4.2L6 8.5l4.6-1.3L12 3z"/><path d="M19 14l.7 2.1L22 16.8l-2.3.7L19 19.6l-.7-2.1-2.3-.7 2.3-.7L19 14z"/><path d="M6 16l.6 1.7 1.9.6-1.9.6L6 20.6l-.6-1.7-1.9-.6 1.9-.6L6 16z"/></svg></span>今日の就活占い</button>
         <button data-go="shindan"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z"/></svg></span>就活タイプ診断</button>
+        <button data-go="history"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 4v4h4"/><path d="M12 8v4l3 2"/></svg></span>閲覧・検索の履歴</button>
       </nav>
       <div class="sh">五十音でひく</div>
       <div class="kana-grid" id="kana-grid"></div>
@@ -968,6 +983,7 @@
         <button data-go="todo"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.5l2.5 2.5 5-5.5"/></svg>やること</button>
         <button data-go="fortune"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.4 4.2L18 8.5l-4.6 1.3L12 14l-1.4-4.2L6 8.5l4.6-1.3L12 3z"/></svg>占い</button>
         <button data-go="shindan"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z"/></svg>タイプ診断</button>
+        <button data-go="history"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 4v4h4"/><path d="M12 8v4l3 2"/></svg>履歴</button>
       </div>
       <div class="kana-strip" id="kana-strip"></div>
       <div class="filters" id="filters"></div>
@@ -1089,6 +1105,13 @@
       <div class="hero"><h1>就活タイプ診断</h1><p>12の質問に直感で答えると、あなたの働き方タイプ（全16タイプ）がわかります。</p></div>
       <div id="shindan-box"></div>
     </section>
+
+    <!-- 閲覧・検索の履歴 -->
+    <section class="view" id="v-history">
+      <div class="hero"><h1>閲覧・検索の履歴</h1><p>あなたが調べた企業・検索した言葉・見た業界のきろくです。<b>この端末にのみ保存され、外部には送信されません。</b></p></div>
+      <div id="history-box"></div>
+      <div class="foot">履歴はこの端末のブラウザ内（localStorage）にのみ保存されます。「すべて消す」でいつでも削除できます。</div>
+    </section>
   </main>
 
   <!-- ============ 右：企業詳細 ============ -->
@@ -1201,6 +1224,7 @@ store.vm = store.vm==="lv" ? "lv" : "grid";
 store.entry = (store.entry && typeof store.entry==="object" && !Array.isArray(store.entry))? store.entry : {}; /* {企業no:{i:インターン応募済,m:本選考応募済}} */
 store.todos = Array.isArray(store.todos)? store.todos : []; /* {id,txt,kind,no,due,time,done} */
 store.memos = (store.memos && typeof store.memos==="object" && !Array.isArray(store.memos))? store.memos : {}; /* A2: {企業no:{t:本文,u:"更新日"}} */
+store.hist = Array.isArray(store.hist)? store.hist : []; /* 履歴: {k:"q"|"c"|"i", q/no/cat, t}。この端末のみ・外部送信なし */
 
 var state={ view:"list", q:"", cat:"", kana:"", region:"", job:"", wel:"", startMin:0, ckd:[], entryF:"",
   featureId:"", sort:"no", page:1, cmpMode:false, cmp:[], detail:0, rank:"fame", notifOpen:false };
@@ -1275,6 +1299,23 @@ function toggleLater(no){
   saveStore(); refreshSavedBadges();
 }
 function markSeen(no){ if(store.seen.indexOf(no)<0){ store.seen.push(no); saveStore(); updateSeen(); } }
+/* ---- 閲覧・検索の履歴（この端末のみ・外部送信なし） ---- */
+function histAdd(e){
+  var last=store.hist[store.hist.length-1];
+  if(last && last.k===e.k && last.q===e.q && last.no===e.no && last.cat===e.cat){ last.t=Date.now(); saveStore(); return; }
+  e.t=Date.now();
+  store.hist.push(e);
+  if(store.hist.length>300) store.hist=store.hist.slice(-300);
+  saveStore();
+}
+function histTime(t){
+  var d=new Date(t), now=new Date();
+  var hm=("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2);
+  if(d.toDateString()===now.toDateString()) return "きょう "+hm;
+  var y=new Date(now); y.setDate(now.getDate()-1);
+  if(d.toDateString()===y.toDateString()) return "きのう "+hm;
+  return (d.getMonth()+1)+"/"+d.getDate();
+}
 /* ---- エントリー記録（インターン/本選考） ---- */
 function esc(s){ return String(s).replace(/[&<>"']/g,function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
 function entryOf(no){ return store.entry[no]||{}; }
@@ -1809,9 +1850,17 @@ function bindCards(root){
     });
   });
 }
+var _histQT=null, _histLastQ="", _histLastCat="";
 function renderList(){
   var a=filtered();
   el("rescnt").textContent=a.length;
+  /* 履歴：検索語（入力が1.2秒止まったら記録）・業界の選択 */
+  if(_histQT) clearTimeout(_histQT);
+  _histQT=setTimeout(function(){
+    var q=state.q.trim();
+    if(q.length>=2 && q!==_histLastQ){ histAdd({k:"q", q:q}); _histLastQ=q; }
+  },1200);
+  if(state.cat && state.cat!==_histLastCat){ histAdd({k:"i", cat:state.cat}); _histLastCat=state.cat; }
   /* 特集バナー */
   var feat=state.featureId? FEATURES.filter(function(f){return f.id===state.featureId;})[0] : null;
   el("fbanner").classList.toggle("on", !!feat);
@@ -1866,6 +1915,66 @@ function irow(ic,k,v){
   return '<div class="irow"><span class="ico">'+icon(ic,15)+'</span><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';
 }
 /* 空パネル：きょうの注目3社・最近ひらいた項目・読了のしるべ */
+/* ===== 閲覧・検索の履歴ビュー ===== */
+function renderHistory(){
+  var box=el("history-box");
+  var h=store.hist.slice().reverse();
+  if(!h.length){
+    box.innerHTML='<div class="empty"><div class="ic"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 4v4h4"/><path d="M12 8v4l3 2"/></svg></div><p>まだ履歴がありません。</p><p style="font-size:12.5px">企業をひらいたり検索したりすると、ここにきろくが残ります。</p><button class="go" data-go="list">企業をさがす</button></div>';
+    box.querySelectorAll("[data-go]").forEach(function(b){ b.addEventListener("click",function(){ go(b.dataset.go); }); });
+    return;
+  }
+  /* 企業（重複は最新のみ・最大30） */
+  var seenNo={}, comps=[];
+  h.forEach(function(e){ if(e.k==="c" && !seenNo[e.no]){ var d=byNo(e.no); if(d){ seenNo[e.no]=1; comps.push({d:d,t:e.t}); } } });
+  comps=comps.slice(0,30);
+  /* 検索語（重複は最新のみ・最大15） */
+  var seenQ={}, qs=[];
+  h.forEach(function(e){ if(e.k==="q" && !seenQ[e.q]){ seenQ[e.q]=1; qs.push(e); } });
+  qs=qs.slice(0,15);
+  /* 業界（回数つき） */
+  var catCnt={};
+  store.hist.forEach(function(e){ if(e.k==="i") catCnt[e.cat]=(catCnt[e.cat]||0)+1; });
+  var cats=Object.keys(catCnt).sort(function(a,b){ return catCnt[b]-catCnt[a]; });
+
+  var html='';
+  if(comps.length){
+    html+='<div class="panel"><h3><span class="lbl">企業</span>最近ひらいた企業<small>（新しい順）</small></h3><div class="histlist">'
+      +comps.map(function(x){ return '<button class="hrow" data-open="'+x.d.no+'">'+rcHTML(x.d)+'<span class="hn">'+x.d.name+'</span><span class="ht">'+histTime(x.t)+'</span></button>'; }).join("")
+      +'</div></div>';
+  }
+  if(qs.length){
+    html+='<div class="panel"><h3><span class="lbl">検索</span>検索した言葉</h3><div class="histchips">'
+      +qs.map(function(e){ return '<span class="hchip"><button class="hq" data-hq="'+esc(e.q)+'">'+esc(e.q)+'</button><button class="hx" data-hx="'+esc(e.q)+'" aria-label="この検索履歴を削除">×</button></span>'; }).join("")
+      +'</div></div>';
+  }
+  if(cats.length){
+    html+='<div class="panel"><h3><span class="lbl">業界</span>よく見ている業界</h3><div class="histchips">'
+      +cats.map(function(c){ return '<span class="hchip"><button class="hq" data-hcat="'+c+'">'+c+'<b class="hcnt">'+catCnt[c]+'</b></button></span>'; }).join("")
+      +'</div></div>';
+  }
+  html+='<div style="margin-top:16px"><button class="btn ghost" id="hist-clear" style="font-size:12.5px;padding:8px 16px">履歴をすべて消す</button></div>';
+  box.innerHTML=html;
+
+  box.querySelectorAll("[data-open]").forEach(function(b){ b.addEventListener("click",function(){ openDetail(+b.dataset.open); }); });
+  box.querySelectorAll("[data-hq]").forEach(function(b){ b.addEventListener("click",function(){
+    state.q=b.dataset.hq; el("q").value=state.q; el("gq").value=state.q; _histLastQ=state.q;
+    el("qclr").style.display="block"; state.page=1; go("list"); renderList();
+  }); });
+  box.querySelectorAll("[data-hcat]").forEach(function(b){ b.addEventListener("click",function(){
+    state.cat=b.dataset.hcat; _histLastCat=state.cat; state.page=1; renderSideCats(); go("list"); renderList();
+  }); });
+  box.querySelectorAll("[data-hx]").forEach(function(b){ b.addEventListener("click",function(){
+    store.hist=store.hist.filter(function(e){ return !(e.k==="q" && e.q===b.dataset.hx); });
+    saveStore(); renderHistory();
+  }); });
+  el("hist-clear").addEventListener("click",function(){
+    if(_histQT) clearTimeout(_histQT); /* 消去直前に予約された記録タイマーを破棄 */
+    store.hist=[]; _histLastQ=state.q.trim(); _histLastCat=state.cat;
+    saveStore(); renderHistory(); toast("履歴をすべて消しました");
+  });
+}
+
 /* ===== A1.5: 今日の就活占い ===== */
 function fhash(s){ var h=0; for(var i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))>>>0; } return h; }
 function todayKey(){ var d=new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); }
@@ -2012,6 +2121,7 @@ function openDetail(no){
   var d=byNo(no); if(!d) return;
   state.detail=no;
   markSeen(no);
+  histAdd({k:"c", no:no});
   var col=CATCOLOR[d.cat];
   var kanaBr=kanaRowOf(d);
   var savedOn=isSaved(no), cmpOn=state.cmp.indexOf(no)>=0, laterOn=isLater(no);
@@ -2503,7 +2613,7 @@ function toggleUserMenu(){
 }
 
 /* ============================ ナビ ============================ */
-var VIEWS=["list","compare","saved","later","feature","intern","events","rank","todo","fortune","shindan"];
+var VIEWS=["list","compare","saved","later","feature","intern","events","rank","todo","fortune","shindan","history"];
 function setView(v){
   state.view=v;
   VIEWS.forEach(function(k){ var e=el("v-"+k); if(e) e.classList.toggle("on", k===v); });
@@ -2523,6 +2633,7 @@ function go(v){
   if(v==="todo") renderTodo();
   if(v==="fortune") renderFortune();
   if(v==="shindan") renderShindan();
+  if(v==="history") renderHistory();
   setView(v);
   window.scrollTo(0,0);
 }
