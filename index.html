@@ -745,6 +745,23 @@
   .ochip .obadge{margin-left:0; vertical-align:0;}
   .hanrei .obadge{vertical-align:-3px; margin:0 2px;}
 
+  /* A1: 相性マッチ度 */
+  .mtch{display:inline-flex; align-items:center; gap:3px; font-size:11.5px; font-weight:800; color:var(--brand-d);
+    background:#E7F5F3; border-radius:99px; padding:3px 10px; white-space:nowrap; font-family:var(--sans); letter-spacing:.02em;}
+  .mtch b{font-size:13px;}
+  h2 .mtch{margin-left:8px; vertical-align:4px;}
+  .axpick{display:flex; flex-wrap:wrap; gap:7px; margin-top:2px;}
+  .axpick button{border:1px solid var(--line); border-radius:99px; padding:6px 13px; font-size:12.5px; font-weight:700;
+    background:var(--surface); color:var(--ink-3); cursor:pointer;}
+  .axpick button[aria-pressed="true"]{background:var(--brand); border-color:var(--brand); color:#fff;}
+  .mtc-big{font-size:34px; font-weight:800; color:var(--brand-d); line-height:1; margin:4px 0 10px;}
+  .mtc-big small{font-size:15px; margin-left:2px;}
+  .mtc-row{display:grid; grid-template-columns:86px 1fr 34px; gap:9px; align-items:center; font-size:12px; margin-top:6px;}
+  .mtc-row .bar{height:7px; border-radius:99px; background:var(--line-2); overflow:hidden;}
+  .mtc-row .bar i{display:block; height:100%; background:var(--brand); border-radius:99px;}
+  .mtc-note{font-size:11px; color:var(--ink-3); margin:10px 0 0; line-height:1.7;}
+  .mtc-bonus{display:inline-block; font-size:11px; font-weight:800; color:#8F6E20; background:#F7EFDC; border-radius:99px; padding:3px 10px; margin-top:9px;}
+
   /* 公式サイトリンク（青のピル型・ホバーで反転） */
   .weblink{display:inline-flex; align-items:center; gap:5px; color:#1A56C4; font-weight:700; font-size:12px; line-height:1;
     text-decoration:none; background:#F2F6FD; border:1px solid #D9E4F6; border-radius:99px; padding:5px 12px;
@@ -925,6 +942,7 @@
         <div class="rgt">
           <select class="sortsel" id="sort" aria-label="並べ替え">
             <option value="no">おすすめ順</option>
+            <option value="match">相性が高い順</option>
             <option value="fame">人気（知名度）順</option>
             <option value="salary">平均年収が高い順</option>
             <option value="start">初任給が高い順</option>
@@ -1042,6 +1060,7 @@
     <div class="mf"><label>おなまえ（ニックネーム可）</label><input id="p-name" type="text" placeholder="例：就活 太郎" maxlength="20"></div>
     <div class="mf"><label>卒業年度</label><select id="p-grad"><option value="">未選択</option><option>27卒</option><option>28卒</option><option>29卒</option><option>30卒</option></select></div>
     <div class="mf"><label>志望業界</label><select id="p-ind"><option value="">未選択</option></select></div>
+    <div class="mf"><label>重視すること（3つまで・企業との相性%に使われます）</label><div class="axpick" id="p-axes"></div></div>
     <div class="mact">
       <button class="btn" id="p-save">保存する</button>
       <button class="btn ghost" data-mclose="m-profile">キャンセル</button>
@@ -1117,6 +1136,7 @@ store.saved = Array.isArray(store.saved)? store.saved : [];
 store.later = Array.isArray(store.later)? store.later : [];
 store.seen  = Array.isArray(store.seen)?  store.seen  : [];
 store.profile = store.profile || {name:"",grad:"",ind:""};
+store.profile.axes = store.profile.axes || [];
 store.vm = store.vm==="lv" ? "lv" : "grid";
 store.entry = (store.entry && typeof store.entry==="object" && !Array.isArray(store.entry))? store.entry : {}; /* {企業no:{i:インターン応募済,m:本選考応募済}} */
 store.todos = Array.isArray(store.todos)? store.todos : []; /* {id,txt,kind,no,due,time,done} */
@@ -1162,6 +1182,15 @@ function rateOf(d,key){ return Math.round(d.stats[key]/2)/10; }
 function overallOf(d){
   var s=0; RATES.forEach(function(r){ s+=rateOf(d,r[1]); });
   return Math.round(s/RATES.length*10)/10;
+}
+/* A1: 相性マッチ度＝プロフィールの「重視すること」の能力値平均（志望業界一致で+8・上限100）。参考値 */
+function matchOf(d){
+  var p=store.profile||{};
+  if(!p.axes||!p.axes.length) return null;
+  var s=0; p.axes.forEach(function(k){ s+=(d.stats[k]||0); });
+  var m=Math.round(s/p.axes.length);
+  if(p.ind && d.cat===p.ind) m=Math.min(100, m+8);
+  return m;
 }
 function starsHTML(score){
   var pct=Math.max(0,Math.min(100,score/5*100));
@@ -1492,16 +1521,34 @@ function renderKana(containerId){
   });
 }
 /* あなたへのおすすめカード */
+/* A1: プロフィールモーダルの「重視すること」チップ */
+function renderAxPick(){
+  var box=el("p-axes"); if(!box) return;
+  var sel=store.profile.axes||[];
+  box.innerHTML=AXES.map(function(ax){
+    return '<button type="button" data-ax="'+ax[1]+'" aria-pressed="'+(sel.indexOf(ax[1])>=0?"true":"false")+'">'+ax[0]+'</button>';
+  }).join("");
+  box.querySelectorAll("[data-ax]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var on=b.getAttribute("aria-pressed")==="true";
+      if(!on && box.querySelectorAll('[aria-pressed="true"]').length>=3){ toast("「重視すること」は3つまで選べます"); return; }
+      b.setAttribute("aria-pressed", on?"false":"true");
+    });
+  });
+}
 function renderReco(){
   var p=store.profile, box=el("reco");
-  if(p.ind){
-    var recs=DATA.filter(function(d){return d.cat===p.ind;}).sort(function(a,b){return b.stats.fame-a.stats.fame;}).slice(0,3);
+  var useMatch=p.axes && p.axes.length>0;
+  if(p.ind || useMatch){
+    var recs = useMatch
+      ? DATA.slice().sort(function(a,b){return matchOf(b)-matchOf(a);}).slice(0,3)
+      : DATA.filter(function(d){return d.cat===p.ind;}).sort(function(a,b){return b.stats.fame-a.stats.fame;}).slice(0,3);
     var items=recs.map(function(d){
-      return '<button data-open="'+d.no+'">'+rcHTML(d)+'<span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+d.name+'</span></button>';
+      return '<button data-open="'+d.no+'">'+rcHTML(d)+'<span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+d.name+(useMatch?' <b style="color:var(--brand-d)">'+matchOf(d)+'%</b>':'')+'</span></button>';
     }).join("");
     box.innerHTML='<div class="rh">あなたへのおすすめ</div>'
       +'<div class="rav">'+(p.name?initial(p.name):"友")+'</div>'
-      +'<p>'+(p.name?p.name+"さん":"あなた")+'の志望「'+p.ind+'」から、いま人気の3社。</p>'
+      +'<p>'+(p.name?p.name+"さん":"あなた")+(useMatch?'の重視することと相性が高い3社。':'の志望「'+p.ind+'」から、いま人気の3社。')+'</p>'
       +'<div class="rlist">'+items+'</div>'
       +'<button class="redit" id="reco-edit">プロフィールを編集</button>';
     box.querySelectorAll("[data-open]").forEach(function(b){
@@ -1637,6 +1684,7 @@ function filtered(){
   });
   var s=state.sort;
   if(s==="no") a.sort(function(x,y){return x.no-y.no;});
+  else if(s==="match") a.sort(function(x,y){return (matchOf(y)||0)-(matchOf(x)||0);});
   else if(s==="new") a.sort(function(x,y){return y.foundedY-x.foundedY;});
   else if(s==="start") a.sort(function(x,y){return y.startV-x.startV;});
   else a.sort(function(x,y){return y.stats[s]-x.stats[s];});
@@ -1667,6 +1715,7 @@ function cardHTML(d){
       +'<div class="fct">従業員<b>'+d.employees+'</b></div>'
     +'</div>'
     +'<div class="btm">'
+      +(function(){ var m=matchOf(d); return m!=null? '<span class="mtch">相性 <b>'+m+'%</b></span>' : ''; })()
       +'<span class="ovr">'+starsHTML(ov)+'<b>'+ov.toFixed(1)+'</b></span>'
       +'<button class="cmp-toggle" data-no="'+d.no+'" aria-pressed="'+(state.cmp.indexOf(d.no)>=0?"true":"false")+'">'
         +'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h7M4 12h7M4 17h7"/><path d="M20 7h-5M20 12h-5M20 17h-5"/></svg>くらべる</button>'
@@ -1817,11 +1866,31 @@ function openDetail(no){
     return '<div class="rline"><span class="rk">'+r[0]+'</span>'+starsHTML(v)+'<span class="rv">'+v.toFixed(1)+'</span></div>';
   }).join("");
 
+  /* A1: あなたとの相性パネル */
+  var mval=matchOf(d), mtcHTML="";
+  if(mval!=null){
+    var mp=store.profile;
+    var mrows=mp.axes.map(function(k){
+      var nm=""; AXES.forEach(function(ax){ if(ax[1]===k) nm=ax[0]; });
+      var v=d.stats[k]||0;
+      return '<div class="mtc-row"><span>'+nm+'</span><span class="bar"><i style="width:'+v+'%"></i></span><b>'+v+'</b></div>';
+    }).join("");
+    mtcHTML='<div class="panel"><h3><span class="lbl">相性</span>あなたとの相性<small>（参考）</small></h3>'
+      +'<div class="mtc-big">'+mval+'<small>%</small></div>'+mrows
+      +((mp.ind && d.cat===mp.ind)?'<div><span class="mtc-bonus">志望業界「'+mp.ind+'」と一致 +8</span></div>':'')
+      +'<p class="mtc-note">プロフィールで選んだ「重視すること」の能力値（編集部指標）の平均から算出した参考値です。</p></div>';
+  }else{
+    mtcHTML='<div class="panel"><h3><span class="lbl">相性</span>あなたとの相性</h3>'
+      +'<p class="mtc-note" style="margin:2px 0 12px">プロフィールで「重視すること」を選ぶと、この企業とあなたの相性%がここに表示されます。</p>'
+      +'<button class="btn ghost" id="d-axset" style="font-size:12.5px;padding:8px 16px">プロフィールを設定する</button></div>';
+  }
+
   /* 会社概要タブ：このタブだけで企業の全体像がつかめる「見開きダッシュボード」構成 */
   var tabOverview=''
     +'<div class="panel w2"><h3><span class="lbl">能力値</span>6項目・参考指標</h3><div class="radarwrap">'
       +'<div>'+radarSVG(d.stats,{size:200})+'</div>'
       +'<div class="axislist">'+axHTML+'</div></div></div>'
+    +mtcHTML
     +'<div class="panel"><h3><span class="lbl">環境</span>数字で見る働き方<small>（参考値）</small></h3>'
       +donutHTML
       +'<div class="envgrid" style="margin-top:10px">'
@@ -1912,7 +1981,7 @@ function openDetail(no){
     +'<div class="dbody">'
     +'<div class="headword">'
       +'<div class="yomi"><span class="kbr">【'+kanaBr+'】</span>'+d.kana+'</div>'
-      +'<h2>'+d.name+(d.official?'<span class="ochip">'+OBADGE+'企業公認</span>':'')+'<span class="tag">'+d.cat+'</span></h2>'
+      +'<h2>'+d.name+(d.official?'<span class="ochip">'+OBADGE+'企業公認</span>':'')+(matchOf(d)!=null?'<span class="mtch">相性 <b>'+matchOf(d)+'%</b></span>':'')+'<span class="tag">'+d.cat+'</span></h2>'
       +'<div class="en">'+d.en+'<span class="code">証券コード '+d.code+'</span></div>'
     +'</div>'
     +'<div class="dcatch">'+d.catch+'</div>'
@@ -1955,6 +2024,7 @@ function openDetail(no){
   el("d-empty").style.display="none";
   el("detail-body").innerHTML=html;
   el("dcol-in").scrollTop=0;
+  if(el("d-axset")) el("d-axset").addEventListener("click",function(){ openModal("m-profile"); });
 
   el("d-close").addEventListener("click",closeDetail);
   el("d-save").addEventListener("click",function(){ toggleSaved(d.no); });
@@ -2162,6 +2232,7 @@ function openModal(id){
     el("p-name").value=store.profile.name||"";
     el("p-grad").value=store.profile.grad||"";
     el("p-ind").value=store.profile.ind||"";
+    renderAxPick();
   }
 }
 function closeModal(id){ el(id).classList.remove("on"); }
@@ -2335,8 +2406,12 @@ function init(){
     m.addEventListener("click",function(e){ if(e.target===this) this.classList.remove("on"); });
   });
   el("p-save").addEventListener("click",function(){
-    store.profile={ name:el("p-name").value.trim(), grad:el("p-grad").value, ind:el("p-ind").value };
+    var axSel=[];
+    document.querySelectorAll('#p-axes [aria-pressed="true"]').forEach(function(b){ axSel.push(b.dataset.ax); });
+    store.profile={ name:el("p-name").value.trim(), grad:el("p-grad").value, ind:el("p-ind").value, axes:axSel };
     saveStore(); renderReco(); closeModal("m-profile");
+    renderList();
+    if(state.detail && el("d-empty").style.display==="none") openDetail(state.detail);
     toast(store.profile.name? store.profile.name+"さん、プロフィールを保存しました" : "プロフィールを保存しました");
   });
   /* スマホ：ドロワー背景タップでとじる */
