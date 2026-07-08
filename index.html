@@ -818,6 +818,30 @@
   .estamp.m{color:#B3402F; border-color:rgba(196,80,60,.55); background:rgba(196,80,60,.07);}
   .estamp.n{color:#8F6E20; border-color:rgba(176,138,46,.55); background:rgba(176,138,46,.08);}
 
+  /* コンシェルジュ */
+  .cc-box{max-width:680px; background:var(--surface); border:1px solid var(--line); border-radius:var(--r-s); padding:16px; display:flex; flex-direction:column; gap:12px;}
+  .cc-log{display:flex; flex-direction:column; gap:12px; min-height:120px; max-height:52vh; overflow-y:auto; padding:2px;}
+  .ccb{max-width:88%; border-radius:14px; padding:11px 14px; font-size:13.2px; line-height:1.9; animation:cardin .25s ease;}
+  .ccb.user{align-self:flex-end; background:var(--brand); color:#fff; border-bottom-right-radius:4px;}
+  .ccb.bot{align-self:flex-start; background:#F4F1E9; border:1px solid var(--line); border-bottom-left-radius:4px;}
+  .ccb .cc-conds{display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 4px;}
+  .ccb .cc-conds span{font-size:11px; font-weight:800; background:#E7F5F3; color:var(--brand-d); border-radius:99px; padding:3px 10px;}
+  .ccb .cc-hit{display:flex; flex-direction:column; gap:4px; margin-top:10px; padding-top:10px; border-top:1px dashed var(--line);}
+  .ccb .cc-hit:first-of-type{margin-top:8px;}
+  .ccb .cc-hit .relchip{align-self:flex-start;}
+  .ccb .cc-why{font-size:11.5px; color:var(--ink-3);}
+  .cc-sugs{display:flex; flex-wrap:wrap; gap:7px;}
+  .cc-sugs button{border:1px solid var(--brand); background:var(--surface); color:var(--brand-d); border-radius:99px; padding:7px 13px; font-size:11.5px; font-weight:700; cursor:pointer; font-family:var(--sans);}
+  .cc-sugs button:hover{background:#E7F5F3;}
+  .cc-input{display:flex; gap:8px;}
+  .cc-input input{flex:1; border:1.5px solid var(--line); border-radius:12px; padding:11px 14px; font:inherit; font-size:13.5px; background:#FDFCF9;}
+  .cc-input input:focus{outline:none; border-color:var(--brand);}
+  .cc-input .btn{flex:0 0 auto; padding:11px 20px;}
+
+  /* 系列パネル */
+  .lin-sec{font-size:11.5px; font-weight:800; color:var(--ink-3); margin:10px 0 6px; letter-spacing:.05em;}
+  .lin-sec:first-of-type{margin-top:2px;}
+
   /* B5: V-careerイベント連携 */
   .vcbanner{display:flex; align-items:center; gap:14px; width:100%; text-align:left; cursor:pointer; border:0;
     background:linear-gradient(105deg,#0B7E74,#0E9F92 60%,#14B3A4); color:#fff; border-radius:var(--r-s);
@@ -1012,6 +1036,7 @@
         <button data-go="todo"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.5l2.5 2.5 5-5.5"/></svg></span>やることリスト<span class="cnt" id="snav-todo" style="display:none">0</span></button>
         <button data-go="fortune"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.4 4.2L18 8.5l-4.6 1.3L12 14l-1.4-4.2L6 8.5l4.6-1.3L12 3z"/><path d="M19 14l.7 2.1L22 16.8l-2.3.7L19 19.6l-.7-2.1-2.3-.7 2.3-.7L19 14z"/><path d="M6 16l.6 1.7 1.9.6-1.9.6L6 20.6l-.6-1.7-1.9-.6 1.9-.6L6 16z"/></svg></span>今日の就活占い</button>
         <button data-go="shindan"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z"/></svg></span>就活タイプ診断</button>
+        <button data-go="concierge"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8H4l2.2-2.6A8 8 0 1 1 21 12z"/><path d="M8 10h8M8 14h5"/></svg></span>コンシェルジュ</button>
         <button data-go="history"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 4v4h4"/><path d="M12 8v4l3 2"/></svg></span>閲覧・検索の履歴</button>
       </nav>
       <div class="sh">五十音でひく</div>
@@ -1052,6 +1077,7 @@
         <button data-go="todo"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.5l2.5 2.5 5-5.5"/></svg>やること</button>
         <button data-go="fortune"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.4 4.2L18 8.5l-4.6 1.3L12 14l-1.4-4.2L6 8.5l4.6-1.3L12 3z"/></svg>占い</button>
         <button data-go="shindan"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z"/></svg>タイプ診断</button>
+        <button data-go="concierge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8H4l2.2-2.6A8 8 0 1 1 21 12z"/><path d="M8 10h8M8 14h5"/></svg>相談</button>
         <button data-go="history"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 4v4h4"/><path d="M12 8v4l3 2"/></svg>履歴</button>
       </div>
       <div class="kana-strip" id="kana-strip"></div>
@@ -1180,6 +1206,20 @@
     <section class="view" id="v-shindan">
       <div class="hero"><h1>就活タイプ診断</h1><p>12の質問に直感で答えると、あなたの働き方タイプ（全16タイプ）がわかります。</p></div>
       <div id="shindan-box"></div>
+    </section>
+
+    <!-- コンシェルジュ（条件で相談） -->
+    <section class="view" id="v-concierge">
+      <div class="hero"><h1>コンシェルジュ</h1><p>希望をことばで書くと、条件を読み取って合う企業をおすすめします。<b>この端末の中だけで動きます（外部送信なし）。</b></p></div>
+      <div class="cc-box">
+        <div class="cc-log" id="cc-log"></div>
+        <div class="cc-sugs" id="cc-sugs"></div>
+        <div class="cc-input">
+          <input id="cc-in" type="text" placeholder="例：年収800万くらい、東京で働けて、社員の仲がいい会社" maxlength="120" aria-label="希望を入力">
+          <button class="btn" id="cc-send">きく</button>
+        </div>
+      </div>
+      <div class="foot">おすすめは掲載企業の参考値にもとづく機械的な絞り込みです。最終判断は各社の公式情報でご確認ください。</div>
     </section>
 
     <!-- 閲覧・検索の履歴 -->
@@ -1314,6 +1354,7 @@ store.entry = (store.entry && typeof store.entry==="object" && !Array.isArray(st
 store.todos = Array.isArray(store.todos)? store.todos : []; /* {id,txt,kind,no,due,time,done} */
 store.memos = (store.memos && typeof store.memos==="object" && !Array.isArray(store.memos))? store.memos : {}; /* A2: {企業no:{t:本文,u:"更新日"}} */
 store.hist = Array.isArray(store.hist)? store.hist : []; /* 履歴: {k:"q"|"c"|"i", q/no/cat, t}。この端末のみ・外部送信なし */
+store.visit = (store.visit && typeof store.visit==="object")? store.visit : {last:"", streak:0, total:0, best:0}; /* ログインボーナス */
 
 var state={ view:"list", q:"", cat:"", kana:"", region:"", job:"", wel:"", startMin:0, ckd:[], entryF:"",
   featureId:"", sort:"no", page:1, cmpMode:false, cmp:[], detail:0, rank:"fame", notifOpen:false };
@@ -1973,7 +2014,7 @@ function filtered(){
       if(c && !c.test(d)) return false;
     }
     if(q){
-      var hay=(d.name+" "+d.kana+" "+d.en+" "+d.code+" "+d.cat+" "+d.field+" "+d.summary+" "+d.catch+" "+d.jobs.join(" ")+" "+(d.tags2||[]).join(" ")).toLowerCase();
+      var hay=(d.name+" "+d.kana+" "+d.en+" "+d.code+" "+d.cat+" "+d.field+" "+d.summary+" "+d.catch+" "+d.jobs.join(" ")+" "+(d.tags2||[]).join(" ")+" "+(d.brands||[]).join(" ")+" "+(d.group||[]).join(" ")).toLowerCase();
       if(hay.indexOf(q)<0) return false;
     }
     return true;
@@ -2199,7 +2240,122 @@ function openShare(d){
   });
 }
 
-/* ===== 閲覧・検索の履歴ビュー ===== */
+/* ===== コンシェルジュ（条件で相談・端末内で完結するルールベース） ===== */
+function salNum(d){ var m=/([\d,]+)万/.exec(d.salaryV||""); return m? +m[1].replace(/,/g,"") : 0; }
+function parseWish(text){
+  var t=text.replace(/\s/g,"");
+  var c={chips:[], salMin:0, startMin:0, holMin:0, paidMin:0, otMax:0, loc:"", cat:"", soft:[], remote:false, kaigai:false};
+  var m;
+  /* 年収・初任給（数字） */
+  if((m=/(?:年収|給料|収入)[^\d]{0,6}(\d{3,4})万/.exec(t)) || (m=/(\d{3,4})万(?:円)?(?:以上|くらい|程度|は欲しい|ほしい)?/.exec(t))){
+    var v=+m[1];
+    if(v>=300 && v<=3000){ c.salMin=v; c.chips.push("平均年収 "+v+"万円以上"); }
+  }
+  if((m=/初任給[^\d]{0,6}(\d{2})万/.exec(t))){ c.startMin=+m[1]*10000; c.chips.push("初任給 "+m[1]+"万円以上"); }
+  /* 休日・有給・残業 */
+  if((m=/(?:年間)?休日[^\d]{0,4}(\d{3})日?/.exec(t))){ c.holMin=+m[1]; c.chips.push("年間休日 "+m[1]+"日以上"); }
+  else if(/休(?:み|日)が?多|しっかり休/.test(t)){ c.holMin=123; c.chips.push("休日が多い"); }
+  if(/有給|休みやす/.test(t)){ c.paidMin=75; c.chips.push("有給を取りやすい"); }
+  if(/残業(?:が)?(?:少|無|なし)|定時/.test(t)){ c.otMax=22; c.chips.push("残業が少なめ"); }
+  /* 勤務地 */
+  var LOCS={"東京":"東京","大阪":"大阪","名古屋":"愛知","愛知":"愛知","京都":"京都","福岡":"福岡","神奈川":"神奈川","千葉":"千葉","北海道":"北海道","札幌":"北海道"};
+  for(var k in LOCS){ if(t.indexOf(k)>=0){ c.loc=LOCS[k]; c.chips.push("勤務地 "+k); break; } }
+  /* 業界 */
+  var CATMAP={"メーカー":"メーカー","商社":"商社","金融":"金融","銀行":"金融","IT":"IT・通信","通信":"IT・通信","広告":"広告・マスコミ","マスコミ":"広告・マスコミ","小売":"小売・サービス","サービス業":"小売・サービス","インフラ":"インフラ・運輸","鉄道":"インフラ・運輸"};
+  for(var k2 in CATMAP){ if(t.indexOf(k2)>=0){ c.cat=CATMAP[k2]; c.chips.push("業界 "+c.cat); break; } }
+  /* やわらかい条件 → 能力値の軸へ */
+  var SOFT=[
+    [/仲(?:が|の)?(?:良|よ|い)|アットホーム|人間関係|風通し|働きやす|ホワイト|ゆとり|居心地|雰囲気/,"wlb","社員の働きやすさ・雰囲気"],
+    [/安定|潰れない|堅実|長く働|定年まで/,"stable","安定性"],
+    [/成長|ベンチャー|挑戦|スピード感|若手が活躍|裁量/,"growth","成長できる環境"],
+    [/有名|知名度|誰でも知/,"fame","知名度"],
+    [/大手|大企業|規模が大き/,"scale","会社の規模"],
+    [/(?:給料|年収)(?:が)?(?:高|良)|稼ぎたい|高収入/,"salary","給与水準"]
+  ];
+  SOFT.forEach(function(s){ if(s[0].test(t) && c.soft.indexOf(s[1])<0){ c.soft.push(s[1]); c.chips.push(s[2]); } });
+  if(/リモート|在宅/.test(t)){ c.remote=true; c.chips.push("リモート可"); }
+  if(/海外|グローバル|世界/.test(t)){ c.kaigai=true; c.chips.push("海外・グローバル"); }
+  return c;
+}
+function wishMatch(c){
+  function hardOk(d){
+    if(c.salMin && salNum(d)<c.salMin) return false;
+    if(c.startMin && d.startV<c.startMin) return false;
+    if(c.holMin && d.holidays<c.holMin) return false;
+    if(c.paidMin && d.paid<c.paidMin) return false;
+    if(c.otMax && d.ot>c.otMax) return false;
+    if(c.loc && (d.addr+d.hq).indexOf(c.loc)<0) return false;
+    if(c.cat && d.cat!==c.cat) return false;
+    if(c.remote && d.welfare.join("").indexOf("リモート")<0) return false;
+    return true;
+  }
+  function score(d){
+    var s=0;
+    c.soft.forEach(function(k){ s+=(d.stats[k]||0)*2; });
+    if(c.kaigai && /海外|グローバル|世界/.test(d.summary+d.feature+(d.tags2||[]).join(""))) s+=120;
+    if(!c.soft.length) s+=overallOf(d)*20;
+    var mv=matchOf(d); if(mv!=null) s+=mv*0.5;
+    return s;
+  }
+  var hits=DATA.filter(hardOk);
+  var relaxed=false;
+  if(!hits.length){ hits=DATA.slice(); relaxed=true; }
+  hits.sort(function(a,b){ return score(b)-score(a); });
+  return {list:hits.slice(0,3), relaxed:relaxed};
+}
+function wishWhy(d,c){
+  var p=[];
+  if(c.salMin||c.soft.indexOf("salary")>=0) p.push("平均年収"+d.salaryV);
+  if(c.loc) p.push("本社 "+d.hq);
+  if(c.holMin) p.push("年間休日"+d.holidays+"日");
+  if(c.paidMin) p.push("有給取得"+d.paid+"%");
+  if(c.otMax) p.push("月残業 約"+d.ot+"時間");
+  if(c.remote) p.push("リモート可");
+  var AXN={wlb:"働きやすさ",stable:"安定性",growth:"成長性",fame:"知名度",scale:"規模"};
+  c.soft.forEach(function(k){ if(k!=="salary") p.push(AXN[k]+" "+(d.stats[k]||0)); });
+  if(!p.length) p.push("総合評価 ★"+overallOf(d).toFixed(1));
+  return p.slice(0,4).join("　・　");
+}
+var ccStarted=false;
+function ccPush(html,who){
+  var log=el("cc-log");
+  var b=document.createElement("div"); b.className="ccb "+who; b.innerHTML=html;
+  log.appendChild(b);
+  b.querySelectorAll("[data-open]").forEach(function(x){ x.addEventListener("click",function(){ openDetail(+x.dataset.open); }); });
+  log.scrollTop=log.scrollHeight;
+}
+function ccAnswer(text){
+  ccPush(esc(text),"user");
+  var c=parseWish(text);
+  setTimeout(function(){
+    if(!c.chips.length){
+      ccPush("うまく読み取れませんでした。<b>年収・勤務地・休日・社風・業界</b>などのことばを入れてみてください。<br>下の例文をタップしてもOKです。","bot");
+      return;
+    }
+    var r=wishMatch(c);
+    var head=(r.relaxed? "条件に<b>すべて当てはまる企業は見つかりませんでした</b>が、近い順にご紹介します。" : "承知しました。この条件で辞典をひくと、この3社がおすすめです。")
+      +'<div class="cc-conds">'+c.chips.map(function(x){ return "<span>"+x+"</span>"; }).join("")+"</div>";
+    var body=r.list.map(function(d){
+      return '<div class="cc-hit"><button class="relchip" data-open="'+d.no+'">'+rcHTML(d)+d.name+'</button>'
+        +'<span class="cc-why">'+wishWhy(d,c)+'</span></div>';
+    }).join("");
+    ccPush(head+body+'<p class="mtc-note" style="margin-top:10px">社名をタップすると項目がひらきます。条件を足して聞き直すこともできます。</p>',"bot");
+  },350);
+}
+function renderConcierge(){
+  var sugs=["年収800万円以上で東京で働ける会社","社員の仲が良くて若手が活躍できる会社","休みが多くて安定している大手メーカー"];
+  var sb=el("cc-sugs");
+  if(!sb.children.length){
+    sb.innerHTML=sugs.map(function(s){ return '<button data-sug="'+s+'">'+s+"</button>"; }).join("");
+    sb.querySelectorAll("[data-sug]").forEach(function(b){
+      b.addEventListener("click",function(){ ccAnswer(b.dataset.sug); });
+    });
+  }
+  if(!ccStarted){
+    ccStarted=true;
+    ccPush("こんにちは、就活辞典のコンシェルジュです。<br>「<b>年収800万くらいで、東京で働けて、社員の仲がいい会社</b>」のように、希望をことばで教えてください。掲載"+DATA.length+"社から条件に合う会社をおさがしします。","bot");
+  }
+}
 function renderHistory(){
   var box=el("history-box");
   var h=store.hist.slice().reverse();
@@ -2259,6 +2415,31 @@ function renderHistory(){
   });
 }
 
+/* ===== ログインボーナス（連続でひらいた日数・称号） ===== */
+var VISIT_TITLES=[[100,"百日の辞典マスター"],[50,"五十日の賢者"],[30,"ひと月の研究家"],[14,"二週間の愛読者"],[7,"一週間の常連"],[3,"三日の読者"]];
+function visitTitle(n){
+  for(var i=0;i<VISIT_TITLES.length;i++){ if(n>=VISIT_TITLES[i][0]) return VISIT_TITLES[i][1]; }
+  return "";
+}
+function checkVisit(){
+  var n=new Date();
+  var iso=n.getFullYear()+"-"+("0"+(n.getMonth()+1)).slice(-2)+"-"+("0"+n.getDate()).slice(-2);
+  var v=store.visit;
+  if(v.last===iso) return; /* 今日はもう記録済み */
+  var y=new Date(n); y.setDate(n.getDate()-1);
+  var yiso=y.getFullYear()+"-"+("0"+(y.getMonth()+1)).slice(-2)+"-"+("0"+y.getDate()).slice(-2);
+  v.streak = (v.last===yiso)? v.streak+1 : 1;
+  v.total = (v.total||0)+1;
+  if(v.streak>(v.best||0)) v.best=v.streak;
+  v.last=iso;
+  saveStore();
+  var title=visitTitle(v.streak);
+  var msg = v.streak===1
+    ? (v.total===1? "はじめまして！辞典をひらいてくれてありがとうございます" : "おかえりなさい！今日も辞典をひらきました（通算"+v.total+"日）")
+    : "ログインボーナス：連続"+v.streak+"日目！"+(title? "　称号「"+title+"」":"");
+  setTimeout(function(){ toast("📖 "+msg); }, 900);
+}
+
 /* ===== A1.5: 今日の就活占い ===== */
 function fhash(s){ var h=0; for(var i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))>>>0; } return h; }
 function todayKey(){ var d=new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); }
@@ -2282,6 +2463,7 @@ function renderFortune(){
     +'<div class="f-lv">'+f.lv.name+'</div>'
     +'<div class="f-stars">'+fstars(f.lv.star)+'</div>'
     +'<div class="f-word">'+f.word+'</div>'
+    +'<div class="f-row"><span class="fk">つづけた日</span><span>連続 <b>'+(store.visit.streak||1)+'日目</b>（通算'+(store.visit.total||1)+'日・最長'+(store.visit.best||1)+'日）'+(visitTitle(store.visit.streak)?'　称号「<b>'+visitTitle(store.visit.streak)+'</b>」':'')+'</span></div>'
     +'<div class="f-row"><span class="fk">開運アクション</span><span>'+f.action+'</span></div>'
     +'<div class="f-row"><span class="fk">'+FORTUNE.luckyLabel+'</span><button class="relchip" data-open="'+f.lucky.no+'">'+rcHTML(f.lucky)+f.lucky.name+'</button></div>'
     +(name? '' : '<div class="f-row"><span class="fk">ヒント</span><span>プロフィールでおなまえを入れると、あなた専用の運勢になります。</span></div>')
@@ -2391,7 +2573,7 @@ function renderEmptyPanel(){
   var fo=fortuneOf();
   html+='<div class="dpw"><div class="dph">今日の就活占い</div>'
     +'<button data-gofortune><span style="font-family:var(--serif);font-size:17px;font-weight:800;color:var(--brand-d)">'+fo.lv.name+'</span>'
-    +'<span class="t" style="color:#B08A2E;letter-spacing:2px">'+fstars(fo.lv.star)+'</span><span class="a">タップで今日の運勢をひらく →</span></button></div>';
+    +'<span class="t" style="color:#B08A2E;letter-spacing:2px">'+fstars(fo.lv.star)+'</span><span class="a">連続'+(store.visit.streak||1)+'日目・タップで運勢をひらく →</span></button></div>';
   box.innerHTML=html;
   box.querySelectorAll("[data-open]").forEach(function(b){
     b.addEventListener("click",function(){ openDetail(+b.dataset.open); });
@@ -2511,8 +2693,17 @@ function openDetail(no){
     return '<button class="relchip" data-open2="'+r.no+'">'+rcHTML(r)+r.name+'</button>';
   }).join("");
   var jobsHTML=d.jobs.map(function(j){ return '<span>'+icon("doc",12)+j+'</span>'; }).join("");
+  /* 系列：ブランド・グループ会社（「ユニクロ→ファストリ」の見える化。検索にもヒットする） */
+  var lineageHTML="";
+  if((d.brands&&d.brands.length)||(d.group&&d.group.length)){
+    lineageHTML='<div class="panel"><h3><span class="lbl">系列</span>ブランド・グループ会社</h3>'
+      +(d.brands&&d.brands.length?'<div class="lin-sec">主なブランド・サービス</div><div class="chips2">'+d.brands.map(function(b){return '<span>'+b+'</span>';}).join("")+'</div>':'')
+      +(d.group&&d.group.length?'<div class="lin-sec">主なグループ会社</div><div class="chips2">'+d.group.map(function(b){return '<span>'+b+'</span>';}).join("")+'</div>':'')
+      +'<p class="mtc-note">代表的なもののみ掲載。ブランド名・グループ会社名でも検索できます（例：「ユニクロ」で検索→この項目）。</p></div>';
+  }
   var tabBiz=''
     +'<div class="panel w2"><h3><span class="lbl">事業</span>どんな会社？</h3><p class="lead-txt">'+d.feature+'</p></div>'
+    +lineageHTML
     +'<div class="panel"><h3><span class="lbl">職種</span>おもな募集職種（参考）</h3><div class="chips2">'+jobsHTML+'</div></div>'
     +(rels?'<div class="panel"><h3><span class="lbl">参照</span>あわせて見たい企業 →</h3><div class="relrow">'+rels+'</div></div>':'');
 
@@ -2913,7 +3104,7 @@ function toggleUserMenu(){
 }
 
 /* ============================ ナビ ============================ */
-var VIEWS=["list","compare","saved","later","feature","intern","events","rank","todo","fortune","shindan","history"];
+var VIEWS=["list","compare","saved","later","feature","intern","events","rank","todo","fortune","shindan","history","concierge"];
 function setView(v){
   state.view=v;
   VIEWS.forEach(function(k){ var e=el("v-"+k); if(e) e.classList.toggle("on", k===v); });
@@ -2934,6 +3125,7 @@ function go(v){
   if(v==="fortune") renderFortune();
   if(v==="shindan") renderShindan();
   if(v==="history") renderHistory();
+  if(v==="concierge") renderConcierge();
   setView(v);
   window.scrollTo(0,0);
 }
@@ -2952,6 +3144,7 @@ function init(){
   renderVcBanner();
   renderFilters(); syncFilterUI(); renderList();
   updateSeen(); refreshSavedBadges(); refreshCmpBadges(); refreshTodoBadge(); renderReco(); renderEmptyPanel();
+  checkVisit();
 
   /* やることリスト：企業選択肢＋追加・保存 */
   var tn=el("td-no");
@@ -2959,6 +3152,15 @@ function init(){
   el("todo-add").addEventListener("click",function(){ openTodoModal(0); });
   el("td-vm-list").addEventListener("click",function(){ store.todoVm="list"; saveStore(); renderTodo(); });
   el("td-vm-cal").addEventListener("click",function(){ store.todoVm="cal"; saveStore(); renderTodo(); });
+  /* コンシェルジュ */
+  function ccSubmit(){
+    var v=el("cc-in").value.trim();
+    if(!v) return;
+    el("cc-in").value="";
+    ccAnswer(v);
+  }
+  el("cc-send").addEventListener("click",ccSubmit);
+  el("cc-in").addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); ccSubmit(); } });
   /* A4: 共有カード */
   el("share-do").addEventListener("click",function(){
     if(!_shareBlob) return;
