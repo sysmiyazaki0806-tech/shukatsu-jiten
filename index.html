@@ -818,6 +818,10 @@
   .estamp.m{color:#B3402F; border-color:rgba(196,80,60,.55); background:rgba(196,80,60,.07);}
   .estamp.n{color:#8F6E20; border-color:rgba(176,138,46,.55); background:rgba(176,138,46,.08);}
 
+  /* A4: 共有カード */
+  #share-prev img{width:100%; height:auto; border-radius:12px; border:1px solid var(--line); box-shadow:var(--shadow-l,0 6px 20px rgba(30,28,20,.12)); display:block;}
+  #share-prev .ldg{text-align:center; padding:38px 0; font-size:12.5px; color:var(--ink-3);}
+
   /* A3: 選考カレンダー */
   .tdtggl{margin-left:auto; display:flex; border:1px solid var(--line); border-radius:9px; overflow:hidden;}
   .tdtggl button{border:0; background:var(--surface); padding:7px 14px; font-size:12px; font-weight:800; color:var(--ink-3); cursor:pointer; font-family:var(--sans); white-space:nowrap;}
@@ -1186,6 +1190,19 @@
     <div class="mact">
       <button class="btn" id="p-save">保存する</button>
       <button class="btn ghost" data-mclose="m-profile">キャンセル</button>
+    </div>
+  </div>
+</div>
+
+<!-- 共有カードモーダル -->
+<div class="modalbg" id="m-share">
+  <div class="modal" style="max-width:430px">
+    <h4>共有カード<button class="mx" data-mclose="m-share" aria-label="とじる">×</button></h4>
+    <p class="msub">この画像には企業ロゴ・あなたのメモは含まれません。数値は参考値です。</p>
+    <div id="share-prev" style="margin:4px 0 12px"></div>
+    <div class="mact">
+      <button class="btn" id="share-do">共有する</button>
+      <button class="btn ghost" id="share-dl">画像を保存</button>
     </div>
   </div>
 </div>
@@ -2013,6 +2030,98 @@ function irow(ic,k,v){
   return '<div class="irow"><span class="ico">'+icon(ic,15)+'</span><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';
 }
 /* 空パネル：きょうの注目3社・最近ひらいた項目・読了のしるべ */
+/* ===== A4: 共有カード（実在ロゴ・個人メモは含めない安全設計） ===== */
+var _shareBlob=null, _shareFile="";
+function rrect(x,px,py,w,h,r){ x.beginPath(); x.moveTo(px+r,py); x.arcTo(px+w,py,px+w,py+h,r); x.arcTo(px+w,py+h,px,py+h,r); x.arcTo(px,py+h,px,py,r); x.arcTo(px,py,px+w,py,r); x.closePath(); }
+function buildShareCard(d){
+  var pre = (document.fonts && document.fonts.load)? Promise.all([
+    document.fonts.load('800 78px "Shippori Mincho"'),
+    document.fonts.load('700 34px "Shippori Mincho"')
+  ]).catch(function(){}) : Promise.resolve();
+  return pre.then(function(){
+    var W=1080,H=1350,cv=document.createElement("canvas"); cv.width=W; cv.height=H;
+    var x=cv.getContext("2d");
+    var INK="#20272F", TEAL="#0E9F92", TEALD="#0B7E74", GOLD="#B08A2E", GRAY="#8B9096", LINE="#E6E2D8", PAPER="#F9F7F2";
+    var MIN='"Shippori Mincho",serif', SANS='"Yu Gothic UI","Hiragino Sans",sans-serif';
+    x.fillStyle=PAPER; x.fillRect(0,0,W,H);
+    var gr=x.createLinearGradient(0,0,W,0); gr.addColorStop(0,TEAL); gr.addColorStop(1,GOLD);
+    x.fillStyle=gr; x.fillRect(0,0,W,14);
+    /* ヘッダー（自作ロゴのみ・実在ロゴ不使用） */
+    x.fillStyle=TEAL; rrect(x,64,58,72,72,16); x.fill();
+    x.fillStyle="#fff"; x.font='700 44px '+MIN; x.textAlign="center"; x.textBaseline="middle"; x.fillText("辞",100,96);
+    x.textAlign="left"; x.textBaseline="alphabetic";
+    x.fillStyle=INK; x.font='800 40px '+MIN; x.fillText("就活辞典",156,100);
+    x.fillStyle=GRAY; x.font='700 17px '+SANS; x.fillText("C A R E E R   D I C T I O N A R Y",158,130);
+    x.textAlign="right"; x.fillStyle=GRAY; x.font='700 30px '+SANS; x.fillText("No."+pad3(d.no),W-64,100); x.textAlign="left";
+    /* 業界ピル（右上） */
+    x.font='700 26px '+SANS; var tw=x.measureText(d.cat).width;
+    x.fillStyle="#E7F5F3"; rrect(x, W-64-tw-44, 176, tw+44, 52, 26); x.fill();
+    x.fillStyle=TEALD; x.fillText(d.cat, W-64-tw-22, 211);
+    /* 社名 */
+    x.fillStyle=GRAY; x.font='700 27px '+SANS; x.fillText("【"+kanaRowOf(d)+"】 "+d.kana, 64, 212);
+    var fs=78; x.font='800 '+fs+'px '+MIN;
+    while(x.measureText(d.name).width>W-128 && fs>40){ fs-=4; x.font='800 '+fs+'px '+MIN; }
+    x.fillStyle=INK; x.fillText(d.name, 64, 300);
+    /* キャッチ */
+    x.fillStyle=TEALD; x.font='700 36px '+MIN; x.fillText(d.catch, 64, 368);
+    /* 相性（設定時のみ） */
+    var mv=matchOf(d);
+    if(mv!=null){
+      x.font='800 30px '+SANS; var mtx="あなたとの相性 "+mv+"%"; var mw=x.measureText(mtx).width;
+      x.fillStyle=GOLD; rrect(x, 64, 396, mw+56, 60, 30); x.fill();
+      x.fillStyle="#fff"; x.fillText(mtx, 92, 437);
+    }
+    /* 主要データ 2x2 */
+    var tiles=[["平均年収",d.salaryV],["初任給（大卒）",d.startU],["年間休日",d.holidays+"日"],["有給取得率",d.paid+"%"]];
+    var ty=486, tw2=452, th=140, gap=28;
+    tiles.forEach(function(t,i){
+      var tx=64+(i%2)*(tw2+gap), tyy=ty+Math.floor(i/2)*(th+gap);
+      x.fillStyle="#FFFFFF"; rrect(x,tx,tyy,tw2,th,18); x.fill();
+      x.strokeStyle=LINE; x.lineWidth=2; rrect(x,tx,tyy,tw2,th,18); x.stroke();
+      x.fillStyle=GRAY; x.font='700 25px '+SANS; x.fillText(t[0], tx+30, tyy+50);
+      x.fillStyle=INK; x.font='800 46px '+SANS; x.fillText(String(t[1]), tx+30, tyy+110);
+    });
+    /* 六角レーダー（左）＋能力値バー（右） */
+    var cxr=286, cyr=1032, R=170;
+    function hexPt(i,r){ var a=-Math.PI/2+i*Math.PI/3; return [cxr+r*Math.cos(a), cyr+r*Math.sin(a)]; }
+    x.strokeStyle=LINE; x.lineWidth=2;
+    [0.33,0.66,1].forEach(function(f){ x.beginPath(); for(var i=0;i<6;i++){ var p=hexPt(i,R*f); i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]); } x.closePath(); x.stroke(); });
+    for(var i=0;i<6;i++){ var p=hexPt(i,R); x.beginPath(); x.moveTo(cxr,cyr); x.lineTo(p[0],p[1]); x.stroke(); }
+    x.beginPath();
+    AXES.forEach(function(ax,i){ var p=hexPt(i,R*(d.stats[ax[1]]||0)/100); i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]); });
+    x.closePath();
+    x.fillStyle="rgba(14,159,146,.17)"; x.fill();
+    x.strokeStyle=TEAL; x.lineWidth=5; x.stroke();
+    AXES.forEach(function(ax,i){ var p=hexPt(i,R*(d.stats[ax[1]]||0)/100);
+      x.beginPath(); x.arc(p[0],p[1],9,0,Math.PI*2); x.fillStyle="#fff"; x.fill(); x.strokeStyle=TEAL; x.lineWidth=4; x.stroke(); });
+    x.fillStyle=GRAY; x.font='700 24px '+SANS; x.textAlign="center";
+    AXES.forEach(function(ax,i){ var p=hexPt(i,R+36); x.fillText(AXES_SHORT[i], p[0], p[1]+9); });
+    x.textAlign="left";
+    var bx=560, by=898, bw=456;
+    x.fillStyle=INK; x.font='800 30px '+MIN; x.fillText("能力値（参考指標）", bx, by-16);
+    AXES.forEach(function(ax,i){ var v=d.stats[ax[1]]||0; var yy=by+30+i*54;
+      x.fillStyle=GRAY; x.font='700 24px '+SANS; x.fillText(ax[0], bx, yy+8);
+      x.fillStyle="#E9E5DA"; rrect(x,bx+150,yy-9,bw-150-70,18,9); x.fill();
+      x.fillStyle=TEAL; rrect(x,bx+150,yy-9,Math.max(10,(bw-150-70)*v/100),18,9); x.fill();
+      x.textAlign="right"; x.fillStyle=INK; x.font='800 27px '+SANS; x.fillText(String(v), bx+bw, yy+9); x.textAlign="left";
+    });
+    /* フッター */
+    x.strokeStyle=LINE; x.lineWidth=2; x.beginPath(); x.moveTo(64,1266); x.lineTo(W-64,1266); x.stroke();
+    x.fillStyle=GRAY; x.font='500 22px '+SANS; x.fillText("※数値は公開情報をもとにした参考値です", 64, 1310);
+    x.textAlign="right"; x.fillStyle=INK; x.font='700 27px '+MIN; x.fillText("就活辞典【増補改訂 第二版】", W-64, 1311); x.textAlign="left";
+    return new Promise(function(res){ cv.toBlob(function(b){ res({blob:b, url:cv.toDataURL("image/png")}); }, "image/png"); });
+  });
+}
+function openShare(d){
+  var prev=el("share-prev");
+  prev.innerHTML='<div class="ldg">カードを作成中…</div>';
+  openModal("m-share");
+  buildShareCard(d).then(function(r){
+    _shareBlob=r.blob; _shareFile="就活辞典_"+d.name+".png";
+    prev.innerHTML='<img alt="共有カードのプレビュー" src="'+r.url+'">';
+  });
+}
+
 /* ===== 閲覧・検索の履歴ビュー ===== */
 function renderHistory(){
   var box=el("history-box");
@@ -2390,6 +2499,7 @@ function openDetail(no){
         +'<span class="lbl">'+(savedOn?"栞をはさみ済み":"栞をはさむ")+'</span></button>'
       +'<button class="btn ghost" id="d-cmp" aria-pressed="'+(cmpOn?"true":"false")+'">比較リストに追加</button>'
       +'<button class="btn later" id="d-later" aria-pressed="'+(laterOn?"true":"false")+'" title="あとで読む">'+icon("clock",15)+'</button>'
+      +'<button class="btn later" id="d-share" title="共有カードを作る"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.7l6.8-4.4M8.6 13.3l6.8 4.4"/></svg></button>'
     +'</div>'
     +'<div class="entryrow"><span class="elbl">エントリー記録</span>'
       +'<button class="ebtn i" data-eno="'+no+'" data-ek="i" aria-pressed="'+(entryOf(no).i?"true":"false")+'"><span class="edot"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>インターン応募済</button>'
@@ -2430,6 +2540,7 @@ function openDetail(no){
   el("detail-body").innerHTML=html;
   el("dcol-in").scrollTop=0;
   if(el("d-axset")) el("d-axset").addEventListener("click",function(){ openModal("m-profile"); });
+  el("d-share").addEventListener("click",function(){ openShare(d); });
   /* A2: わたしのメモ（開閉・自動保存） */
   if(el("memo-toggle")){
     el("memo-toggle").addEventListener("click",function(){
@@ -2756,6 +2867,23 @@ function init(){
   el("todo-add").addEventListener("click",function(){ openTodoModal(0); });
   el("td-vm-list").addEventListener("click",function(){ store.todoVm="list"; saveStore(); renderTodo(); });
   el("td-vm-cal").addEventListener("click",function(){ store.todoVm="cal"; saveStore(); renderTodo(); });
+  /* A4: 共有カード */
+  el("share-do").addEventListener("click",function(){
+    if(!_shareBlob) return;
+    var f=new File([_shareBlob], _shareFile, {type:"image/png"});
+    if(navigator.canShare && navigator.canShare({files:[f]})){
+      navigator.share({files:[f], title:"就活辞典"}).catch(function(){});
+    }else{
+      el("share-dl").click();
+      toast("この環境では共有シートが使えないため、画像を保存しました");
+    }
+  });
+  el("share-dl").addEventListener("click",function(){
+    if(!_shareBlob) return;
+    var a=document.createElement("a"); a.href=URL.createObjectURL(_shareBlob); a.download=_shareFile;
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },800);
+  });
   el("td-save").addEventListener("click",function(){
     var txt=el("td-txt").value.trim();
     if(!txt){ toast("「やること」を入力してください"); el("td-txt").focus(); return; }
