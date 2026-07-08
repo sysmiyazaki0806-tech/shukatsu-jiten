@@ -8,7 +8,7 @@
    注意：データを更新しても sw.js の変更は不要。
         キャッシュの持ち方自体を変えた時だけ VERSION を上げる。
    ========================================================= */
-const VERSION = 'shukatsu-jiten-v1';
+const VERSION = 'shukatsu-jiten-v2'; /* v2: ヒーローイラスト差し替え（画像を差し替えたらこの版数を上げる） */
 const CORE = [
   './',
   './index.html',
