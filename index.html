@@ -762,6 +762,34 @@
   .mtc-note{font-size:11px; color:var(--ink-3); margin:10px 0 0; line-height:1.7;}
   .mtc-bonus{display:inline-block; font-size:11px; font-weight:800; color:#8F6E20; background:#F7EFDC; border-radius:99px; padding:3px 10px; margin-top:9px;}
 
+  /* A1.5: 今日の就活占い */
+  .fcard{max-width:580px; background:var(--surface); border:1px solid var(--line); border-radius:var(--r-s); padding:26px 24px 22px; position:relative; overflow:hidden;}
+  .fcard::before{content:""; position:absolute; left:0; right:0; top:0; height:4px; background:linear-gradient(90deg,var(--brand),#B08A2E);}
+  .f-date{font-size:12px; color:var(--ink-3); letter-spacing:.08em;}
+  .f-lv{font-family:var(--serif); font-size:46px; font-weight:800; color:var(--brand-d); line-height:1.2; margin:6px 0 0;}
+  .f-stars{color:#B08A2E; font-size:17px; letter-spacing:4px; margin:2px 0 14px;}
+  .f-word{font-size:14.5px; line-height:2; border-top:1px dashed var(--line); border-bottom:1px dashed var(--line); padding:14px 2px; margin-bottom:6px; font-family:var(--serif); font-weight:600;}
+  .f-row{display:flex; gap:10px; align-items:flex-start; margin-top:12px; font-size:13.5px; line-height:1.8;}
+  .f-row .fk{flex:0 0 auto; font-size:11px; font-weight:800; color:#8F6E20; background:#F7EFDC; border-radius:99px; padding:3px 10px; margin-top:3px;}
+  .f-note{font-size:11px; color:var(--ink-3); margin-top:16px; line-height:1.7;}
+
+  /* A1.5: 就活タイプ診断 */
+  .sd-card{max-width:580px; background:var(--surface); border:1px solid var(--line); border-radius:var(--r-s); padding:24px;}
+  .sd-prog{height:6px; border-radius:99px; background:var(--line-2); overflow:hidden; margin:10px 0 18px;}
+  .sd-prog i{display:block; height:100%; background:var(--brand); transition:width .25s ease;}
+  .sd-no{font-size:11.5px; font-weight:800; color:var(--ink-3); letter-spacing:.06em;}
+  .sd-qt{font-family:var(--serif); font-size:18px; font-weight:800; margin:4px 0 16px; line-height:1.6;}
+  .sd-opt{display:block; width:100%; text-align:left; border:1.5px solid var(--line); background:var(--surface); border-radius:12px; padding:14px 16px; font-size:14px; font-weight:700; cursor:pointer; margin-top:10px; color:var(--ink); line-height:1.6;}
+  .sd-opt:hover{border-color:var(--brand); background:#F2FAF9;}
+  .sd-back{border:0; background:none; color:var(--ink-3); font-size:12px; cursor:pointer; margin-top:16px; text-decoration:underline;}
+  .sd-type{font-family:var(--serif); font-size:30px; font-weight:800; color:var(--brand-d); margin:2px 0;}
+  .sd-catch{font-size:14px; color:#8F6E20; font-weight:800; margin-bottom:10px; font-family:var(--serif);}
+  .sd-desc{font-size:13.5px; line-height:2;}
+  .sd-chips{display:flex; flex-wrap:wrap; gap:7px; margin:8px 0 2px;}
+  .sd-chips span{font-size:12px; font-weight:700; background:#E7F5F3; color:var(--brand-d); border-radius:99px; padding:4px 11px;}
+  .sd-sec{font-size:11.5px; font-weight:800; color:var(--ink-3); margin-top:18px; letter-spacing:.06em;}
+  .sd-recrow{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;}
+
   /* 公式サイトリンク（青のピル型・ホバーで反転） */
   .weblink{display:inline-flex; align-items:center; gap:5px; color:#1A56C4; font-weight:700; font-size:12px; line-height:1;
     text-decoration:none; background:#F2F6FD; border:1px solid #D9E4F6; border-radius:99px; padding:5px 12px;
@@ -884,6 +912,8 @@
         <button data-go="saved"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"><path d="M6 3h12v18l-6-4.5L6 21V3z"/></svg></span>栞をはさんだ企業<span class="cnt" id="snav-saved" style="display:none">0</span></button>
         <button data-go="later"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>あとで読む<span class="cnt" id="snav-later" style="display:none">0</span></button>
         <button data-go="todo"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.5l2.5 2.5 5-5.5"/></svg></span>やることリスト<span class="cnt" id="snav-todo" style="display:none">0</span></button>
+        <button data-go="fortune"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.4 4.2L18 8.5l-4.6 1.3L12 14l-1.4-4.2L6 8.5l4.6-1.3L12 3z"/><path d="M19 14l.7 2.1L22 16.8l-2.3.7L19 19.6l-.7-2.1-2.3-.7 2.3-.7L19 14z"/><path d="M6 16l.6 1.7 1.9.6-1.9.6L6 20.6l-.6-1.7-1.9-.6 1.9-.6L6 16z"/></svg></span>今日の就活占い</button>
+        <button data-go="shindan"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z"/></svg></span>就活タイプ診断</button>
       </nav>
       <div class="sh">五十音でひく</div>
       <div class="kana-grid" id="kana-grid"></div>
@@ -920,6 +950,8 @@
         <button data-go="events"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>説明会</button>
         <button data-go="later"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>あとで読む</button>
         <button data-go="todo"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.5l2.5 2.5 5-5.5"/></svg>やること</button>
+        <button data-go="fortune"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.4 4.2L18 8.5l-4.6 1.3L12 14l-1.4-4.2L6 8.5l4.6-1.3L12 3z"/></svg>占い</button>
+        <button data-go="shindan"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z"/></svg>タイプ診断</button>
       </div>
       <div class="kana-strip" id="kana-strip"></div>
       <div class="filters" id="filters"></div>
@@ -1028,6 +1060,18 @@
       <div class="rank-tabs" id="rank-tabs"></div>
       <div class="ranklist" id="ranklist"></div>
       <div class="foot">スコアは公開情報をもとに編集部が0〜100で指標化した参考値です。</div>
+    </section>
+
+    <!-- 今日の就活占い -->
+    <section class="view" id="v-fortune">
+      <div class="hero"><h1>今日の就活占い</h1><p>日付とプロフィールのおなまえから、今日の就活運をひらきます。（毎日更新）</p></div>
+      <div id="fortune-box"></div>
+    </section>
+
+    <!-- 就活タイプ診断 -->
+    <section class="view" id="v-shindan">
+      <div class="hero"><h1>就活タイプ診断</h1><p>12の質問に直感で答えると、あなたの働き方タイプ（全16タイプ）がわかります。</p></div>
+      <div id="shindan-box"></div>
     </section>
   </main>
 
@@ -1803,6 +1847,121 @@ function irow(ic,k,v){
   return '<div class="irow"><span class="ico">'+icon(ic,15)+'</span><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';
 }
 /* 空パネル：きょうの注目3社・最近ひらいた項目・読了のしるべ */
+/* ===== A1.5: 今日の就活占い ===== */
+function fhash(s){ var h=0; for(var i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))>>>0; } return h; }
+function todayKey(){ var d=new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); }
+function fortuneOf(){
+  var name=(store.profile&&store.profile.name)||"guest";
+  var h=fhash(todayKey()+"|"+name);
+  var total=0; FORTUNE.levels.forEach(function(l){ total+=l.w; });
+  var r=h%total, lv=FORTUNE.levels[FORTUNE.levels.length-1];
+  for(var i=0;i<FORTUNE.levels.length;i++){ if(r<FORTUNE.levels[i].w){ lv=FORTUNE.levels[i]; break; } r-=FORTUNE.levels[i].w; }
+  var words=FORTUNE.words[lv.star];
+  return { lv:lv,
+    word:words[(h>>>3)%words.length],
+    action:FORTUNE.actions[(h>>>5)%FORTUNE.actions.length],
+    lucky:DATA[(h>>>7)%DATA.length] };
+}
+function fstars(n){ var s=""; for(var i=0;i<5;i++){ s+= i<n?"★":"☆"; } return s; }
+function renderFortune(){
+  var f=fortuneOf(), name=(store.profile&&store.profile.name);
+  el("fortune-box").innerHTML='<div class="fcard">'
+    +'<div class="f-date">'+todayKey().replace(/-/g,". ")+'　'+(name? name+"さんの" : "あなたの")+'就活運</div>'
+    +'<div class="f-lv">'+f.lv.name+'</div>'
+    +'<div class="f-stars">'+fstars(f.lv.star)+'</div>'
+    +'<div class="f-word">'+f.word+'</div>'
+    +'<div class="f-row"><span class="fk">開運アクション</span><span>'+f.action+'</span></div>'
+    +'<div class="f-row"><span class="fk">'+FORTUNE.luckyLabel+'</span><button class="relchip" data-open="'+f.lucky.no+'">'+rcHTML(f.lucky)+f.lucky.name+'</button></div>'
+    +(name? '' : '<div class="f-row"><span class="fk">ヒント</span><span>プロフィールでおなまえを入れると、あなた専用の運勢になります。</span></div>')
+    +'<div class="f-note">'+FORTUNE.note+'</div>'
+  +'</div>';
+  el("fortune-box").querySelectorAll("[data-open]").forEach(function(b){
+    b.addEventListener("click",function(){ openDetail(+b.dataset.open); });
+  });
+}
+
+/* ===== A1.5: 就活タイプ診断 ===== */
+var sdState={active:false, i:0, ans:[]};
+function shindanTypeKey(){
+  var key="";
+  for(var ax=0; ax<4; ax++){
+    var aCnt=0, n=0;
+    SHINDAN.q.forEach(function(q,qi){ if(q.ax===ax){ n++; if(sdState.ans[qi]==="a") aCnt++; } });
+    key+=SHINDAN.axes[ax][ aCnt*2>=n ? 0 : 1 ];
+  }
+  return key;
+}
+function renderShindan(){
+  if(sdState.active){ renderShindanQ(); return; }
+  var box=el("shindan-box");
+  var last=store.shindan && SHINDAN.types[store.shindan.t];
+  box.innerHTML='<div class="sd-card">'
+    +(last
+      ? '<div class="sd-sec">前回の結果（'+store.shindan.d+'）</div>'
+        +'<div class="sd-type">'+last.name+'</div><div class="sd-catch">'+last.catch+'</div>'
+        +'<div style="margin-top:14px"><button class="btn" id="sd-view">結果をくわしく見る</button> <button class="btn ghost" id="sd-go">もう一度診断する</button></div>'
+      : '<p style="font-size:14px; line-height:2; margin:0 0 16px">12の質問に<b>直感</b>で答えてください。あなたの働き方タイプ（全16タイプ）と、タイプに合う企業がわかります。結果はこの端末に保存されます。</p>'
+        +'<button class="btn" id="sd-go">診断をはじめる（約1分）</button>')
+    +'<div class="f-note">'+SHINDAN.note+'</div></div>';
+  if(el("sd-go")) el("sd-go").addEventListener("click",function(){ sdState={active:true,i:0,ans:[]}; renderShindanQ(); });
+  if(el("sd-view")) el("sd-view").addEventListener("click",function(){ renderShindanResult(store.shindan.t); });
+}
+function renderShindanQ(){
+  var box=el("shindan-box"), q=SHINDAN.q[sdState.i];
+  box.innerHTML='<div class="sd-card">'
+    +'<div class="sd-no">Q'+(sdState.i+1)+' / '+SHINDAN.q.length+'</div>'
+    +'<div class="sd-prog"><i style="width:'+Math.round(sdState.i/SHINDAN.q.length*100)+'%"></i></div>'
+    +'<div class="sd-qt">'+q.t+'</div>'
+    +'<button class="sd-opt" data-pick="a">A　'+q.a+'</button>'
+    +'<button class="sd-opt" data-pick="b">B　'+q.b+'</button>'
+    +(sdState.i>0? '<button class="sd-back" id="sd-back">← ひとつ前にもどる</button>':'')
+  +'</div>';
+  box.querySelectorAll("[data-pick]").forEach(function(b){
+    b.addEventListener("click",function(){
+      sdState.ans[sdState.i]=b.dataset.pick;
+      sdState.i++;
+      if(sdState.i>=SHINDAN.q.length){
+        var tk=shindanTypeKey();
+        store.shindan={t:tk, d:todayKey().replace(/-/g,".")};
+        saveStore();
+        sdState.active=false;
+        renderShindanResult(tk);
+      }else renderShindanQ();
+    });
+  });
+  if(el("sd-back")) el("sd-back").addEventListener("click",function(){ sdState.i--; renderShindanQ(); });
+}
+function renderShindanResult(tk){
+  var t=SHINDAN.types[tk]; if(!t){ renderShindan(); return; }
+  var box=el("shindan-box");
+  var recs=DATA.slice().sort(function(a,b){
+    function sc(d){ var s=0; t.recAxes.forEach(function(k){ s+=d.stats[k]||0; }); return s; }
+    return sc(b)-sc(a);
+  }).slice(0,3);
+  var axNames=t.recAxes.map(function(k){ var nm=""; AXES.forEach(function(ax){ if(ax[1]===k) nm=ax[0]; }); return nm; });
+  box.innerHTML='<div class="sd-card">'
+    +'<div class="sd-sec">あなたは…</div>'
+    +'<div class="sd-type">'+t.name+'</div>'
+    +'<div class="sd-catch">'+t.catch+'</div>'
+    +'<p class="sd-desc">'+t.desc+'</p>'
+    +'<div class="sd-sec">つよみ</div><div class="sd-chips">'+t.str.map(function(s){return '<span>'+s+'</span>';}).join("")+'</div>'
+    +'<div class="sd-sec">ひとことアドバイス</div><p class="sd-desc" style="margin:4px 0 0">'+t.care.join("。")+'</p>'
+    +'<div class="sd-sec">向いている業界（参考）</div><div class="sd-chips">'+t.inds.map(function(s){return '<span>'+s+'</span>';}).join("")+'</div>'
+    +'<div class="sd-sec">このタイプと相性のよい掲載企業</div><div class="sd-recrow">'
+      +recs.map(function(d){ return '<button class="relchip" data-open="'+d.no+'">'+rcHTML(d)+d.name+'</button>'; }).join("")+'</div>'
+    +'<div style="margin-top:18px"><button class="btn" id="sd-apply">この結果で「重視すること」を設定する</button> <button class="btn ghost" id="sd-again">もう一度診断</button></div>'
+    +'<p class="mtc-note">「設定する」を押すと、プロフィールの重視することが「'+axNames.join("・")+'」になり、全企業に相性%が表示されます。</p>'
+    +'<div class="f-note">'+SHINDAN.note+'</div>'
+  +'</div>';
+  box.querySelectorAll("[data-open]").forEach(function(b){ b.addEventListener("click",function(){ openDetail(+b.dataset.open); }); });
+  el("sd-apply").addEventListener("click",function(){
+    store.profile.axes=t.recAxes.slice();
+    saveStore(); renderReco(); renderList();
+    toast("重視することを「"+axNames.join("・")+"」に設定しました");
+  });
+  el("sd-again").addEventListener("click",function(){ sdState={active:true,i:0,ans:[]}; renderShindanQ(); });
+}
+
 function renderEmptyPanel(){
   var box=el("dp-widgets"); if(!box) return;
   var day=new Date();
@@ -1817,9 +1976,16 @@ function renderEmptyPanel(){
   html+='<div class="dpw"><div class="dph">読了のしるべ</div>'
     +'<div class="dprog"><i style="width:'+Math.round(sc/DATA.length*100)+'%"></i></div>'
     +'<div class="dpnote">ひらいた項目 '+sc+' / '+DATA.length+'社</div></div>';
+  var fo=fortuneOf();
+  html+='<div class="dpw"><div class="dph">今日の就活占い</div>'
+    +'<button data-gofortune><span style="font-family:var(--serif);font-size:17px;font-weight:800;color:var(--brand-d)">'+fo.lv.name+'</span>'
+    +'<span class="t" style="color:#B08A2E;letter-spacing:2px">'+fstars(fo.lv.star)+'</span><span class="a">タップで今日の運勢をひらく →</span></button></div>';
   box.innerHTML=html;
   box.querySelectorAll("[data-open]").forEach(function(b){
     b.addEventListener("click",function(){ openDetail(+b.dataset.open); });
+  });
+  box.querySelectorAll("[data-gofortune]").forEach(function(b){
+    b.addEventListener("click",function(){ go("fortune"); });
   });
 }
 
@@ -2281,7 +2447,7 @@ function toggleUserMenu(){
 }
 
 /* ============================ ナビ ============================ */
-var VIEWS=["list","compare","saved","later","feature","intern","events","rank","todo"];
+var VIEWS=["list","compare","saved","later","feature","intern","events","rank","todo","fortune","shindan"];
 function setView(v){
   state.view=v;
   VIEWS.forEach(function(k){ var e=el("v-"+k); if(e) e.classList.toggle("on", k===v); });
@@ -2299,6 +2465,8 @@ function go(v){
   if(v==="events") renderEvents();
   if(v==="rank") renderRank();
   if(v==="todo") renderTodo();
+  if(v==="fortune") renderFortune();
+  if(v==="shindan") renderShindan();
   setView(v);
   window.scrollTo(0,0);
 }
