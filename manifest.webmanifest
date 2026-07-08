@@ -1,0 +1,38 @@
+{
+  "id": "./",
+  "name": "就活辞典【増補改訂 第二版】",
+  "short_name": "就活辞典",
+  "description": "辞典をひくように企業をしらべ、数字とことばで見比べる。就活生のための企業辞典。",
+  "lang": "ja",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F9F7F2",
+  "theme_color": "#0E9F92",
+  "icons": [
+    {
+      "src": "./assets/icons/app_icon_192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icons/app_icon_512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icons/app_icon_512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./assets/icons/app_icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

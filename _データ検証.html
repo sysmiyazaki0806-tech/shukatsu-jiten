@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>就活辞典 データ検証</title>
+<link rel="icon" href="assets/icons/app_icon.png">
+<style>
+  :root{ --brand:#0E9F92; --gold:#B08A2E; --ink:#2A2E33; --ink3:#8A95A3; --err:#D64545; --warn:#D68A2B; --ok:#2E9E63; --line:#E4E0D6; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:"Noto Sans JP","Hiragino Sans","Yu Gothic UI",sans-serif; background:#F9F7F2; color:var(--ink); padding:28px 18px 80px; }
+  .wrap{ max-width:860px; margin:0 auto; }
+  h1{ font-size:22px; letter-spacing:.06em; margin-bottom:4px; }
+  .sub{ font-size:12.5px; color:var(--ink3); margin-bottom:22px; line-height:1.7; }
+  .sub code{ background:#fff; border:1px solid var(--line); border-radius:4px; padding:1px 5px; font-size:11.5px; }
+  .banner{ border-radius:12px; padding:18px 20px; margin-bottom:22px; font-weight:700; font-size:16px; display:flex; align-items:center; gap:12px; border:1.5px solid; }
+  .banner.ok{ background:#EDF7F1; border-color:var(--ok); color:var(--ok); }
+  .banner.ng{ background:#FBEFEF; border-color:var(--err); color:var(--err); }
+  .banner.wn{ background:#FBF4E8; border-color:var(--warn); color:var(--warn); }
+  .banner .big{ font-size:26px; }
+  .counts{ font-size:13px; font-weight:600; color:var(--ink3); margin-bottom:18px; }
+  .co{ background:#fff; border:1px solid var(--line); border-radius:10px; margin-bottom:10px; overflow:hidden; }
+  .co h2{ font-size:14px; padding:10px 14px; display:flex; gap:10px; align-items:center; border-bottom:1px solid var(--line); }
+  .co h2 .no{ font-family:ui-monospace,Consolas,monospace; color:var(--ink3); font-size:12px; }
+  .co ul{ list-style:none; padding:8px 14px 12px; }
+  .co li{ font-size:13px; padding:5px 0 5px 24px; position:relative; line-height:1.6; }
+  .co li::before{ position:absolute; left:0; top:5px; font-weight:800; }
+  .co li.e::before{ content:"✕"; color:var(--err); }
+  .co li.w::before{ content:"△"; color:var(--warn); }
+  .co li code{ background:#F4F1E9; border-radius:4px; padding:1px 5px; font-size:12px; }
+  .allok{ text-align:center; padding:50px 0 30px; color:var(--ok); }
+  .allok .mark{ font-size:52px; }
+  .allok p{ font-weight:700; font-size:16px; margin-top:8px; }
+  .foot{ margin-top:30px; font-size:11.5px; color:var(--ink3); line-height:1.8; }
+  .pill{ display:inline-block; background:#fff; border:1px solid var(--line); border-radius:99px; padding:2px 10px; font-size:11px; color:var(--ink3); margin-left:6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>就活辞典　データ検証</h1>
+  <p class="sub">
+    <code>data.js</code> を編集したら、このページを開き直すだけで自動チェックが走ります（更新は F5）。<br>
+    ✕（エラー）は必ず直してから共有してください。△（注意）は内容を確認のうえ、意図的ならそのままで構いません。<br>
+    各項目の正しい書き方は <code>SCHEMA.md</code> を参照。
+  </p>
+  <div id="out">読み込み中…</div>
+  <p class="foot">
+    チェック内容：必須項目／型／語彙（CATS・REGIONS・JOBS・WELFARES）／No.の重複・連番／能力値0–100／
+    読みがな（ひらがな）／タグの#始まり／相互参照(rel)の実在／ロゴ画像ファイルの実在／数値の常識レンジ　ほか
+  </p>
+</div>
+
+<script src="data.js" charset="utf-8"></script>
+<script>
+(function(){
+  var errors=[], warns=[]; // {no,name,msg}
+  function E(d,msg){ errors.push({no:d&&d.no, name:d?d.name:"(全体)", msg:msg}); }
+  function W(d,msg){ warns.push({no:d&&d.no, name:d?d.name:"(全体)", msg:msg}); }
+  function isStr(v){ return typeof v==="string" && v.length>0; }
+  function isNum(v){ return typeof v==="number" && isFinite(v); }
+  function isArr(v){ return Array.isArray(v); }
+
+  /* ---- 全体 ---- */
+  if(typeof DATA==="undefined"){ document.getElementById("out").innerHTML='<div class="banner ng"><span class="big">✕</span>data.js が読み込めません（同じフォルダに置いてください）</div>'; return; }
+  if(!isStr(typeof DATA_ASOF!=="undefined"?DATA_ASOF:"")) E(null,"DATA_ASOF（データ基準年月）が未設定です");
+
+  var BIZ=["対個人","対企業","両"];
+  var REQ_STR=["logo","name","kana","en","code","cat","field","bizType","region","founded","hq","addr","listing","capital","employees","sales","salaryV","startU","startG","catch","summary","feature","point"];
+  var REQ_NUM=["no","foundedY","startV","holidays","paid","womenP","avgAge","ot"];
+  var STATKEYS=["scale","salary","stable","growth","wlb","fame"];
+
+  var seenNo={}, seenName={};
+  var allNos=DATA.map(function(d){return d.no;});
+
+  DATA.forEach(function(d){
+    /* 必須文字列（logoはnull許容） */
+    REQ_STR.forEach(function(k){
+      if(k==="logo"){ if(d.logo!==null && !isStr(d.logo)) E(d,"logo は文字列か null にしてください"); return; }
+      if(!isStr(d[k])) E(d,"必須項目 <code>"+k+"</code> が空か未定義です");
+    });
+    REQ_NUM.forEach(function(k){ if(!isNum(d[k])) E(d,"数値項目 <code>"+k+"</code> が数値になっていません"); });
+
+    /* no */
+    if(isNum(d.no)){
+      if(seenNo[d.no]) E(d,"no="+d.no+" が重複しています（"+seenNo[d.no]+" と同じ）");
+      seenNo[d.no]=d.name;
+    }
+    if(isStr(d.name)){
+      if(seenName[d.name]) E(d,"社名が重複しています");
+      seenName[d.name]=true;
+    }
+
+    /* 語彙 */
+    if(isStr(d.cat) && CATS.indexOf(d.cat)<0) E(d,"cat「"+d.cat+"」が CATS にありません");
+    if(isStr(d.region) && REGIONS.indexOf(d.region)<0) E(d,"region「"+d.region+"」が REGIONS にありません");
+    if(isStr(d.bizType) && BIZ.indexOf(d.bizType)<0) E(d,"bizType「"+d.bizType+"」は 対個人/対企業/両 のどれかにしてください");
+    if(isArr(d.jobs)){ if(!d.jobs.length) E(d,"jobs が空です"); d.jobs.forEach(function(j){ if(JOBS.indexOf(j)<0) E(d,"jobs「"+j+"」が JOBS にありません"); }); } else E(d,"jobs が配列ではありません");
+    if(isArr(d.welfare)){ d.welfare.forEach(function(w){ if(WELFARES.indexOf(w)<0) E(d,"welfare「"+w+"」が WELFARES にありません"); }); } else E(d,"welfare が配列ではありません");
+
+    /* stats */
+    if(d.stats && typeof d.stats==="object"){
+      STATKEYS.forEach(function(k){
+        var v=d.stats[k];
+        if(!isNum(v)) E(d,"stats."+k+" が数値ではありません");
+        else if(v<0||v>100) E(d,"stats."+k+"="+v+" が 0〜100 の範囲外です");
+        else if(v!==Math.round(v)) W(d,"stats."+k+"="+v+" は整数推奨です");
+      });
+      Object.keys(d.stats).forEach(function(k){ if(STATKEYS.indexOf(k)<0) W(d,"stats に未知のキー「"+k+"」があります"); });
+    } else E(d,"stats がありません");
+
+    /* かな・タグ・人物像 */
+    if(isStr(d.kana) && !/^[ぁ-ゖー]+$/.test(d.kana)) E(d,"kana「"+d.kana+"」にひらがな以外が含まれています");
+    if(isArr(d.tags2)){ if(d.tags2.length<2) W(d,"tags2 は2個以上を推奨します"); d.tags2.forEach(function(t){ if(!/^#/.test(t)) E(d,"タグ「"+t+"」が # で始まっていません"); }); } else E(d,"tags2 が配列ではありません");
+    if(isArr(d.persons)){ if(d.persons.length!==3) W(d,"persons は3つ推奨です（現在 "+d.persons.length+"）"); } else E(d,"persons が配列ではありません");
+
+    /* intern / event / flow / voice */
+    if(d.intern && typeof d.intern==="object"){
+      if(typeof d.intern.has!=="boolean") E(d,"intern.has は true/false にしてください");
+      else if(d.intern.has && !isStr(d.intern.label)) E(d,"intern.has=true なのに label が空です");
+    } else E(d,"intern がありません");
+    if(d.event && typeof d.event==="object"){
+      if(!isStr(d.event.type)||!isStr(d.event.timing)) E(d,"event の type / timing が空です");
+    } else E(d,"event がありません");
+    if(isArr(d.flow)){ if(!d.flow.length) E(d,"flow が空です"); } else E(d,"flow が配列ではありません");
+    if(d.voice && typeof d.voice==="object"){ if(!isStr(d.voice.t)||!isStr(d.voice.w)) E(d,"voice の t / w が空です"); } else E(d,"voice がありません");
+
+    /* rel */
+    if(isArr(d.rel)){
+      if(d.rel.length!==3) W(d,"rel は3社推奨です（現在 "+d.rel.length+"）");
+      d.rel.forEach(function(n){
+        if(allNos.indexOf(n)<0) E(d,"rel の No."+n+" が存在しません");
+        else if(n===d.no) E(d,"rel に自分自身（No."+n+"）が入っています");
+      });
+    } else E(d,"rel が配列ではありません");
+
+    /* official（企業公認・任意） */
+    if(d.official!==undefined){
+      if(typeof d.official!=="boolean") E(d,"official は true/false にしてください");
+      else if(d.official===false) W(d,"official:false は書かず、項目ごと削除してください（未確認企業には付けない運用）");
+    }
+
+    /* web（公式サイトURL・推奨） */
+    if(d.web!==undefined){
+      if(!isStr(d.web)||!/^https:\/\/[^\s"]+$/.test(d.web)) E(d,"web は https:// で始まるURLにしてください");
+    }else W(d,"web（公式サイトURL）が未設定です（詳細ページにリンクが出ません）");
+
+    /* logo 命名 */
+    if(isStr(d.logo) && !/^\d{2}_[a-z0-9_]+$/.test(d.logo)) W(d,"logo「"+d.logo+"」は NN_英小文字slug 形式を推奨します");
+
+    /* 常識レンジ */
+    if(isNum(d.holidays)&&(d.holidays<80||d.holidays>160)) W(d,"holidays="+d.holidays+" が一般的な範囲(80〜160)を外れています");
+    if(isNum(d.paid)&&(d.paid<0||d.paid>100)) E(d,"paid="+d.paid+" は 0〜100 にしてください");
+    if(isNum(d.womenP)&&(d.womenP<0||d.womenP>100)) E(d,"womenP="+d.womenP+" は 0〜100 にしてください");
+    if(isNum(d.avgAge)&&(d.avgAge<20||d.avgAge>60)) W(d,"avgAge="+d.avgAge+" が一般的な範囲(20〜60)を外れています");
+    if(isNum(d.ot)&&(d.ot<0||d.ot>80)) W(d,"ot="+d.ot+" が一般的な範囲(0〜80)を外れています");
+    if(isNum(d.startV)&&(d.startV<150000||d.startV>600000)) W(d,"startV="+d.startV+" が一般的な範囲(15万〜60万)を外れています");
+    if(isStr(d.summary)&&d.summary.length>48) W(d,"summary が長めです（"+d.summary.length+"字。40字以内目安）");
+    if(isNum(d.foundedY)&&isStr(d.founded)&&d.founded.indexOf(String(d.foundedY))<0) W(d,"founded「"+d.founded+"」と foundedY="+d.foundedY+" が食い違っています");
+  });
+
+  /* 連番チェック（全体） */
+  var sorted=allNos.slice().sort(function(a,b){return a-b;});
+  for(var i=0;i<sorted.length;i++){ if(sorted[i]!==i+1){ W(null,"no が 1〜"+DATA.length+" の連番になっていません（欠番や飛びがあります）"); break; } }
+
+  /* ---- 描画 ---- */
+  function render(logoResults){
+    if(logoResults) logoResults.forEach(function(r){ if(!r.ok) errors.push({no:r.no,name:r.name,msg:'ロゴ画像 <code>assets/logos/'+r.file+'.png</code> が見つかりません'}); });
+    var byCo={};
+    errors.forEach(function(x){ (byCo[x.name]=byCo[x.name]||{no:x.no,e:[],w:[]}).e.push(x.msg); });
+    warns.forEach(function(x){ (byCo[x.name]=byCo[x.name]||{no:x.no,e:[],w:[]}).w.push(x.msg); });
+
+    var h="";
+    if(errors.length) h+='<div class="banner ng"><span class="big">✕</span>エラー '+errors.length+'件 — 修正が必要です</div>';
+    else if(warns.length) h+='<div class="banner wn"><span class="big">△</span>エラー0件・注意 '+warns.length+'件 — 内容を確認してください</div>';
+    else h+='<div class="banner ok"><span class="big">✓</span>全チェック合格 — 共有OKです</div>';
+    h+='<p class="counts">検査対象：'+DATA.length+'社 × 約40項目<span class="pill">基準 '+ (typeof DATA_ASOF!=="undefined"?DATA_ASOF:"—") +'</span></p>';
+
+    Object.keys(byCo).forEach(function(name){
+      var c=byCo[name];
+      h+='<div class="co"><h2>'+(c.no?'<span class="no">No.'+("000"+c.no).slice(-3)+'</span>':'')+name+'</h2><ul>';
+      c.e.forEach(function(m){ h+='<li class="e">'+m+'</li>'; });
+      c.w.forEach(function(m){ h+='<li class="w">'+m+'</li>'; });
+      h+='</ul></div>';
+    });
+    if(!errors.length&&!warns.length) h+='<div class="allok"><div class="mark">✓</div><p>'+DATA.length+'社すべて問題ありません</p></div>';
+    document.getElementById("out").innerHTML=h;
+  }
+
+  /* ロゴ画像の実在チェック（非同期）→ 完了後に描画 */
+  var targets=DATA.filter(function(d){return typeof d.logo==="string"&&d.logo;});
+  var results=[], done=0;
+  if(!targets.length){ render([]); return; }
+  render(null); /* まず即時結果を出す */
+  targets.forEach(function(d){
+    var img=new Image();
+    img.onload=function(){ results.push({no:d.no,name:d.name,file:d.logo,ok:true});  if(++done===targets.length) render(results); };
+    img.onerror=function(){ results.push({no:d.no,name:d.name,file:d.logo,ok:false}); if(++done===targets.length) render(results); };
+    img.src="assets/logos/"+d.logo+".png";
+  });
+})();
+</script>
+</body>
+</html>
