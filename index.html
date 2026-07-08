@@ -1818,6 +1818,12 @@ function openDetail(no){
     +'<div class="panel"><h3><span class="lbl">能力値</span>6項目・参考指標</h3><div class="radarwrap">'
       +'<div>'+radarSVG(d.stats,{size:200})+'</div>'
       +'<div class="axislist">'+axHTML+'</div></div></div>'
+    +'<div class="panel"><h3><span class="lbl">環境</span>数字で見る働き方<small>（参考値）</small></h3>'
+      +donutHTML
+      +'<div class="envgrid" style="margin-top:10px">'
+        +'<div class="stat"><div class="k">'+icon("cal",12)+'年間休日</div><div class="v">'+d.holidays+'<small>日</small></div></div>'
+        +'<div class="stat"><div class="k">'+icon("clock",12)+'有給取得率</div><div class="v">'+d.paid+'<small>%</small></div></div>'
+      +'</div></div>'
     +'<div class="panel"><h3><span class="lbl">基本データ</span><small>（参考値）</small></h3><div class="ispec">'
       +irow("cal","設立",d.founded)
       +irow("users","従業員数",d.employees)
@@ -1829,12 +1835,6 @@ function openDetail(no){
       +irow("build","資本金",d.capital)
       +(d.web? irow("globe","公式サイト",'<a class="weblink" href="'+d.web+'" target="_blank" rel="noopener noreferrer">'+d.web.replace(/^https?:\/\//,"").replace(/\/$/,"")+'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M9 7h8v8"/></svg></a>') : "")
     +'</div></div>'
-    +'<div class="panel"><h3><span class="lbl">環境</span>数字で見る働き方<small>（参考値）</small></h3>'
-      +donutHTML
-      +'<div class="envgrid" style="margin-top:10px">'
-        +'<div class="stat"><div class="k">'+icon("cal",12)+'年間休日</div><div class="v">'+d.holidays+'<small>日</small></div></div>'
-        +'<div class="stat"><div class="k">'+icon("clock",12)+'有給取得率</div><div class="v">'+d.paid+'<small>%</small></div></div>'
-      +'</div></div>'
     +'<div class="panel"><h3><span class="lbl">初任給</span><small>（月給・参考値）</small></h3>'+startpayHTML+'</div>'
     +'<div class="panel"><h3><span class="lbl">人物像</span>求める人物像（採用情報より要約）</h3><div class="persons">'+personsHTML+'</div></div>'
     +'<div class="panel"><h3><span class="lbl">選考</span>選考フローの目安</h3><div class="flow">'+flowHTML+'</div></div>'
