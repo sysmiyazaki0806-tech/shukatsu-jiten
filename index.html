@@ -818,6 +818,39 @@
   .estamp.m{color:#B3402F; border-color:rgba(196,80,60,.55); background:rgba(196,80,60,.07);}
   .estamp.n{color:#8F6E20; border-color:rgba(176,138,46,.55); background:rgba(176,138,46,.08);}
 
+  /* A3: 選考カレンダー */
+  .tdtggl{margin-left:auto; display:flex; border:1px solid var(--line); border-radius:9px; overflow:hidden;}
+  .tdtggl button{border:0; background:var(--surface); padding:7px 14px; font-size:12px; font-weight:800; color:var(--ink-3); cursor:pointer; font-family:var(--sans); white-space:nowrap;}
+  .tdtggl button[aria-pressed="true"]{background:var(--brand); color:#fff;}
+  .tcal{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-s); padding:14px; margin-bottom:14px;}
+  .tcal-head{display:flex; align-items:center; gap:10px; margin-bottom:10px;}
+  .tcal-head b{font-family:var(--serif); font-size:16px; letter-spacing:.04em;}
+  .tcal-head button{border:1px solid var(--line); background:var(--surface); border-radius:8px; cursor:pointer; font-weight:800; color:var(--ink);}
+  #tc-prev,#tc-next{width:28px; height:28px; font-size:16px; line-height:1;}
+  #tc-today{padding:5px 12px; font-size:11.5px; margin-left:auto; color:var(--brand-d);}
+  .tcal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:4px;}
+  .tcdw{text-align:center; font-size:10.5px; font-weight:800; color:var(--ink-3); padding:2px 0 5px;}
+  .tcdw.su{color:#C4503C;} .tcdw.sa{color:#4A7FB5;}
+  .tdc{min-height:74px; border:1px solid var(--line-2); border-radius:8px; padding:4px 5px; background:var(--surface); cursor:pointer; display:flex; flex-direction:column; gap:3px; overflow:hidden; text-align:left; font-family:var(--sans); transition:border-color .12s;}
+  .tdc:hover{border-color:var(--brand);}
+  .tdc.om{opacity:.35;}
+  .tdc .dn{font-size:11px; font-weight:800; color:var(--ink); width:19px; height:19px; display:grid; place-items:center; border-radius:99px; flex:0 0 auto;}
+  .tdc.today .dn{background:var(--brand); color:#fff;}
+  .tdc.sel{border-color:var(--brand); box-shadow:0 0 0 1.5px var(--brand);}
+  .tdc .chips{display:flex; flex-direction:column; gap:2px; min-width:0;}
+  .tcchip{font-size:9.5px; font-weight:700; border-radius:5px; padding:1.5px 5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:#fff; max-width:100%;}
+  .tcchip.tdone{text-decoration:line-through; opacity:.75;}
+  .tcmore{font-size:9.5px; color:var(--ink-3); font-weight:800;}
+  .tcal-dayhead{display:flex; align-items:center; justify-content:space-between; gap:10px; margin:4px 0 10px;}
+  .tcal-dayhead b{font-family:var(--serif); font-size:14.5px;}
+  .tcal-noitem{font-size:12.5px; color:var(--ink-3); padding:8px 2px 16px;}
+  @media(max-width:779px){
+    .tdc{min-height:52px; padding:3px 4px;}
+    .tdc .chips{flex-direction:row; flex-wrap:wrap; gap:3px;}
+    .tcchip{width:8px; height:8px; padding:0; border-radius:99px; font-size:0; flex:0 0 auto;}
+    .tcmore{font-size:8.5px;}
+  }
+
   /* 履歴ビュー */
   .histlist{display:grid; gap:6px;}
   .hrow{display:grid; grid-template-columns:34px 1fr auto; gap:10px; align-items:center; border:0; background:none; padding:7px 6px; border-radius:9px; cursor:pointer; text-align:left; font-family:var(--sans);}
@@ -1080,7 +1113,13 @@
     <!-- やることリスト -->
     <section class="view" id="v-todo">
       <div class="hero"><h1>やることリスト</h1><p>ESの締切や面接の日時など、就活のやるべきことを企業と結びつけて管理できます。（この端末に保存されます）</p></div>
-      <div class="todobar"><button class="btn" id="todo-add">＋ やることを追加</button><span class="tdcnt" id="todo-cnt"></span></div>
+      <div class="todobar"><button class="btn" id="todo-add">＋ やることを追加</button><span class="tdcnt" id="todo-cnt"></span>
+        <div class="tdtggl" role="group" aria-label="表示切替">
+          <button id="td-vm-list" aria-pressed="true">リスト</button>
+          <button id="td-vm-cal" aria-pressed="false">カレンダー</button>
+        </div>
+      </div>
+      <div id="todocal"></div>
       <div class="todolist" id="todolist"></div>
       <div id="todo-empty"></div>
       <div class="foot">締切・日時はご自身の応募状況にあわせて入力してください。企業の公式発表とは連動しません。</div>
@@ -1349,11 +1388,11 @@ function refreshTodoBadge(){
   var n=store.todos.filter(function(t){ return !t.done; }).length;
   var b=el("snav-todo"); if(b){ b.style.display=n>0?"grid":"none"; b.textContent=n; }
 }
-function openTodoModal(no){
+function openTodoModal(no,due){
   el("td-txt").value="";
   el("td-kind").value="ES締切";
   el("td-no").value=String(no||0);
-  el("td-due").value=""; el("td-time").value="";
+  el("td-due").value=due||""; el("td-time").value="";
   openModal("m-todo");
   el("td-txt").focus();
 }
@@ -1361,7 +1400,57 @@ function fmtDueLabel(due){
   var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(due);
   return m? (+m[2])+"/"+(+m[3]) : due;
 }
+function kindColor(k){
+  return {"ES締切":"#E05A4B","Webテスト":"#B08A2E","説明会":"#4A7FB5","面接":"#0E9F92","インターン":"#0B7E74","OB・OG訪問":"#8E6FB8"}[k]||"#8B9096";
+}
+function todoRowHTML(t,today){
+  var d=t.no? byNo(t.no) : null;
+  var days=null;
+  if(t.due){ var due=new Date(t.due+"T00:00:00"); if(!isNaN(due)) days=Math.round((due-today)/86400000); }
+  var urg=(t.done||days===null)?"" : days<0?"over" : days<=3?"soon" : "";
+  var dtag="";
+  if(!t.done && days!==null){
+    dtag = days<0?'<span class="dd2 over">期限切れ</span>'
+      : days===0?'<span class="dd2 soon">今日</span>'
+      : days===1?'<span class="dd2 soon">明日</span>'
+      : '<span class="dd2'+(days<=3?" soon":"")+'">あと'+days+'日</span>';
+  }
+  var dueLbl=t.due? fmtDueLabel(t.due)+(t.time?" "+t.time:"") : "期日未定";
+  return '<div class="todo'+(t.done?" done":"")+(urg?" "+urg:"")+'">'
+    +'<button class="tck" data-tck="'+t.id+'" aria-pressed="'+(t.done?"true":"false")+'" aria-label="完了にする"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>'
+    +'<div class="tb">'
+      +'<div class="tt">'+esc(t.txt)+'</div>'
+      +'<div class="tm">'
+        +(t.kind?'<span class="tk">'+esc(t.kind)+'</span>':"")
+        +(d?'<button class="tco" data-open3="'+d.no+'">'+d.name+'</button>':"")
+        +'<span class="tdue">'+icon("cal",11)+dueLbl+'</span>'+dtag
+      +'</div>'
+    +'</div>'
+    +'<button class="tdel" data-tdel="'+t.id+'" aria-label="削除">×</button>'
+  +'</div>';
+}
+function bindTodoRows(box){
+  box.querySelectorAll("[data-tck]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var t=store.todos.filter(function(x){ return x.id===+b.dataset.tck; })[0];
+      if(t){ t.done=!t.done; saveStore(); renderTodo(); }
+    });
+  });
+  box.querySelectorAll("[data-tdel]").forEach(function(b){
+    b.addEventListener("click",function(){
+      store.todos=store.todos.filter(function(x){ return x.id!==+b.dataset.tdel; });
+      saveStore(); renderTodo(); toast("やることを削除しました");
+    });
+  });
+  box.querySelectorAll("[data-open3]").forEach(function(b){
+    b.addEventListener("click",function(){ openDetail(+b.dataset.open3); });
+  });
+}
+var tdCal={y:0, m:-1, sel:""};
 function renderTodo(){
+  var vm=store.todoVm||"list";
+  var bl=el("td-vm-list"), bc=el("td-vm-cal");
+  if(bl){ bl.setAttribute("aria-pressed", vm==="list"?"true":"false"); bc.setAttribute("aria-pressed", vm==="cal"?"true":"false"); }
   var list=store.todos.slice().sort(function(a,b){
     if(a.done!==b.done) return a.done?1:-1;
     var da=a.due||"9999-12-31", db=b.due||"9999-12-31";
@@ -1371,49 +1460,58 @@ function renderTodo(){
   var left=list.filter(function(t){ return !t.done; }).length;
   el("todo-cnt").textContent = list.length? "のこり "+left+" 件／全 "+list.length+" 件" : "";
   var today=new Date(); today.setHours(0,0,0,0);
-  el("todolist").innerHTML=list.map(function(t){
-    var d=t.no? byNo(t.no) : null;
-    var days=null;
-    if(t.due){ var due=new Date(t.due+"T00:00:00"); if(!isNaN(due)) days=Math.round((due-today)/86400000); }
-    var urg=(t.done||days===null)?"" : days<0?"over" : days<=3?"soon" : "";
-    var dtag="";
-    if(!t.done && days!==null){
-      dtag = days<0?'<span class="dd2 over">期限切れ</span>'
-        : days===0?'<span class="dd2 soon">今日</span>'
-        : days===1?'<span class="dd2 soon">明日</span>'
-        : '<span class="dd2'+(days<=3?" soon":"")+'">あと'+days+'日</span>';
-    }
-    var dueLbl=t.due? fmtDueLabel(t.due)+(t.time?" "+t.time:"") : "期日未定";
-    return '<div class="todo'+(t.done?" done":"")+(urg?" "+urg:"")+'">'
-      +'<button class="tck" data-tck="'+t.id+'" aria-pressed="'+(t.done?"true":"false")+'" aria-label="完了にする"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>'
-      +'<div class="tb">'
-        +'<div class="tt">'+esc(t.txt)+'</div>'
-        +'<div class="tm">'
-          +(t.kind?'<span class="tk">'+esc(t.kind)+'</span>':"")
-          +(d?'<button class="tco" data-open3="'+d.no+'">'+d.name+'</button>':"")
-          +'<span class="tdue">'+icon("cal",11)+dueLbl+'</span>'+dtag
-        +'</div>'
-      +'</div>'
-      +'<button class="tdel" data-tdel="'+t.id+'" aria-label="削除">×</button>'
-    +'</div>';
-  }).join("");
+  if(vm==="cal"){ renderTodoCal(today); return; }
+  el("todocal").innerHTML="";
+  el("todolist").innerHTML=list.map(function(t){ return todoRowHTML(t,today); }).join("");
   el("todo-empty").innerHTML = list.length? "" :
     '<div class="empty"><div class="ic"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.5l2.5 2.5 5-5.5"/></svg></div><p>やることはまだ登録されていません。</p><p style="font-size:12.5px">「＋ やることを追加」か、企業詳細の「＋やること」からどうぞ。</p></div>';
-  el("todolist").querySelectorAll("[data-tck]").forEach(function(b){
-    b.addEventListener("click",function(){
-      var t=store.todos.filter(function(x){ return x.id===+b.dataset.tck; })[0];
-      if(t){ t.done=!t.done; saveStore(); renderTodo(); }
-    });
+  bindTodoRows(el("todolist"));
+  refreshTodoBadge();
+}
+/* A3: 選考カレンダー（やることの月間表示） */
+function renderTodoCal(today){
+  function iso(d){ return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2); }
+  if(tdCal.m<0){ var n=new Date(); tdCal.y=n.getFullYear(); tdCal.m=n.getMonth(); tdCal.sel=iso(n); }
+  var map={};
+  store.todos.forEach(function(t){ if(t.due){ (map[t.due]=map[t.due]||[]).push(t); } });
+  Object.keys(map).forEach(function(k){ map[k].sort(function(a,b){ return (a.time||"").localeCompare(b.time||""); }); });
+  var first=new Date(tdCal.y, tdCal.m, 1);
+  var dim=new Date(tdCal.y, tdCal.m+1, 0).getDate();
+  var startDow=first.getDay();
+  var weeks=Math.ceil((startDow+dim)/7);
+  var todayISO=iso(today);
+  var html='<div class="tcal">'
+    +'<div class="tcal-head"><button id="tc-prev" aria-label="前の月">‹</button><b>'+tdCal.y+'年'+(tdCal.m+1)+'月</b><button id="tc-next" aria-label="次の月">›</button><button id="tc-today">今月へ</button></div>'
+    +'<div class="tcal-grid">'
+    +["日","月","火","水","木","金","土"].map(function(w,i){ return '<div class="tcdw'+(i===0?" su":(i===6?" sa":""))+'">'+w+'</div>'; }).join("");
+  for(var c=0; c<weeks*7; c++){
+    var dnum=c-startDow+1;
+    var cd=new Date(tdCal.y, tdCal.m, dnum);
+    var ciso=iso(cd);
+    var om=(dnum<1||dnum>dim);
+    var items=map[ciso]||[];
+    var chips=items.slice(0,3).map(function(t){
+      return '<span class="tcchip'+(t.done?" tdone":"")+'" style="background:'+(t.done?"#C9CCD1":kindColor(t.kind))+'">'+esc(t.txt)+'</span>';
+    }).join("")+(items.length>3?'<span class="tcmore">＋'+(items.length-3)+'</span>':'');
+    html+='<button class="tdc'+(om?" om":"")+(ciso===todayISO?" today":"")+(ciso===tdCal.sel?" sel":"")+'" data-day="'+ciso+'"><span class="dn">'+cd.getDate()+'</span><span class="chips">'+chips+'</span></button>';
+  }
+  html+='</div></div>';
+  el("todocal").innerHTML=html;
+  /* 選択した日のやること */
+  var dayItems=map[tdCal.sel]||[];
+  var sm=/^(\d{4})-(\d{2})-(\d{2})$/.exec(tdCal.sel);
+  var selLbl=sm? (+sm[2])+"月"+(+sm[3])+"日" : tdCal.sel;
+  el("todolist").innerHTML='<div class="tcal-dayhead"><b>'+selLbl+'のやること（'+dayItems.length+'件）</b><button class="btn ghost" id="tc-addday" style="font-size:12px;padding:6px 13px">＋この日に追加</button></div>'
+    +(dayItems.length? dayItems.map(function(t){ return todoRowHTML(t,today); }).join("") : '<p class="tcal-noitem">この日のやることはありません。「＋この日に追加」から登録できます。</p>');
+  el("todo-empty").innerHTML="";
+  bindTodoRows(el("todolist"));
+  el("todocal").querySelectorAll("[data-day]").forEach(function(b){
+    b.addEventListener("click",function(){ tdCal.sel=b.dataset.day; renderTodo(); });
   });
-  el("todolist").querySelectorAll("[data-tdel]").forEach(function(b){
-    b.addEventListener("click",function(){
-      store.todos=store.todos.filter(function(x){ return x.id!==+b.dataset.tdel; });
-      saveStore(); renderTodo(); toast("やることを削除しました");
-    });
-  });
-  el("todolist").querySelectorAll("[data-open3]").forEach(function(b){
-    b.addEventListener("click",function(){ openDetail(+b.dataset.open3); });
-  });
+  el("tc-prev").addEventListener("click",function(){ tdCal.m--; if(tdCal.m<0){ tdCal.m=11; tdCal.y--; } renderTodo(); });
+  el("tc-next").addEventListener("click",function(){ tdCal.m++; if(tdCal.m>11){ tdCal.m=0; tdCal.y++; } renderTodo(); });
+  el("tc-today").addEventListener("click",function(){ tdCal.m=-1; renderTodo(); });
+  el("tc-addday").addEventListener("click",function(){ openTodoModal(0, tdCal.sel); });
   refreshTodoBadge();
 }
 function updateSeen(){
@@ -2656,6 +2754,8 @@ function init(){
   var tn=el("td-no");
   DATA.forEach(function(d){ var o=document.createElement("option"); o.value=String(d.no); o.textContent=d.name; tn.appendChild(o); });
   el("todo-add").addEventListener("click",function(){ openTodoModal(0); });
+  el("td-vm-list").addEventListener("click",function(){ store.todoVm="list"; saveStore(); renderTodo(); });
+  el("td-vm-cal").addEventListener("click",function(){ store.todoVm="cal"; saveStore(); renderTodo(); });
   el("td-save").addEventListener("click",function(){
     var txt=el("td-txt").value.trim();
     if(!txt){ toast("「やること」を入力してください"); el("td-txt").focus(); return; }
