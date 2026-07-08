@@ -818,6 +818,37 @@
   .estamp.m{color:#B3402F; border-color:rgba(196,80,60,.55); background:rgba(196,80,60,.07);}
   .estamp.n{color:#8F6E20; border-color:rgba(176,138,46,.55); background:rgba(176,138,46,.08);}
 
+  /* B5: V-careerイベント連携 */
+  .vcbanner{display:flex; align-items:center; gap:14px; width:100%; text-align:left; cursor:pointer; border:0;
+    background:linear-gradient(105deg,#0B7E74,#0E9F92 60%,#14B3A4); color:#fff; border-radius:var(--r-s);
+    padding:14px 18px; margin:0 0 14px; box-shadow:0 4px 14px rgba(14,159,146,.25); font-family:var(--sans);}
+  .vcb-tag{flex:0 0 auto; font-size:10.5px; font-weight:800; letter-spacing:.14em; background:#B08A2E; color:#fff; border-radius:6px; padding:4px 9px;}
+  .vcbanner .vcb-body{display:flex; flex-direction:column; gap:2px; min-width:0; flex:1;}
+  .vcbanner .vcb-body b{font-size:14.5px; font-family:var(--serif); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .vcbanner .vcb-body span{font-size:11.5px; opacity:.92;}
+  .vcb-arrow{flex:0 0 auto; font-size:12px; font-weight:800; white-space:nowrap;}
+  .vcbanner:hover{filter:brightness(1.06);}
+  .vcv{background:var(--surface); border:1.5px solid var(--brand); border-radius:var(--r-s); padding:18px 18px 16px; margin-bottom:14px; position:relative; overflow:hidden;}
+  .vcv::before{content:""; position:absolute; left:0; top:0; right:0; height:4px; background:linear-gradient(90deg,var(--brand),#B08A2E);}
+  .vcv-head{display:flex; align-items:center; gap:10px; margin-top:4px; flex-wrap:wrap;}
+  .vcv-head b{font-family:var(--serif); font-size:16.5px;}
+  .vcv-catch{font-family:var(--serif); font-weight:700; color:var(--brand-d); font-size:13.5px; margin-top:6px;}
+  .vcv-meta{display:flex; flex-wrap:wrap; gap:7px 16px; margin-top:10px; font-size:12.5px; font-weight:700;}
+  .vcv-meta svg{color:var(--brand); vertical-align:-2px; margin-right:4px;}
+  .vcv-desc{font-size:13px; line-height:1.9; margin:10px 0 0;}
+  .vcv-comps{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:12px;}
+  .vcv-cl{font-size:11px; font-weight:800; color:var(--ink-3);}
+  .vcv-act{margin-top:14px;}
+  .vcv-act .btn{text-decoration:none; display:inline-flex;}
+  .vc-soon{display:inline-block; font-size:12px; font-weight:800; color:#8F6E20; background:#F7EFDC; border-radius:99px; padding:7px 14px;}
+  .estamp.v{color:#0B7E74; border-color:rgba(14,159,146,.5); background:rgba(14,159,146,.07);}
+  .vcrow{display:flex; align-items:center; gap:12px; justify-content:space-between; padding:10px 0; border-bottom:1px dashed var(--line-2); flex-wrap:wrap;}
+  .vcrow:last-child{border-bottom:0; padding-bottom:2px;}
+  .vcrow .vcr-l{display:flex; flex-direction:column; gap:2px; min-width:0;}
+  .vcrow .vcr-l b{font-size:13px; font-family:var(--serif);}
+  .vcrow .vcr-l span{font-size:11.5px; color:var(--ink-3);}
+  .vcrow .btn{padding:8px 16px; font-size:12.5px; text-decoration:none; display:inline-flex;}
+
   /* A4: 共有カード */
   #share-prev img{width:100%; height:auto; border-radius:12px; border:1px solid var(--line); box-shadow:var(--shadow-l,0 6px 20px rgba(30,28,20,.12)); display:block;}
   #share-prev .ldg{text-align:center; padding:38px 0; font-size:12.5px; color:var(--ink-3);}
@@ -1006,6 +1037,7 @@
         </div>
         <img class="hero-art" src="assets/hero_dictionary.png" alt="" loading="lazy" onerror="this.remove()">
       </div>
+      <div id="vcbn"></div>
       <div class="searchbox">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
         <input id="q" type="search" placeholder="社名・業界・職種・タグでひく" autocomplete="off" aria-label="さがす">
@@ -1110,6 +1142,7 @@
     <!-- イベント・説明会 -->
     <section class="view" id="v-events">
       <div class="hero"><h1>イベント・説明会</h1><p>会社説明会・仕事体験イベントの開催傾向（参考）です。</p></div>
+      <div id="vcevents"></div>
       <div class="evlist" id="eventlist"></div>
       <div class="foot">開催形式・時期は年度により変わります。必ず各社の採用サイトで最新情報をご確認ください。</div>
     </section>
@@ -1376,11 +1409,55 @@ function histTime(t){
 function esc(s){ return String(s).replace(/[&<>"']/g,function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
 function entryOf(no){ return store.entry[no]||{}; }
 function escHTML(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+/* ---- B5: V-careerイベント（開催日を過ぎたら自動非表示） ---- */
+function vcUpcoming(){
+  if(typeof VC_EVENTS==="undefined") return [];
+  var n=new Date(), iso=n.getFullYear()+"-"+("0"+(n.getMonth()+1)).slice(-2)+"-"+("0"+n.getDate()).slice(-2);
+  return VC_EVENTS.filter(function(e){ return e.date>=iso; });
+}
+function vcEventsOf(no){
+  return vcUpcoming().filter(function(e){ return (e.companies||[]).indexOf(no)>=0; });
+}
+function renderVcBanner(){
+  var box=el("vcbn"); if(!box) return;
+  var evs=vcUpcoming();
+  if(!evs.length){ box.innerHTML=""; return; }
+  var e=evs[0];
+  box.innerHTML='<button class="vcbanner" id="vcbn-go">'
+    +'<span class="vcb-tag">EVENT</span>'
+    +'<span class="vcb-body"><b>'+e.name+'</b><span>'+e.dateLabel+'　'+e.place+'／対象：'+e.target+'</span></span>'
+    +'<span class="vcb-arrow">くわしく →</span></button>';
+  el("vcbn-go").addEventListener("click",function(){ go("events"); });
+}
+function renderVcEvents(){
+  var box=el("vcevents"); if(!box) return;
+  var evs=vcUpcoming();
+  box.innerHTML = evs.length? evs.map(function(e){
+    var comps=(e.companies||[]).map(byNo).filter(Boolean);
+    return '<div class="vcv">'
+      +'<div class="vcv-head"><span class="vcb-tag">EVENT</span><b>'+e.name+'</b></div>'
+      +(e.catch?'<div class="vcv-catch">'+e.catch+'</div>':'')
+      +'<div class="vcv-meta">'
+        +'<span>'+icon("cal",13)+e.dateLabel+'</span>'
+        +(e.time?'<span>'+icon("clock",13)+e.time+'</span>':'')
+        +'<span>'+icon("pin",13)+e.place+'</span>'
+        +'<span>'+icon("users",13)+'対象：'+e.target+'</span>'
+      +'</div>'
+      +(e.desc?'<p class="vcv-desc">'+e.desc+'</p>':'')
+      +(comps.length?'<div class="vcv-comps"><span class="vcv-cl">出展企業</span>'+comps.map(function(d){ return '<button class="relchip" data-open="'+d.no+'">'+rcHTML(d)+d.name+'</button>'; }).join("")+'</div>':'')
+      +'<div class="vcv-act">'+(e.url?'<a class="btn" href="'+e.url+'" target="_blank" rel="noopener noreferrer">申込・くわしく見る</a>':'<span class="vc-soon">申込ページは近日公開</span>')+'</div>'
+    +'</div>';
+  }).join("") : "";
+  box.querySelectorAll("[data-open]").forEach(function(b){
+    b.addEventListener("click",function(){ openDetail(+b.dataset.open); });
+  });
+}
 function estampsHTML(no){
   var e=entryOf(no), s="";
   if(e.i) s+='<span class="estamp i">インターン応募済</span>';
   if(e.m) s+='<span class="estamp m">本選考応募済</span>';
   if(store.memos[no] && store.memos[no].t) s+='<span class="estamp n">メモ</span>';
+  if(vcEventsOf(no).length) s+='<span class="estamp v">V-career出展</span>';
   return '<span class="estamps" data-es="'+no+'">'+s+'</span>';
 }
 function toggleEntry(no,k){
@@ -2387,11 +2464,24 @@ function openDetail(no){
       +'<button class="btn ghost" id="d-axset" style="font-size:12.5px;padding:8px 16px">プロフィールを設定する</button></div>';
   }
 
+  /* B5: この企業に会えるイベント */
+  var vcp="";
+  var vcevs=vcEventsOf(no);
+  if(vcevs.length){
+    vcp='<div class="panel w2"><h3><span class="lbl">会える</span>この企業に会えるイベント</h3>'
+      +vcevs.map(function(e){
+        return '<div class="vcrow"><div class="vcr-l"><b>'+e.name+'</b><span>'+e.dateLabel+'　'+e.place+'／対象：'+e.target+'</span></div>'
+          +(e.url?'<a class="btn" href="'+e.url+'" target="_blank" rel="noopener noreferrer">申込・くわしく</a>':'<span class="vc-soon">申込ページは近日公開</span>')+'</div>';
+      }).join("")
+    +'</div>';
+  }
+
   /* 会社概要タブ：このタブだけで企業の全体像がつかめる「見開きダッシュボード」構成 */
   var tabOverview=''
     +'<div class="panel w2"><h3><span class="lbl">能力値</span>6項目・参考指標</h3><div class="radarwrap">'
       +'<div>'+radarSVG(d.stats,{size:200})+'</div>'
       +'<div class="axislist">'+axHTML+'</div></div></div>'
+    +vcp
     +mtcHTML
     +'<div class="panel"><h3><span class="lbl">環境</span>数字で見る働き方<small>（参考値）</small></h3>'
       +donutHTML
@@ -2728,6 +2818,7 @@ function renderIntern(){
   });
 }
 function renderEvents(){
+  renderVcEvents();
   var typeCls={"オンライン説明会":"t1","対面説明会":"t2","1day仕事体験":"t3","OB・OG座談会":"t4"};
   el("eventlist").innerHTML=DATA.map(function(d){
     return '<button class="evrow" data-open="'+d.no+'">'
@@ -2858,6 +2949,7 @@ function init(){
 
   renderSideCats(); renderSideJobs(); renderSideRegs();
   renderKana("kana-grid"); renderKana("kana-strip");
+  renderVcBanner();
   renderFilters(); syncFilterUI(); renderList();
   updateSeen(); refreshSavedBadges(); refreshCmpBadges(); refreshTodoBadge(); renderReco(); renderEmptyPanel();
 
