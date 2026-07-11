@@ -345,6 +345,9 @@
   .tag{font-size:11.5px; font-weight:700; color:var(--brand-d); background:var(--brand-t); border-radius:7px; padding:2px 8px;}
   .tag.sub{color:var(--ink-2); background:var(--line-2);}
   .tag.idx{color:var(--gold-d); background:var(--gold-t); cursor:pointer;}
+  .tag.catlink{cursor:pointer; transition:.13s; border:1px solid transparent;}
+  .tag.catlink:hover{background:var(--brand); color:#fff;}
+  .tag.catlink:focus-visible{outline:2px solid var(--brand); outline-offset:1px;}
   .tag.idx:hover{outline:1px solid var(--gold);}
   .card .facts{display:grid; grid-template-columns:1fr 1fr; gap:6px 12px; margin-top:11px; padding-top:11px; border-top:1px solid var(--line-2);}
   .fct{font-size:12px; color:var(--ink-3);}
@@ -968,6 +971,82 @@
   .modal .mrow{display:flex; gap:10px;}
   .modal .mrow .mf{flex:1;}
 
+  /* ---------- 付録：業界辞典 ---------- */
+  .ind-nav{display:flex; flex-wrap:wrap; gap:7px; position:sticky; top:0; z-index:5;
+    padding:12px 0 12px; margin:2px 0 6px; background:linear-gradient(var(--bg) 78%, transparent);}
+  .ind-nav button{flex:0 0 auto; display:flex; align-items:center; gap:7px; border:1px solid var(--line);
+    background:var(--surface); color:var(--ink-2); font-size:12.5px; font-weight:700; padding:7px 13px;
+    border-radius:99px; box-shadow:var(--shadow-s); transition:.14s;}
+  .ind-nav button:hover{border-color:var(--brand); color:var(--brand-d); transform:translateY(-1px);}
+  .ind-nav button .cdot{width:10px; height:10px; border-radius:99px; flex:0 0 auto;}
+  .ind-nav button .n{font-size:10.5px; color:var(--ink-3); font-variant-numeric:tabular-nums;}
+
+  .ind-entry{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+    box-shadow:var(--shadow-s); padding:0; margin:16px 0; overflow:hidden; scroll-margin-top:64px;
+    position:relative; animation:cardin .5s both;}
+  .ind-entry::before{content:""; position:absolute; left:0; top:0; bottom:0; width:6px; background:var(--icol);}
+  .ind-head{display:flex; align-items:flex-start; gap:14px; padding:20px 22px 14px 26px; flex-wrap:wrap;
+    border-bottom:1px solid var(--line-2); background:linear-gradient(180deg, var(--icol-t), transparent);}
+  .ind-head .hl{min-width:0; flex:1;}
+  .ind-head .kicker{font-size:10.5px; font-weight:800; letter-spacing:.14em; color:var(--icol-d);
+    text-transform:uppercase; display:flex; align-items:center; gap:7px;}
+  .ind-head .kicker .kno{font-family:var(--serif); font-size:11px; color:var(--ink-3); letter-spacing:.05em;}
+  .ind-head h2{font-family:var(--serif); font-size:27px; font-weight:700; margin:5px 0 3px; color:var(--ink);
+    letter-spacing:.02em; line-height:1.2;}
+  .ind-head .yomi{font-size:12px; color:var(--ink-3); font-weight:700;}
+  .ind-head .cnt{flex:0 0 auto; text-align:right;}
+  .ind-head .cnt .big{font-family:var(--serif); font-size:26px; font-weight:700; color:var(--icol-d); line-height:1;}
+  .ind-head .cnt .lbl{font-size:10.5px; color:var(--ink-3); font-weight:700; margin-top:2px;}
+  .ind-head .cnt .go{margin-top:8px; border:1px solid var(--icol); background:var(--surface); color:var(--icol-d);
+    font-size:11.5px; font-weight:800; padding:6px 12px; border-radius:99px; white-space:nowrap; transition:.14s;
+    display:inline-flex; align-items:center; gap:5px;}
+  .ind-head .cnt .go:hover{background:var(--icol); color:#fff;}
+  @media(max-width:560px){
+    .ind-head{flex-direction:column; gap:10px;}
+    .ind-head .cnt{text-align:left; display:flex; align-items:center; gap:8px 12px; flex-wrap:wrap; width:100%;}
+    .ind-head .cnt .big{font-size:22px;}
+    .ind-head .cnt .lbl{margin-top:0;}
+    .ind-head .cnt .go{margin-top:0; margin-left:auto;}
+  }
+
+  .ind-lead{font-family:var(--serif); font-size:16.5px; font-weight:700; color:var(--ink); line-height:1.65;
+    padding:16px 22px 4px 26px; position:relative;}
+  .ind-lead::before{content:"“"; font-family:var(--serif); color:var(--icol); font-size:34px; line-height:0;
+    position:relative; top:8px; margin-right:2px;}
+  .ind-body{padding:12px 22px 20px 26px;}
+  .ind-grid{display:grid; grid-template-columns:1fr; gap:12px; margin-top:8px;}
+  @media(min-width:760px){ .ind-grid{grid-template-columns:1fr 1fr;} .ind-grid .w2{grid-column:1/-1;} }
+  .ind-grid .panel{margin:0;}
+  .ind-grid .panel h3 .lbl{background:var(--icol-t); color:var(--icol-d);}
+
+  .ind-fit{display:grid; gap:8px;}
+  .ind-fit .f{display:flex; gap:9px; align-items:flex-start; font-size:13px; font-weight:700; color:var(--ink); line-height:1.5;}
+  .ind-fit .f .ck{flex:0 0 auto; width:19px; height:19px; border-radius:99px; background:var(--icol); color:#fff;
+    display:grid; place-items:center; margin-top:1px;}
+  .ind-myths{display:grid; gap:11px;}
+  .ind-myth{border:1px solid var(--line-2); border-radius:10px; padding:11px 13px; background:var(--bg);}
+  .ind-myth .m{font-size:12.5px; font-weight:800; color:var(--ink-2); display:flex; gap:7px; align-items:flex-start; line-height:1.5;}
+  .ind-myth .m .x{flex:0 0 auto; width:17px; height:17px; border-radius:5px; background:#FBEFEA; color:#B3402F;
+    display:grid; place-items:center; font-size:11px; font-weight:900; margin-top:1px;}
+  .ind-myth .r{font-size:12.5px; font-weight:700; color:var(--ink); display:flex; gap:7px; align-items:flex-start;
+    line-height:1.6; margin-top:7px;}
+  .ind-myth .r .o{flex:0 0 auto; width:17px; height:17px; border-radius:5px; background:var(--brand-t); color:var(--brand-d);
+    display:grid; place-items:center; font-size:11px; font-weight:900; margin-top:1px;}
+  .ind-scale{font-size:13px; font-weight:600; color:var(--ink); line-height:1.75;}
+
+  .ind-companies{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:9px; margin-top:2px;}
+  .indco{display:flex; align-items:center; gap:10px; border:1px solid var(--line); background:var(--surface);
+    border-radius:10px; padding:9px 11px; text-align:left; transition:.14s; min-width:0;}
+  .indco:hover{border-color:var(--icol); box-shadow:var(--shadow-s); transform:translateY(-1px);}
+  .indco .tx{min-width:0;}
+  .indco .nm{font-size:12.5px; font-weight:800; color:var(--ink); overflow:hidden; text-overflow:ellipsis;
+    white-space:nowrap; display:block;}
+  .indco .fd{font-size:10.5px; font-weight:700; color:var(--ink-3); overflow:hidden; text-overflow:ellipsis;
+    white-space:nowrap; display:block;}
+  .ind-keys{display:flex; flex-wrap:wrap; gap:7px;}
+  .ind-keys span{font-size:11.5px; font-weight:700; color:var(--icol-d); background:var(--icol-t);
+    border:1px solid var(--icol-b); border-radius:99px; padding:4px 11px;}
+
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{animation-duration:.01s!important; animation-delay:0s!important; transition-duration:.01s!important;}
   }
@@ -1018,6 +1097,7 @@
         <button data-go="list" aria-current="true"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></span>企業をさがす</button>
         <button data-go="rank"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12H4a1 1 0 0 1-1-1v-10a1 1 0 0 1 1-1h3z"/><path d="M7 11l4.2-8a2 2 0 0 1 2.6-1 2 2 0 0 1 1.2 2.3L14 9h5.4a2 2 0 0 1 2 2.4l-1.7 8a2 2 0 0 1-2 1.6H7"/></svg></span>人気企業ランキング</button>
         <button data-go="feature"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.6L20 10l-5 3.8L16.5 20 12 16.6 7.5 20 9 13.8 4 10l6.1-1.4L12 3z"/></svg></span>特集</button>
+        <button data-go="industry"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v18H6.5A2.5 2.5 0 0 0 4 22.5V4.5z"/><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M9 7h7M9 10.5h5"/></svg></span>業界辞典</button>
       </nav>
       <div class="snav">
         <button class="acc-h" id="acc-cat" aria-expanded="true"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v16M14 9h4a1 1 0 0 1 1 1v11"/><path d="M8 8h2M8 12h2M8 16h2"/></svg></span>業界からさがす<svg class="achev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
@@ -1070,6 +1150,7 @@
       </div>
       <div class="qlinks" id="qlinks">
         <button data-go="feature"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.6L20 10l-5 3.8L16.5 20 12 16.6 7.5 20 9 13.8 4 10l6.1-1.4L12 3z"/></svg>特集</button>
+        <button data-go="industry"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v18H6.5A2.5 2.5 0 0 0 4 22.5V4.5z"/><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/></svg>業界辞典</button>
         <button data-go="rank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M8 21V10M12 21V3M16 21v-7"/><path d="M4 21h16"/></svg>ランキング</button>
         <button data-go="intern"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21v-1a7 7 0 0 1 12-5"/></svg>インターン</button>
         <button data-go="events"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>説明会</button>
@@ -1227,6 +1308,14 @@
       <div class="hero"><h1>閲覧・検索の履歴</h1><p>あなたが調べた企業・検索した言葉・見た業界のきろくです。<b>この端末にのみ保存され、外部には送信されません。</b></p></div>
       <div id="history-box"></div>
       <div class="foot">履歴はこの端末のブラウザ内（localStorage）にのみ保存されます。「すべて消す」でいつでも削除できます。</div>
+    </section>
+
+    <!-- 付録：業界辞典 -->
+    <section class="view" id="v-industry">
+      <div class="hero"><h1>付録：業界辞典</h1><p>就活の第一歩は「業界を知ること」から。7つの業界を、辞典の見開きページのように読み解きます。</p></div>
+      <div class="ind-nav" id="ind-nav"></div>
+      <div id="industry-box"></div>
+      <div class="foot">業界の解説は、就活生が全体像をつかむための入門的な整理です（編集部まとめ・参考）。分類・規模感はおおまかな目安で、企業によって実態は異なります。掲載企業は本辞典に収録されている会社の一覧です。</div>
     </section>
   </main>
 
@@ -2415,6 +2504,87 @@ function renderHistory(){
   });
 }
 
+/* ============================ 付録：業界辞典 ============================ */
+function renderIndustry(){
+  var nav=el("ind-nav"), box=el("industry-box");
+  var inds=(typeof INDUSTRIES!=="undefined" && INDUSTRIES)?INDUSTRIES:[];
+  if(!inds.length){
+    nav.innerHTML="";
+    box.innerHTML='<div class="empty"><div class="ic">📖</div><p>業界のデータがまだありません。</p><p style="font-size:12.5px">data.js の INDUSTRIES に業界を追加すると、ここに表示されます。</p></div>';
+    return;
+  }
+  var chk='<span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>';
+  /* 上部：業界ジャンプ索引 */
+  nav.innerHTML=inds.map(function(ind,i){
+    var col=CATCOLOR[ind.cat]||"#0E9F92";
+    var n=DATA.filter(function(d){return d.cat===ind.cat;}).length;
+    return '<button data-jump="'+i+'"><span class="cdot" style="background:'+col+'"></span>'+esc(ind.cat)+'<span class="n">'+n+'</span></button>';
+  }).join("");
+  /* 各業界の見開き */
+  box.innerHTML=inds.map(function(ind,i){
+    var col=CATCOLOR[ind.cat]||"#0E9F92";
+    var comps=DATA.filter(function(d){return d.cat===ind.cat;});
+    var fitHTML=(ind.fit||[]).map(function(f){ return '<div class="f">'+chk+esc(f)+'</div>'; }).join("");
+    var mythHTML=(ind.myths||[]).map(function(m){
+      return '<div class="ind-myth"><div class="m"><span class="x">誤</span>'+esc(m.m)+'</div>'
+        +'<div class="r"><span class="o">実</span>'+esc(m.r)+'</div></div>';
+    }).join("");
+    var jobsHTML=(ind.jobs||[]).map(function(j){ return '<span>'+icon("doc",12)+esc(j)+'</span>'; }).join("");
+    var keysHTML=(ind.keys||[]).map(function(k){ return '<span>'+esc(k)+'</span>'; }).join("");
+    var cosHTML=comps.length
+      ? comps.map(function(d){
+          return '<button class="indco" data-open="'+d.no+'">'+crestHTML(d)
+            +'<span class="tx"><span class="nm">'+esc(d.name)+'</span><span class="fd">'+esc(d.field)+'</span></span></button>';
+        }).join("")
+      : '<p class="mtc-note" style="grid-column:1/-1;margin:0">この業界の企業は、これから収録していきます。</p>';
+    return '<article class="ind-entry" id="ind-'+i+'" style="--icol:'+col+';--icol-t:'+col+'18;--icol-d:'+col+';--icol-b:'+col+'55">'
+      +'<div class="ind-head">'
+        +'<div class="hl">'
+          +'<div class="kicker">業界ガイド<span class="kno">No.'+pad3(i+1)+' / '+inds.length+'</span></div>'
+          +'<h2>'+esc(ind.cat)+'</h2>'
+          +'<div class="yomi">'+esc(ind.kana||"")+'</div>'
+        +'</div>'
+        +'<div class="cnt">'
+          +'<div class="big">'+comps.length+'</div><div class="lbl">この辞典の掲載社数</div>'
+          +'<button class="go" data-goind="'+esc(ind.cat)+'">この業界の企業をさがす<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>'
+        +'</div>'
+      +'</div>'
+      +'<div class="ind-lead">'+esc(ind.tagline||"")+'</div>'
+      +'<div class="ind-body"><div class="ind-grid">'
+        +'<div class="panel w2"><h3><span class="lbl">概観</span>どんな業界？</h3><p class="ind-scale">'+esc(ind.scale||"")+'</p></div>'
+        +'<div class="panel"><h3><span class="lbl">職種</span>主な職種</h3><div class="chips2">'+jobsHTML+'</div></div>'
+        +'<div class="panel"><h3><span class="lbl">相性</span>向いている人</h3><div class="ind-fit">'+fitHTML+'</div></div>'
+        +'<div class="panel w2"><h3><span class="lbl">注意</span>よくある誤解<small>（イメージと実際）</small></h3><div class="ind-myths">'+mythHTML+'</div></div>'
+        +'<div class="panel w2"><h3><span class="lbl">企業</span>この辞典に載っている'+esc(ind.cat)+'の企業<small>（'+comps.length+'社）</small></h3><div class="ind-companies">'+cosHTML+'</div></div>'
+        +(keysHTML?'<div class="panel w2"><h3><span class="lbl">語句</span>関連キーワード</h3><div class="ind-keys">'+keysHTML+'</div></div>':'')
+      +'</div></div>'
+    +'</article>';
+  }).join("");
+  /* 配線 */
+  nav.querySelectorAll("[data-jump]").forEach(function(b){
+    b.addEventListener("click",function(){ var e=el("ind-"+b.dataset.jump); if(e) e.scrollIntoView({behavior:"smooth",block:"start"}); });
+  });
+  box.querySelectorAll(".indco[data-open]").forEach(function(b){
+    b.addEventListener("click",function(){ openDetail(+b.dataset.open); });
+  });
+  box.querySelectorAll("[data-goind]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var c=b.dataset.goind; state.cat=c; state.page=1;
+      histAdd({k:"i",cat:c}); renderSideCats(); go("list"); syncFilterUI(); renderList();
+    });
+  });
+}
+/* 業界名タップ→業界辞典を開き、その業界までスクロール（詳細の業界タグ等から） */
+function openIndustry(cat){
+  go("industry");
+  histAdd({k:"i",cat:cat});
+  var idx=-1;
+  if(typeof INDUSTRIES!=="undefined" && INDUSTRIES){
+    for(var i=0;i<INDUSTRIES.length;i++){ if(INDUSTRIES[i].cat===cat){ idx=i; break; } }
+  }
+  if(idx>=0){ var e=el("ind-"+idx); if(e) setTimeout(function(){ e.scrollIntoView({behavior:"smooth",block:"start"}); },70); }
+}
+
 /* ===== ログインボーナス（連続でひらいた日数・称号） ===== */
 var VISIT_TITLES=[[100,"百日の辞典マスター"],[50,"五十日の賢者"],[30,"ひと月の研究家"],[14,"二週間の愛読者"],[7,"一週間の常連"],[3,"三日の読者"]];
 function visitTitle(n){
@@ -2764,7 +2934,7 @@ function openDetail(no){
     +'<div class="dbody">'
     +'<div class="headword">'
       +'<div class="yomi"><span class="kbr">【'+kanaBr+'】</span>'+d.kana+'</div>'
-      +'<h2>'+d.name+(d.official?'<span class="ochip">'+OBADGE+'企業公認</span>':'')+(matchOf(d)!=null?'<span class="mtch">相性 <b>'+matchOf(d)+'%</b></span>':'')+'<span class="tag">'+d.cat+'</span></h2>'
+      +'<h2>'+d.name+(d.official?'<span class="ochip">'+OBADGE+'企業公認</span>':'')+(matchOf(d)!=null?'<span class="mtch">相性 <b>'+matchOf(d)+'%</b></span>':'')+'<span class="tag catlink" role="button" tabindex="0" data-goind2="'+esc(d.cat)+'" title="「'+esc(d.cat)+'」業界を業界辞典で見る">'+d.cat+'</span></h2>'
       +'<div class="en">'+d.en+'<span class="code">証券コード '+d.code+'</span></div>'
     +'</div>'
     +'<div class="dcatch">'+d.catch+'</div>'
@@ -2876,6 +3046,11 @@ function openDetail(no){
       el("qclr").style.display="block"; state.page=1;
       closeDetail(); go("list"); renderList();
     });
+  });
+  el("detail-body").querySelectorAll("[data-goind2]").forEach(function(t){
+    function open(){ closeDetail(); openIndustry(t.dataset.goind2); }
+    t.addEventListener("click",open);
+    t.addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); open(); } });
   });
   /* 一覧側の「選択中」枠を更新 */
   document.querySelectorAll(".card[data-open]").forEach(function(c){
@@ -3104,7 +3279,7 @@ function toggleUserMenu(){
 }
 
 /* ============================ ナビ ============================ */
-var VIEWS=["list","compare","saved","later","feature","intern","events","rank","todo","fortune","shindan","history","concierge"];
+var VIEWS=["list","compare","saved","later","feature","intern","events","rank","todo","fortune","shindan","history","concierge","industry"];
 function setView(v){
   state.view=v;
   VIEWS.forEach(function(k){ var e=el("v-"+k); if(e) e.classList.toggle("on", k===v); });
@@ -3126,6 +3301,7 @@ function go(v){
   if(v==="shindan") renderShindan();
   if(v==="history") renderHistory();
   if(v==="concierge") renderConcierge();
+  if(v==="industry") renderIndustry();
   setView(v);
   window.scrollTo(0,0);
 }

@@ -46,7 +46,8 @@
   <div id="out">読み込み中…</div>
   <p class="foot">
     チェック内容：必須項目／型／語彙（CATS・REGIONS・JOBS・WELFARES）／No.の重複・連番／能力値0–100／
-    読みがな（ひらがな）／タグの#始まり／相互参照(rel)の実在／ロゴ画像ファイルの実在／数値の常識レンジ　ほか
+    読みがな（ひらがな）／タグの#始まり／相互参照(rel)の実在／ロゴ画像ファイルの実在／数値の常識レンジ／
+    業界辞典（INDUSTRIES）の cat・必須項目・誤解の形　ほか
   </p>
 </div>
 
@@ -161,6 +162,33 @@
   /* 連番チェック（全体） */
   var sorted=allNos.slice().sort(function(a,b){return a-b;});
   for(var i=0;i<sorted.length;i++){ if(sorted[i]!==i+1){ W(null,"no が 1〜"+DATA.length+" の連番になっていません（欠番や飛びがあります）"); break; } }
+
+  /* ---- 業界辞典（INDUSTRIES）チェック ---- */
+  if(typeof INDUSTRIES==="undefined"){
+    W(null,"INDUSTRIES（業界辞典）が未定義です（業界辞典ページが空になります）");
+  } else if(!isArr(INDUSTRIES)){
+    E({no:null,name:"業界辞典"},"INDUSTRIES が配列ではありません");
+  } else {
+    var seenCat={};
+    INDUSTRIES.forEach(function(ind){
+      var t={no:null, name:"業界辞典（"+(ind&&isStr(ind.cat)?ind.cat:"?")+"）"};
+      if(!isStr(ind.cat)){ E(t,"cat が空です"); return; }
+      if(CATS.indexOf(ind.cat)<0) E(t,"cat「"+ind.cat+"」が CATS にありません");
+      if(seenCat[ind.cat]) E(t,"cat「"+ind.cat+"」が重複しています");
+      seenCat[ind.cat]=true;
+      if(!isStr(ind.kana)) E(t,"kana が空です");
+      else if(!/^[ぁ-ゖー・]+$/.test(ind.kana)) W(t,"kana「"+ind.kana+"」にひらがな・「・」「ー」以外が含まれています");
+      if(!isStr(ind.tagline)) E(t,"tagline（ひとことで言うと）が空です");
+      if(!isStr(ind.scale)) E(t,"scale（どんな業界か）が空です");
+      if(!isArr(ind.fit)||!ind.fit.length) E(t,"fit（向いている人）が空です");
+      if(!isArr(ind.jobs)||!ind.jobs.length) E(t,"jobs（主な職種）が空です");
+      if(!isArr(ind.myths)||!ind.myths.length) E(t,"myths（よくある誤解）が空です");
+      else ind.myths.forEach(function(m,mi){ if(!m||!isStr(m.m)||!isStr(m.r)) E(t,"myths["+mi+"] は {m:誤解, r:実際} の形にしてください"); });
+      if(ind.keys!==undefined && !isArr(ind.keys)) E(t,"keys は配列にしてください");
+      if(isStr(ind.cat) && DATA.filter(function(d){return d.cat===ind.cat;}).length===0) W(t,"この業界に該当する企業が0社です（掲載企業欄が空になります）");
+    });
+    CATS.forEach(function(c){ if(!seenCat[c]) W({no:null,name:"業界辞典（"+c+"）"},"業界「"+c+"」の解説が INDUSTRIES にありません"); });
+  }
 
   /* ---- 描画 ---- */
   function render(logoResults){
