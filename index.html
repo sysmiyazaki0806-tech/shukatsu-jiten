@@ -46,7 +46,7 @@
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   html{scroll-behavior:smooth;}
-  html,body{overflow-x:hidden;}
+  html,body{overflow-x:clip;} /* clip=横はみ出しを抑えつつ position:sticky を有効に保つ（hiddenはstickyを無効化する） */
   body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
     font-size:15px; line-height:1.7; letter-spacing:.01em; -webkit-font-smoothing:antialiased;
     /* ごく薄い紙のドットムラ（辞典の紙面感） */
@@ -569,6 +569,16 @@
   .dfoot{margin-top:18px; padding:12px 2px 4px; border-top:3px double var(--line); font-size:10.5px; color:var(--ink-3); line-height:1.8;
     display:flex; justify-content:space-between; gap:12px; align-items:flex-end;}
   .dfoot .pgno{font-family:var(--serif); font-weight:700; white-space:nowrap; color:var(--ink-2);}
+
+  /* PC/タブレット：企業詳細はページと一緒にスクロール（内部スクロールで“切れて見える”のを防ぐ）。
+     見出しの柱（×閉じる）とタブは画面上部に追従を維持。 */
+  @media(min-width:780px){
+    aside.dcol{align-self:start;}
+    .dcol-in{position:static; height:auto; max-height:none; overflow:visible; overscroll-behavior:auto;}
+    .d-empty{height:auto; min-height:calc(100vh - 120px);}
+    .runbar{top:57px;}
+    .dtabs{top:103px;}
+  }
 
   @media(max-width:779px){
     aside.dcol{display:none;}
