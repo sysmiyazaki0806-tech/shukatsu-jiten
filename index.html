@@ -806,6 +806,19 @@
   .slb-t{display:flex; flex-direction:column; min-width:0; line-height:1.35;}
   .slb-t b{font-size:13px; font-weight:800; color:var(--brand-d); font-family:var(--serif);}
   .slb-t span{font-size:10.5px; font-weight:700; color:var(--ink-3);}
+  /* 称号コレクション（ログインボーナスページ） */
+  .bonus-p{max-width:580px;}
+  .ttl-list{display:grid; gap:8px; margin-top:4px;}
+  .ttl{display:flex; align-items:center; gap:12px; padding:11px 13px; border:1px solid var(--line-2); border-radius:10px; background:var(--bg); opacity:.6;}
+  .ttl.got{opacity:1; background:var(--surface); border-color:var(--brand-t);}
+  .ttl .tt-d{flex:0 0 auto; width:52px; text-align:center; font-family:var(--serif); font-weight:800; font-size:19px; color:var(--ink-3); font-variant-numeric:tabular-nums;}
+  .ttl.got .tt-d{color:var(--brand-d);}
+  .ttl .tt-d small{font-size:10px; font-weight:700; margin-left:1px;}
+  .ttl .tt-n{flex:1; min-width:0; font-family:var(--serif); font-weight:800; font-size:14px; color:var(--ink);}
+  .ttl:not(.got) .tt-n{color:var(--ink-3);}
+  .ttl .tt-s{flex:0 0 auto; display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:800; color:var(--ink-3);}
+  .ttl.got .tt-s{color:var(--brand-d);}
+  .ttl.got .tt-s svg{color:var(--brand);}
 
   .fcard{max-width:580px; background:var(--surface); border:1px solid var(--line); border-radius:var(--r-s); padding:26px 24px 22px; position:relative; overflow:hidden;}
   .fcard::before{content:""; position:absolute; left:0; right:0; top:0; height:4px; background:linear-gradient(90deg,var(--brand),#B08A2E);}
@@ -1224,6 +1237,7 @@
         <button data-go="todo"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.5l2.5 2.5 5-5.5"/></svg></span>やることリスト<span class="cnt" id="snav-todo" style="display:none">0</span></button>
         <button data-go="pipeline"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h4v14H4zM10 5h4v9h-4zM16 5h4v5h-4z"/></svg></span>選考ダッシュボード<span class="cnt b" id="snav-pipe" style="display:none">0</span></button>
         <button data-go="fortune"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.4 4.2L18 8.5l-4.6 1.3L12 14l-1.4-4.2L6 8.5l4.6-1.3L12 3z"/><path d="M19 14l.7 2.1L22 16.8l-2.3.7L19 19.6l-.7-2.1-2.3-.7 2.3-.7L19 14z"/><path d="M6 16l.6 1.7 1.9.6-1.9.6L6 20.6l-.6-1.7-1.9-.6 1.9-.6L6 16z"/></svg></span>今日の就活占い</button>
+        <button data-go="bonus"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 3-1 4.5-2.3 6C8 9.7 7 11.2 7 13.5A5 5 0 0 0 17 14c0-2-1-3.3-1.7-4.2C17 11 18 12.6 18 14.5A6 6 0 1 1 6.6 11C8.5 7 12 6.5 12 2z"/></svg></span>ログインボーナス</button>
         <button data-go="shindan"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z"/></svg></span>就活タイプ診断</button>
         <button data-go="concierge"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8H4l2.2-2.6A8 8 0 1 1 21 12z"/><path d="M8 10h8M8 14h5"/></svg></span>コンシェルジュ</button>
         <button data-go="history"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 4v4h4"/><path d="M12 8v4l3 2"/></svg></span>閲覧・検索の履歴</button>
@@ -1268,6 +1282,7 @@
         <button data-go="todo"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.5l2.5 2.5 5-5.5"/></svg>やること</button>
         <button data-go="pipeline"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h4v14H4zM10 5h4v9h-4zM16 5h4v5h-4z"/></svg>選考状況</button>
         <button data-go="fortune"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.4 4.2L18 8.5l-4.6 1.3L12 14l-1.4-4.2L6 8.5l4.6-1.3L12 3z"/></svg>占い</button>
+        <button data-go="bonus"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 3-1 4.5-2.3 6C8 9.7 7 11.2 7 13.5A5 5 0 0 0 17 14c0-2-1-3.3-1.7-4.2C17 11 18 12.6 18 14.5A6 6 0 1 1 6.6 11C8.5 7 12 6.5 12 2z"/></svg>ログボ</button>
         <button data-go="shindan"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z"/></svg>タイプ診断</button>
         <button data-go="concierge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8H4l2.2-2.6A8 8 0 1 1 21 12z"/><path d="M8 10h8M8 14h5"/></svg>相談</button>
         <button data-go="history"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 4v4h4"/><path d="M12 8v4l3 2"/></svg>履歴</button>
@@ -1401,6 +1416,13 @@
     <section class="view" id="v-fortune">
       <div class="hero"><h1>今日の就活占い</h1><p>日付とプロフィールのおなまえから、今日の就活運をひらきます。（毎日更新）</p></div>
       <div id="fortune-box"></div>
+    </section>
+
+    <!-- ログインボーナス -->
+    <section class="view" id="v-bonus">
+      <div class="hero"><h1>ログインボーナス</h1><p>アプリを毎日ひらくと連続日数がたまり、節目で称号がもらえます。（この端末にのみ記録）</p></div>
+      <div id="bonus-box"></div>
+      <div class="foot">連続ログイン日数・称号はこの端末のブラウザ内（localStorage）にのみ保存され、外部には送信されません。</div>
     </section>
 
     <!-- 就活タイプ診断 -->
@@ -2851,10 +2873,27 @@ function loginBonusHTML(){
 function renderSideLB(){
   var box=el("side-lb"); if(!box) return;
   var v=store.visit||{}, s=v.streak||1, title=visitTitle(s);
-  box.innerHTML='<button class="slb" data-go="fortune" title="ログインボーナスをひらく">'
+  box.innerHTML='<button class="slb" data-go="bonus" title="ログインボーナスをひらく">'
     +'<span class="slb-f"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 3-1 4.5-2.3 6C8 9.7 7 11.2 7 13.5A5 5 0 0 0 17 14c0-2-1-3.3-1.7-4.2C17 11 18 12.6 18 14.5A6 6 0 1 1 6.6 11C8.5 7 12 6.5 12 2z"/></svg></span>'
     +'<span class="slb-t"><b>連続'+s+'日</b>'+(title?'<span>'+title+'</span>':'<span>ログインボーナス</span>')+'</span></button>';
-  box.querySelector("[data-go]").addEventListener("click",function(){ go("fortune"); });
+  box.querySelector("[data-go]").addEventListener("click",function(){ go("bonus"); });
+}
+/* ログインボーナス（独立ページ）＝占いとは別 */
+function renderBonus(){
+  var box=el("bonus-box"); if(!box) return;
+  var v=store.visit||{}, best=Math.max(v.best||0, v.streak||1);
+  var chk='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  var titles=VISIT_TITLES.slice().reverse().map(function(t){
+    var day=t[0], name=t[1], got=best>=day;
+    return '<div class="ttl'+(got?' got':'')+'">'
+      +'<span class="tt-d">'+day+'<small>日</small></span>'
+      +'<span class="tt-n">'+name+'</span>'
+      +'<span class="tt-s">'+(got?chk+'獲得':'未獲得')+'</span></div>';
+  }).join("");
+  box.innerHTML=loginBonusHTML()
+    +'<div class="panel bonus-p"><h3><span class="lbl">称号</span>称号コレクション<small>（連続ログイン日数で獲得）</small></h3>'
+      +'<div class="ttl-list">'+titles+'</div>'
+      +'<p class="mtc-note">アプリを毎日ひらくと連続日数が1つずつ増えます（前日にひらいていれば継続、1日あくとリセット）。獲得した称号は<b>最長記録</b>にもとづくので、連続がとぎれても消えません。記録はこの端末にのみ保存されます。</p></div>';
 }
 function checkVisit(){
   var n=new Date();
@@ -2893,7 +2932,7 @@ function fortuneOf(){
 function fstars(n){ var s=""; for(var i=0;i<5;i++){ s+= i<n?"★":"☆"; } return s; }
 function renderFortune(){
   var f=fortuneOf(), name=(store.profile&&store.profile.name);
-  el("fortune-box").innerHTML=loginBonusHTML()+'<div class="fcard">'
+  el("fortune-box").innerHTML='<div class="fcard">'
     +'<div class="f-date">'+todayKey().replace(/-/g,". ")+'　'+(name? name+"さんの" : "あなたの")+'就活運</div>'
     +'<div class="f-lv">'+f.lv.name+'</div>'
     +'<div class="f-stars">'+fstars(f.lv.star)+'</div>'
@@ -3007,13 +3046,20 @@ function renderEmptyPanel(){
   var fo=fortuneOf();
   html+='<div class="dpw"><div class="dph">今日の就活占い</div>'
     +'<button data-gofortune><span style="font-family:var(--serif);font-size:17px;font-weight:800;color:var(--brand-d)">'+fo.lv.name+'</span>'
-    +'<span class="t" style="color:#B08A2E;letter-spacing:2px">'+fstars(fo.lv.star)+'</span><span class="a">連続'+(store.visit.streak||1)+'日目・タップで運勢をひらく →</span></button></div>';
+    +'<span class="t" style="color:#B08A2E;letter-spacing:2px">'+fstars(fo.lv.star)+'</span><span class="a">タップで今日の運勢をひらく →</span></button></div>';
+  var lv=store.visit||{}, ls=lv.streak||1, lt=visitTitle(ls);
+  html+='<div class="dpw"><div class="dph">ログインボーナス</div>'
+    +'<button data-gobonus><span style="font-family:var(--serif);font-size:17px;font-weight:800;color:var(--brand-d)">連続'+ls+'日目</span>'
+    +'<span class="a">'+(lt?'称号「'+lt+'」・':'')+'タップでくわしく →</span></button></div>';
   box.innerHTML=html;
   box.querySelectorAll("[data-open]").forEach(function(b){
     b.addEventListener("click",function(){ openDetail(+b.dataset.open); });
   });
   box.querySelectorAll("[data-gofortune]").forEach(function(b){
     b.addEventListener("click",function(){ go("fortune"); });
+  });
+  box.querySelectorAll("[data-gobonus]").forEach(function(b){
+    b.addEventListener("click",function(){ go("bonus"); });
   });
 }
 
@@ -3556,7 +3602,7 @@ function toggleUserMenu(){
 }
 
 /* ============================ ナビ ============================ */
-var VIEWS=["list","compare","saved","later","feature","intern","events","rank","todo","pipeline","fortune","shindan","history","concierge","industry"];
+var VIEWS=["list","compare","saved","later","feature","intern","events","rank","todo","pipeline","fortune","bonus","shindan","history","concierge","industry"];
 function setView(v){
   state.view=v;
   VIEWS.forEach(function(k){ var e=el("v-"+k); if(e) e.classList.toggle("on", k===v); });
@@ -3576,6 +3622,7 @@ function go(v){
   if(v==="todo") renderTodo();
   if(v==="pipeline") renderPipeline();
   if(v==="fortune") renderFortune();
+  if(v==="bonus") renderBonus();
   if(v==="shindan") renderShindan();
   if(v==="history") renderHistory();
   if(v==="concierge") renderConcierge();
@@ -3597,8 +3644,8 @@ function init(){
   renderKana("kana-grid"); renderKana("kana-strip");
   renderVcBanner();
   renderFilters(); syncFilterUI(); renderList();
+  checkVisit(); /* 先に連続日数を更新してから、それを表示する描画を行う */
   updateSeen(); refreshSavedBadges(); refreshCmpBadges(); refreshTodoBadge(); refreshPipeBadge(); renderReco(); renderEmptyPanel();
-  checkVisit();
   renderSideLB();
 
   /* やることリスト：企業選択肢＋追加・保存 */
