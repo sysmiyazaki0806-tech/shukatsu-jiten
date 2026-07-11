@@ -776,6 +776,37 @@
   .mtc-bonus{display:inline-block; font-size:11px; font-weight:800; color:#8F6E20; background:#F7EFDC; border-radius:99px; padding:3px 10px; margin-top:9px;}
 
   /* A1.5: 今日の就活占い */
+  /* ログインボーナス（目立つカード） */
+  .lbcard{max-width:580px; margin:0 0 14px; background:linear-gradient(135deg,#0E9F92,#0B7E74); color:#fff;
+    border-radius:var(--r-s); padding:18px 20px; box-shadow:0 8px 22px rgba(11,126,116,.28); position:relative; overflow:hidden;}
+  .lbcard::after{content:""; position:absolute; right:-30px; top:-30px; width:130px; height:130px; border-radius:99px;
+    background:radial-gradient(circle,rgba(255,255,255,.16),transparent 70%);}
+  .lb-top{display:flex; align-items:center; gap:12px; position:relative;}
+  .lb-flame{width:44px; height:44px; border-radius:12px; background:rgba(255,255,255,.16); display:grid; place-items:center; color:#FFE08A; flex:0 0 auto;}
+  .lb-head{display:flex; flex-direction:column; min-width:0;}
+  .lb-k{font-size:11px; font-weight:800; letter-spacing:.14em; color:rgba(255,255,255,.82);}
+  .lb-streak{font-size:15px; font-weight:700; font-family:var(--serif);}
+  .lb-streak b{font-size:26px; margin:0 2px; color:#FFE08A; font-variant-numeric:tabular-nums;}
+  .lb-badge{margin-left:auto; flex:0 0 auto; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.35);
+    color:#fff; font-size:11.5px; font-weight:800; padding:4px 11px; border-radius:99px; font-family:var(--serif);}
+  .lb-prog{margin-top:14px; position:relative;}
+  .lb-bar{height:8px; border-radius:99px; background:rgba(255,255,255,.22); overflow:hidden;}
+  .lb-bar i{display:block; height:100%; border-radius:99px; background:linear-gradient(90deg,#FFE08A,#FFF2CC); transition:width .6s;}
+  .lb-nx{font-size:11.5px; font-weight:700; color:rgba(255,255,255,.92); margin-top:7px;}
+  .lb-nx b{color:#FFE08A;}
+  .lb-stats{display:flex; align-items:center; gap:12px; margin-top:12px; font-size:12px; font-weight:700; color:rgba(255,255,255,.9);}
+  .lb-stats b{color:#fff; font-size:14px; font-variant-numeric:tabular-nums;}
+  .lb-stats .sep{width:1px; height:12px; background:rgba(255,255,255,.3);}
+  /* サイドバー常時表示のミニ */
+  .side-lb{margin:8px 12px 0;}
+  .slb{display:flex; align-items:center; gap:9px; width:100%; text-align:left; border:1px solid var(--brand-t);
+    background:linear-gradient(135deg,var(--brand-t2),#fff); border-radius:11px; padding:9px 11px; transition:.14s;}
+  .slb:hover{border-color:var(--brand); box-shadow:var(--shadow-s);}
+  .slb-f{width:26px; height:26px; border-radius:8px; background:var(--brand); color:#FFE08A; display:grid; place-items:center; flex:0 0 auto;}
+  .slb-t{display:flex; flex-direction:column; min-width:0; line-height:1.35;}
+  .slb-t b{font-size:13px; font-weight:800; color:var(--brand-d); font-family:var(--serif);}
+  .slb-t span{font-size:10.5px; font-weight:700; color:var(--ink-3);}
+
   .fcard{max-width:580px; background:var(--surface); border:1px solid var(--line); border-radius:var(--r-s); padding:26px 24px 22px; position:relative; overflow:hidden;}
   .fcard::before{content:""; position:absolute; left:0; right:0; top:0; height:4px; background:linear-gradient(90deg,var(--brand),#B08A2E);}
   .f-date{font-size:12px; color:var(--ink-3); letter-spacing:.08em;}
@@ -1197,6 +1228,7 @@
         <button data-go="concierge"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8H4l2.2-2.6A8 8 0 1 1 21 12z"/><path d="M8 10h8M8 14h5"/></svg></span>コンシェルジュ</button>
         <button data-go="history"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 4v4h4"/><path d="M12 8v4l3 2"/></svg></span>閲覧・検索の履歴</button>
       </nav>
+      <div class="side-lb" id="side-lb"></div>
       <div class="sh">五十音でひく</div>
       <div class="kana-grid" id="kana-grid"></div>
       <div class="sprog">
@@ -2791,9 +2823,38 @@ function openIndustry(cat){
 
 /* ===== ログインボーナス（連続でひらいた日数・称号） ===== */
 var VISIT_TITLES=[[100,"百日の辞典マスター"],[50,"五十日の賢者"],[30,"ひと月の研究家"],[14,"二週間の愛読者"],[7,"一週間の常連"],[3,"三日の読者"]];
+var VISIT_MS=[3,7,14,30,50,100];
 function visitTitle(n){
   for(var i=0;i<VISIT_TITLES.length;i++){ if(n>=VISIT_TITLES[i][0]) return VISIT_TITLES[i][1]; }
   return "";
+}
+function nextMilestone(n){ for(var i=0;i<VISIT_MS.length;i++){ if(n<VISIT_MS[i]) return VISIT_MS[i]; } return null; }
+/* 目立つログインボーナスカード（占いページ最上部） */
+function loginBonusHTML(){
+  var v=store.visit||{}, s=v.streak||1, title=visitTitle(s), next=nextMilestone(s);
+  var lo=0; for(var i=0;i<VISIT_MS.length;i++){ if(VISIT_MS[i]<=s) lo=VISIT_MS[i]; }
+  var pct = next? Math.max(6, Math.round((s-lo)/(next-lo)*100)) : 100;
+  var flame='<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 3-1 4.5-2.3 6C8 9.7 7 11.2 7 13.5A5 5 0 0 0 17 14c0-2-1-3.3-1.7-4.2C17 11 18 12.6 18 14.5A6 6 0 1 1 6.6 11C8.5 7 12 6.5 12 2z"/></svg>';
+  return '<div class="lbcard">'
+    +'<div class="lb-top"><span class="lb-flame">'+flame+'</span>'
+      +'<div class="lb-head"><span class="lb-k">ログインボーナス</span>'
+      +'<span class="lb-streak">連続 <b>'+s+'</b> 日目</span></div>'
+      +(title?'<span class="lb-badge">'+title+'</span>':'')+'</div>'
+    +(next
+      ? '<div class="lb-prog"><div class="lb-bar"><i style="width:'+pct+'%"></i></div>'
+        +'<div class="lb-nx">あと <b>'+(next-s)+'日</b> で称号「'+visitTitle(next)+'」</div></div>'
+      : '<div class="lb-nx" style="margin-top:10px">最高ランクの称号を達成しました。おみごとです！</div>')
+    +'<div class="lb-stats"><span>通算 <b>'+(v.total||1)+'</b> 日</span><span class="sep"></span><span>最長 <b>'+(v.best||1)+'</b> 日連続</span></div>'
+  +'</div>';
+}
+/* サイドバー常時表示のミニ連続日数 */
+function renderSideLB(){
+  var box=el("side-lb"); if(!box) return;
+  var v=store.visit||{}, s=v.streak||1, title=visitTitle(s);
+  box.innerHTML='<button class="slb" data-go="fortune" title="ログインボーナスをひらく">'
+    +'<span class="slb-f"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 3-1 4.5-2.3 6C8 9.7 7 11.2 7 13.5A5 5 0 0 0 17 14c0-2-1-3.3-1.7-4.2C17 11 18 12.6 18 14.5A6 6 0 1 1 6.6 11C8.5 7 12 6.5 12 2z"/></svg></span>'
+    +'<span class="slb-t"><b>連続'+s+'日</b>'+(title?'<span>'+title+'</span>':'<span>ログインボーナス</span>')+'</span></button>';
+  box.querySelector("[data-go]").addEventListener("click",function(){ go("fortune"); });
 }
 function checkVisit(){
   var n=new Date();
@@ -2832,12 +2893,11 @@ function fortuneOf(){
 function fstars(n){ var s=""; for(var i=0;i<5;i++){ s+= i<n?"★":"☆"; } return s; }
 function renderFortune(){
   var f=fortuneOf(), name=(store.profile&&store.profile.name);
-  el("fortune-box").innerHTML='<div class="fcard">'
+  el("fortune-box").innerHTML=loginBonusHTML()+'<div class="fcard">'
     +'<div class="f-date">'+todayKey().replace(/-/g,". ")+'　'+(name? name+"さんの" : "あなたの")+'就活運</div>'
     +'<div class="f-lv">'+f.lv.name+'</div>'
     +'<div class="f-stars">'+fstars(f.lv.star)+'</div>'
     +'<div class="f-word">'+f.word+'</div>'
-    +'<div class="f-row"><span class="fk">つづけた日</span><span>連続 <b>'+(store.visit.streak||1)+'日目</b>（通算'+(store.visit.total||1)+'日・最長'+(store.visit.best||1)+'日）'+(visitTitle(store.visit.streak)?'　称号「<b>'+visitTitle(store.visit.streak)+'</b>」':'')+'</span></div>'
     +'<div class="f-row"><span class="fk">開運アクション</span><span>'+f.action+'</span></div>'
     +'<div class="f-row"><span class="fk">'+FORTUNE.luckyLabel+'</span><button class="relchip" data-open="'+f.lucky.no+'">'+rcHTML(f.lucky)+f.lucky.name+'</button></div>'
     +(name? '' : '<div class="f-row"><span class="fk">ヒント</span><span>プロフィールでおなまえを入れると、あなた専用の運勢になります。</span></div>')
@@ -3539,6 +3599,7 @@ function init(){
   renderFilters(); syncFilterUI(); renderList();
   updateSeen(); refreshSavedBadges(); refreshCmpBadges(); refreshTodoBadge(); refreshPipeBadge(); renderReco(); renderEmptyPanel();
   checkVisit();
+  renderSideLB();
 
   /* やることリスト：企業選択肢＋追加・保存 */
   var tn=el("td-no");
