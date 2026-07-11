@@ -852,8 +852,18 @@
   .cc-input .btn{flex:0 0 auto; padding:11px 20px;}
 
   /* 系列パネル */
-  .lin-sec{font-size:11.5px; font-weight:800; color:var(--ink-3); margin:10px 0 6px; letter-spacing:.05em;}
-  .lin-sec:first-of-type{margin-top:2px;}
+  .lin-sec{font-size:11.5px; font-weight:800; color:var(--ink-3); margin:12px 0 7px; letter-spacing:.05em; display:flex; align-items:center; gap:7px;}
+  .lin-sec i{font-style:normal; font-size:10.5px; font-weight:800; color:var(--brand-d); background:var(--brand-t); border-radius:99px; padding:1px 8px; font-variant-numeric:tabular-nums;}
+  .lineage .lin-root{display:flex; align-items:center; gap:11px; padding:10px 12px; background:var(--brand-t2); border:1px solid var(--brand-t); border-radius:11px;}
+  .lineage .lin-root .crest{width:40px; height:40px; border-radius:9px; font-size:18px; flex:0 0 auto;}
+  .lineage .lin-root .lr-t{min-width:0;}
+  .lineage .lin-root b{font-family:var(--serif); font-size:15px; font-weight:800; color:var(--ink); display:block; line-height:1.3;}
+  .lineage .lin-root span{font-size:11px; color:var(--ink-3); font-weight:700;}
+  .lin-chips{display:flex; flex-wrap:wrap; gap:7px;}
+  .linchip{font-size:12px; font-weight:700; color:var(--ink-2); background:var(--bg); border:1px solid var(--line-2); border-radius:8px; padding:5px 10px; display:inline-flex; align-items:center; gap:5px;}
+  .linchip.lk{color:var(--brand-d); background:var(--brand-t2); border-color:var(--brand-t); cursor:pointer; transition:.13s;}
+  .linchip.lk:hover{background:var(--brand); color:#fff;}
+  .linchip.lk svg{flex:0 0 auto;}
 
   /* B5: V-careerイベント連携 */
   .vcbanner{display:flex; align-items:center; gap:14px; width:100%; text-align:left; cursor:pointer; border:0;
@@ -3023,10 +3033,30 @@ function openDetail(no){
   }
 
   /* 会社概要タブ：このタブだけで企業の全体像がつかめる「見開きダッシュボード」構成 */
+  /* 系列：ブランド・グループ会社（「ユニクロ→ファストリ」「NTT→子会社がこんなに」を分かりやすく。
+     件数で規模感を示し、図鑑に載っている会社はタップでその項目へ。ブランド名でも検索できる） */
+  var brandsN=(d.brands&&d.brands.length)||0, groupN=(d.group&&d.group.length)||0;
+  function linChip(name){
+    var m=null; for(var li=0;li<DATA.length;li++){ if(DATA[li].no!==d.no && DATA[li].name===name){ m=DATA[li]; break; } }
+    return m
+      ? '<button class="linchip lk" data-open2="'+m.no+'">'+esc(name)+'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>'
+      : '<span class="linchip">'+esc(name)+'</span>';
+  }
+  var lineageHTML="";
+  if(brandsN||groupN){
+    lineageHTML='<div class="panel w2 lineage"><h3><span class="lbl">系列</span>ブランド・グループ会社'
+      +'<small>（'+(brandsN?'ブランド'+brandsN+'件':'')+(brandsN&&groupN?'・':'')+(groupN?'グループ会社'+groupN+'社':'')+'）</small></h3>'
+      +'<div class="lin-root">'+crestHTML(d)+'<div class="lr-t"><b>'+esc(d.name)+'</b><span>この会社を中心とした系列</span></div></div>'
+      +(brandsN?'<div class="lin-sec">主なブランド・サービス<i>'+brandsN+'</i></div><div class="lin-chips">'+d.brands.map(linChip).join("")+'</div>':'')
+      +(groupN?'<div class="lin-sec">主なグループ会社<i>'+groupN+'</i></div><div class="lin-chips">'+d.group.map(linChip).join("")+'</div>':'')
+      +'<p class="mtc-note">代表的なもののみ。<b>ブランド名・グループ会社名でも検索</b>できます（例：「ユニクロ」→ ファーストリテイリング）。図鑑に載っている会社は<b>タップでその項目</b>へ。</p></div>';
+  }
+
   var tabOverview=''
     +'<div class="panel w2"><h3><span class="lbl">能力値</span>6項目・参考指標</h3><div class="radarwrap">'
       +'<div>'+radarSVG(d.stats,{size:200})+'</div>'
       +'<div class="axislist">'+axHTML+'</div></div></div>'
+    +lineageHTML
     +vcp
     +mtcHTML
     +'<div class="panel"><h3><span class="lbl">環境</span>数字で見る働き方<small>（参考値）</small></h3>'
@@ -3057,17 +3087,8 @@ function openDetail(no){
     return '<button class="relchip" data-open2="'+r.no+'">'+rcHTML(r)+r.name+'</button>';
   }).join("");
   var jobsHTML=d.jobs.map(function(j){ return '<span>'+icon("doc",12)+j+'</span>'; }).join("");
-  /* 系列：ブランド・グループ会社（「ユニクロ→ファストリ」の見える化。検索にもヒットする） */
-  var lineageHTML="";
-  if((d.brands&&d.brands.length)||(d.group&&d.group.length)){
-    lineageHTML='<div class="panel"><h3><span class="lbl">系列</span>ブランド・グループ会社</h3>'
-      +(d.brands&&d.brands.length?'<div class="lin-sec">主なブランド・サービス</div><div class="chips2">'+d.brands.map(function(b){return '<span>'+b+'</span>';}).join("")+'</div>':'')
-      +(d.group&&d.group.length?'<div class="lin-sec">主なグループ会社</div><div class="chips2">'+d.group.map(function(b){return '<span>'+b+'</span>';}).join("")+'</div>':'')
-      +'<p class="mtc-note">代表的なもののみ掲載。ブランド名・グループ会社名でも検索できます（例：「ユニクロ」で検索→この項目）。</p></div>';
-  }
   var tabBiz=''
     +'<div class="panel w2"><h3><span class="lbl">事業</span>どんな会社？</h3><p class="lead-txt">'+d.feature+'</p></div>'
-    +lineageHTML
     +'<div class="panel"><h3><span class="lbl">職種</span>おもな募集職種（参考）</h3><div class="chips2">'+jobsHTML+'</div></div>'
     +(rels?'<div class="panel"><h3><span class="lbl">参照</span>あわせて見たい企業 →</h3><div class="relrow">'+rels+'</div></div>':'');
 
