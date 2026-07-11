@@ -1047,6 +1047,63 @@
   .ind-keys span{font-size:11.5px; font-weight:700; color:var(--icol-d); background:var(--icol-t);
     border:1px solid var(--icol-b); border-radius:99px; padding:4px 11px;}
 
+  /* ---------- 選考ダッシュボード ---------- */
+  .estamp.p{color:#fff; border-color:var(--sc); background:var(--sc);}
+
+  /* 詳細：選考ステータス ステッパー */
+  .piperow{display:flex; align-items:center; gap:8px; margin:10px 0 0; flex-wrap:wrap;}
+  .piperow .elbl{font-size:11px; font-weight:800; color:var(--ink-3); font-family:var(--serif); letter-spacing:.08em; flex:0 0 auto;}
+  .pipe-step{display:flex; gap:5px; overflow-x:auto; padding:3px 1px; scrollbar-width:none; flex:1; min-width:0;}
+  .pipe-step::-webkit-scrollbar{display:none;}
+  .pstep{flex:0 0 auto; border:1.5px solid var(--line); background:var(--surface); color:var(--ink-3);
+    font-size:11.5px; font-weight:800; padding:6px 11px; border-radius:99px; transition:.14s; white-space:nowrap;}
+  .pstep:hover{border-color:var(--sc); color:var(--sc);}
+  .pstep.past{color:var(--sc); border-color:var(--sc); opacity:.62;}
+  .pstep.cur{color:#fff; background:var(--sc); border-color:var(--sc); box-shadow:0 2px 7px rgba(0,0,0,.14);}
+  .pstep.closed{border-style:dashed;}
+  .pstep.closed.cur{color:#fff; background:var(--sc); border-color:var(--sc); border-style:solid;}
+  .pstep.clr{width:30px; text-align:center; padding:6px 0; color:var(--ink-3); font-size:14px;}
+
+  /* ファネル集計 */
+  .pipe-funnel{display:flex; gap:8px; overflow-x:auto; padding:6px 0 14px; scrollbar-width:none;}
+  .pipe-funnel::-webkit-scrollbar{display:none;}
+  .pf{flex:0 0 auto; min-width:92px; border:1px solid var(--line); border-top:3px solid var(--sc); border-radius:12px;
+    background:var(--surface); padding:11px 13px; box-shadow:var(--shadow-s); display:flex; flex-direction:column; gap:3px;}
+  .pf .pfn{font-family:var(--serif); font-size:22px; font-weight:700; color:var(--sc); line-height:1; font-variant-numeric:tabular-nums;}
+  .pf .pfl{font-size:11px; font-weight:700; color:var(--ink-2);}
+  .pf.z{opacity:.5;}
+  .pf.z .pfn{color:var(--ink-3);}
+
+  /* カンバン */
+  .pipe-board{display:flex; gap:12px; overflow-x:auto; padding-bottom:10px;}
+  .pipe-col{flex:0 0 auto; width:280px; background:var(--bg); border:1px solid var(--line); border-radius:12px; padding:10px;}
+  .pcol-h{display:flex; align-items:center; gap:8px; font-size:13px; font-weight:800; color:var(--ink); padding:2px 4px 10px;}
+  .pcol-h .pcol-dot{width:10px; height:10px; border-radius:99px; background:var(--sc); flex:0 0 auto;}
+  .pcol-h .pcol-n{margin-left:auto; font-size:11px; font-weight:800; color:var(--ink-3); background:var(--surface);
+    border:1px solid var(--line); border-radius:99px; padding:1px 8px; font-variant-numeric:tabular-nums;}
+  .pcol-b{display:grid; gap:8px;}
+  .pcard{background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--sc); border-radius:10px;
+    overflow:hidden; box-shadow:var(--shadow-s);}
+  .pcard-main{display:flex; align-items:center; gap:10px; width:100%; text-align:left; padding:10px 11px; background:none; border:0; min-width:0;}
+  .pcard-main:hover{background:var(--brand-t2);}
+  .pcard .pc-tx{min-width:0; display:grid; gap:2px;}
+  .pcard .pc-nm{font-size:13px; font-weight:800; color:var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .pcard .pc-fd{font-size:10.5px; font-weight:700; color:var(--ink-3); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .pcard .pc-next{font-size:10.5px; font-weight:700; color:var(--ink-2); display:flex; align-items:center; gap:4px;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .pcard .pc-next svg{color:var(--brand); flex:0 0 auto;}
+  .pcard .pc-next .pc-due{color:var(--ink-3);}
+  .pcard .pc-next .ov{color:#B3402F;}
+  .pcard .pc-next .sn{color:var(--gold-d);}
+  .pc-adv{display:flex; align-items:center; justify-content:center; gap:5px; width:100%; border:0; border-top:1px dashed var(--line);
+    background:var(--brand-t2); color:var(--brand-d); font-size:11.5px; font-weight:800; padding:7px; transition:.14s;}
+  .pc-adv:hover{background:var(--brand); color:#fff;}
+  .pc-adv svg{flex:0 0 auto;}
+  @media(max-width:779px){
+    .pipe-board{flex-direction:column; gap:14px;}
+    .pipe-col{width:auto;}
+  }
+
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{animation-duration:.01s!important; animation-delay:0s!important; transition-duration:.01s!important;}
   }
@@ -1114,6 +1171,7 @@
         <button data-go="saved"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"><path d="M6 3h12v18l-6-4.5L6 21V3z"/></svg></span>栞をはさんだ企業<span class="cnt" id="snav-saved" style="display:none">0</span></button>
         <button data-go="later"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>あとで読む<span class="cnt" id="snav-later" style="display:none">0</span></button>
         <button data-go="todo"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.5l2.5 2.5 5-5.5"/></svg></span>やることリスト<span class="cnt" id="snav-todo" style="display:none">0</span></button>
+        <button data-go="pipeline"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h4v14H4zM10 5h4v9h-4zM16 5h4v5h-4z"/></svg></span>選考ダッシュボード<span class="cnt b" id="snav-pipe" style="display:none">0</span></button>
         <button data-go="fortune"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.4 4.2L18 8.5l-4.6 1.3L12 14l-1.4-4.2L6 8.5l4.6-1.3L12 3z"/><path d="M19 14l.7 2.1L22 16.8l-2.3.7L19 19.6l-.7-2.1-2.3-.7 2.3-.7L19 14z"/><path d="M6 16l.6 1.7 1.9.6-1.9.6L6 20.6l-.6-1.7-1.9-.6 1.9-.6L6 16z"/></svg></span>今日の就活占い</button>
         <button data-go="shindan"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z"/></svg></span>就活タイプ診断</button>
         <button data-go="concierge"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8H4l2.2-2.6A8 8 0 1 1 21 12z"/><path d="M8 10h8M8 14h5"/></svg></span>コンシェルジュ</button>
@@ -1156,6 +1214,7 @@
         <button data-go="events"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>説明会</button>
         <button data-go="later"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>あとで読む</button>
         <button data-go="todo"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.5l2.5 2.5 5-5.5"/></svg>やること</button>
+        <button data-go="pipeline"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h4v14H4zM10 5h4v9h-4zM16 5h4v5h-4z"/></svg>選考状況</button>
         <button data-go="fortune"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.4 4.2L18 8.5l-4.6 1.3L12 14l-1.4-4.2L6 8.5l4.6-1.3L12 3z"/></svg>占い</button>
         <button data-go="shindan"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z"/></svg>タイプ診断</button>
         <button data-go="concierge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8H4l2.2-2.6A8 8 0 1 1 21 12z"/><path d="M8 10h8M8 14h5"/></svg>相談</button>
@@ -1267,6 +1326,15 @@
       <div class="todolist" id="todolist"></div>
       <div id="todo-empty"></div>
       <div class="foot">締切・日時はご自身の応募状況にあわせて入力してください。企業の公式発表とは連動しません。</div>
+    </section>
+
+    <!-- 選考ダッシュボード -->
+    <section class="view" id="v-pipeline">
+      <div class="hero"><h1>選考ダッシュボード</h1><p>応募した企業の選考状況（検討中→エントリー→ES→面接→内定）を一覧で管理できます。企業の項目で「選考ステータス」をえらぶと、ここに集まります。<b>この端末にのみ保存されます。</b></p></div>
+      <div class="pipe-funnel" id="pipe-funnel"></div>
+      <div class="pipe-board" id="pipe-board"></div>
+      <div id="pipe-empty"></div>
+      <div class="foot">選考状況はあなたが登録した情報です（企業の公式発表とは連動しません）。この端末のブラウザ内（localStorage）にのみ保存され、外部には送信されません。</div>
     </section>
 
     <!-- 付録：ランキング -->
@@ -1444,6 +1512,7 @@ store.todos = Array.isArray(store.todos)? store.todos : []; /* {id,txt,kind,no,d
 store.memos = (store.memos && typeof store.memos==="object" && !Array.isArray(store.memos))? store.memos : {}; /* A2: {企業no:{t:本文,u:"更新日"}} */
 store.hist = Array.isArray(store.hist)? store.hist : []; /* 履歴: {k:"q"|"c"|"i", q/no/cat, t}。この端末のみ・外部送信なし */
 store.visit = (store.visit && typeof store.visit==="object")? store.visit : {last:"", streak:0, total:0, best:0}; /* ログインボーナス */
+store.pipe = (store.pipe && typeof store.pipe==="object" && !Array.isArray(store.pipe))? store.pipe : {}; /* 選考状況: {企業no:{s:ステージkey, u:更新日}}。この端末のみ */
 
 var state={ view:"list", q:"", cat:"", kana:"", region:"", job:"", wel:"", startMin:0, ckd:[], entryF:"",
   featureId:"", sort:"no", page:1, cmpMode:false, cmp:[], detail:0, rank:"fame", notifOpen:false };
@@ -1454,6 +1523,19 @@ var AXES_SHORT=["規模","給与","安定","成長","働き","知名"];
 var RATES=[["成長できる環境","growth"],["働きやすさ","wlb"],["給与・福利厚生","salary"],["会社の安定性","stable"]];
 var RANKAX=[["知名度","fame"],["平均年収","salary"],["成長性","growth"],["働きやすさ","wlb"],["安定性","stable"],["規模","scale"]];
 var KANA_ROWS=[["あ","あいうえおぁぃぅぇぉ"],["か","かきくけこがぎぐげご"],["さ","さしすせそざじずぜぞ"],["た","たちつてとだぢづでどっ"],["な","なにぬねの"],["は","はひふへほばびぶべぼぱぴぷぺぽ"],["ま","まみむめも"],["や","やゆよゃゅょ"],["ら","らりるれろ"],["わ","わをん"]];
+
+/* 選考ダッシュボード：選考ステージ（就活の一般的な流れ）。s=key／c=色 */
+var STAGES=[
+  {k:"consider",  label:"検討中",        short:"検討中",     c:"#8A95A3"},
+  {k:"entry",     label:"エントリー",     short:"エントリー", c:"#4A7FB5"},
+  {k:"es",        label:"ES提出",        short:"ES提出",    c:"#C98A2B"},
+  {k:"test",      label:"適性検査・筆記",  short:"適性検査",   c:"#8E6FB8"},
+  {k:"interview", label:"面接",          short:"面接",      c:"#0E9F92"},
+  {k:"final",     label:"最終面接",       short:"最終面接",   c:"#0B7E74"},
+  {k:"offer",     label:"内定",          short:"内定",      c:"#B08A2E"},
+  {k:"closed",    label:"見送り",        short:"見送り",     c:"#B0685E"}
+];
+var STAGE_FLOW=["consider","entry","es","test","interview","final","offer"]; /* 「進める」で進む順。見送り(closed)は別枠 */
 
 /* ============================ ユーティリティ ============================ */
 function $(s,r){ return (r||document).querySelector(s); }
@@ -1584,11 +1666,113 @@ function renderVcEvents(){
 }
 function estampsHTML(no){
   var e=entryOf(no), s="";
+  var p=pipeOf(no);
+  if(p){ var pd=stageDef(p.s); if(pd) s+='<span class="estamp p" style="--sc:'+pd.c+'">'+pd.short+'</span>'; }
   if(e.i) s+='<span class="estamp i">インターン応募済</span>';
   if(e.m) s+='<span class="estamp m">本選考応募済</span>';
   if(store.memos[no] && store.memos[no].t) s+='<span class="estamp n">メモ</span>';
   if(vcEventsOf(no).length) s+='<span class="estamp v">V-career出展</span>';
   return '<span class="estamps" data-es="'+no+'">'+s+'</span>';
+}
+/* ===== 選考ダッシュボード：ステージ操作 ===== */
+function stageDef(k){ for(var i=0;i<STAGES.length;i++){ if(STAGES[i].k===k) return STAGES[i]; } return null; }
+function pipeOf(no){ return store.pipe[no]||null; }
+function setStage(no,k){
+  if(!k){ delete store.pipe[no]; }
+  else { store.pipe[no]={s:k, u:todayKey()}; }
+  saveStore();
+  refreshPipeBadge();
+  refreshPipeUI(no);
+  if(state.view==="pipeline") renderPipeline();
+  var d=byNo(no), sd=stageDef(k);
+  toast(k ? '「'+(d?d.name:"")+'」を「'+sd.label+'」にしました' : '選考ステータスを外しました');
+}
+function advanceStage(no){
+  var p=pipeOf(no);
+  var idx = p? STAGE_FLOW.indexOf(p.s) : -1;
+  if(idx<0){ setStage(no, STAGE_FLOW[0]); return; } /* 未設定/見送り → 検討中から */
+  if(idx>=STAGE_FLOW.length-1) return;            /* 内定より先は無し */
+  setStage(no, STAGE_FLOW[idx+1]);
+}
+function pipeCount(){ var n=0; for(var k in store.pipe){ if(store.pipe[k] && store.pipe[k].s!=="closed") n++; } return n; }
+function refreshPipeBadge(){
+  var n=pipeCount(), b=el("snav-pipe");
+  if(b){ b.style.display=n>0?"grid":"none"; b.textContent=n; }
+}
+function refreshPipeUI(no){
+  document.querySelectorAll('[data-es="'+no+'"]').forEach(function(x){ x.outerHTML=estampsHTML(no); });
+  if(state.detail===no) renderPipeStepper(no);
+}
+/* 企業詳細の「選考ステータス」ステッパー */
+function pipeStepperHTML(){ return '<div class="pipe-step" id="pipe-step"></div>'; }
+function renderPipeStepper(no){
+  var box=el("pipe-step"); if(!box) return;
+  var p=pipeOf(no), cur=p?p.s:"";
+  var curIdx=STAGE_FLOW.indexOf(cur);
+  var html=STAGE_FLOW.map(function(k,i){
+    var d=stageDef(k);
+    var cls = k===cur ? "cur" : (curIdx>=0 && i<curIdx ? "past" : "");
+    return '<button class="pstep '+cls+'" data-ps="'+k+'" style="--sc:'+d.c+'" title="「'+d.label+'」にする">'+d.short+'</button>';
+  }).join("");
+  html+='<button class="pstep closed'+(cur==="closed"?" cur":"")+'" data-ps="closed" style="--sc:'+stageDef("closed").c+'" title="見送りにする">見送り</button>';
+  if(cur) html+='<button class="pstep clr" data-ps="" title="ステータスを外す">×</button>';
+  box.innerHTML=html;
+  box.querySelectorAll("[data-ps]").forEach(function(b){
+    b.addEventListener("click",function(){ setStage(no, b.dataset.ps); });
+  });
+}
+/* 選考ダッシュボード：ビュー描画 */
+function nextTodoOf(no,today){
+  var cands=store.todos.filter(function(t){ return t.no===no && !t.done && t.due; });
+  cands.sort(function(a,b){ return (a.due||"").localeCompare(b.due||""); });
+  return cands[0]||null;
+}
+function pipeCardHTML(d,s,today){
+  var td=nextTodoOf(d.no,today);
+  var sub;
+  if(td){
+    var days=null, due=new Date(td.due+"T00:00:00"); if(!isNaN(due)) days=Math.round((due-today)/86400000);
+    var dd = days===null?"" : days<0?'<b class="ov">期限切れ</b>' : days===0?'<b class="sn">今日</b>' : days===1?'<b class="sn">明日</b>' : (days<=3?'<b class="sn">あと'+days+'日</b>':'あと'+days+'日');
+    sub='<span class="pc-next">'+icon("cal",11)+esc(td.txt)+' <span class="pc-due">'+fmtDueLabel(td.due)+(td.time?" "+td.time:"")+(dd?' ／ '+dd:"")+'</span></span>';
+  }else{
+    sub='<span class="pc-fd">'+esc(d.field)+'</span>';
+  }
+  var canAdv = s.k!=="offer" && s.k!=="closed";
+  return '<div class="pcard">'
+    +'<button class="pcard-main" data-open="'+d.no+'">'+crestHTML(d)+'<span class="pc-tx"><span class="pc-nm">'+esc(d.name)+'</span>'+sub+'</span></button>'
+    +(canAdv?'<button class="pc-adv" data-adv="'+d.no+'" title="次の段階へ進める">進める<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>':'')
+  +'</div>';
+}
+function renderPipeline(){
+  var funnel=el("pipe-funnel"), board=el("pipe-board"), empty=el("pipe-empty");
+  var today=new Date(); today.setHours(0,0,0,0);
+  var byStage={}; STAGES.forEach(function(s){ byStage[s.k]=[]; });
+  var total=0;
+  for(var k in store.pipe){
+    var p=store.pipe[k]; if(!p) continue;
+    var d=byNo(+k); if(!d) continue;
+    if(!byStage[p.s]) byStage[p.s]=[];
+    byStage[p.s].push({d:d,u:p.u}); total++;
+  }
+  funnel.innerHTML=STAGES.map(function(s){
+    var n=byStage[s.k].length;
+    return '<div class="pf'+(n?"":" z")+'" style="--sc:'+s.c+'"><span class="pfn">'+n+'</span><span class="pfl">'+s.label+'</span></div>';
+  }).join("");
+  if(!total){
+    board.innerHTML="";
+    empty.style.display="block";
+    empty.innerHTML='<div class="empty"><div class="ic"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2.5"/><path d="M8.5 12.5l2.5 2.5 5-5.5"/></svg></div><p>まだ選考状況が登録されていません。</p><p style="font-size:12.5px">企業の項目をひらいて「選考ステータス」をえらぶと、ここに選考の進み具合がまとまります。</p><button class="go" data-go="list">企業をさがす</button></div>';
+    empty.querySelector("[data-go]").addEventListener("click",function(){ go("list"); });
+    return;
+  }
+  empty.style.display="none";
+  board.innerHTML=STAGES.filter(function(s){ return byStage[s.k].length; }).map(function(s){
+    var items=byStage[s.k].slice().sort(function(a,b){ return a.d.no-b.d.no; });
+    var cards=items.map(function(x){ return pipeCardHTML(x.d,s,today); }).join("");
+    return '<div class="pipe-col" style="--sc:'+s.c+'"><div class="pcol-h"><span class="pcol-dot"></span>'+s.label+'<span class="pcol-n">'+items.length+'</span></div><div class="pcol-b">'+cards+'</div></div>';
+  }).join("");
+  board.querySelectorAll("[data-open]").forEach(function(b){ b.addEventListener("click",function(){ openDetail(+b.dataset.open); }); });
+  board.querySelectorAll("[data-adv]").forEach(function(b){ b.addEventListener("click",function(e){ e.stopPropagation(); advanceStage(+b.dataset.adv); }); });
 }
 function toggleEntry(no,k){
   var e=store.entry[no]||(store.entry[no]={});
@@ -2957,6 +3141,7 @@ function openDetail(no){
       +'<button class="ebtn m" data-eno="'+no+'" data-ek="m" aria-pressed="'+(entryOf(no).m?"true":"false")+'"><span class="edot"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>本選考応募済</button>'
       +'<button class="ebtn t" id="d-addtodo">＋やること</button>'
     +'</div>'
+    +'<div class="piperow"><span class="elbl">選考ステータス</span>'+pipeStepperHTML()+'</div>'
     +(function(){
       var memo=store.memos[no];
       return '<div class="memo-wrap">'
@@ -2990,6 +3175,7 @@ function openDetail(no){
   el("d-empty").style.display="none";
   el("detail-body").innerHTML=html;
   el("dcol-in").scrollTop=0;
+  renderPipeStepper(no);
   if(el("d-axset")) el("d-axset").addEventListener("click",function(){ openModal("m-profile"); });
   el("d-share").addEventListener("click",function(){ openShare(d); });
   /* A2: わたしのメモ（開閉・自動保存） */
@@ -3279,7 +3465,7 @@ function toggleUserMenu(){
 }
 
 /* ============================ ナビ ============================ */
-var VIEWS=["list","compare","saved","later","feature","intern","events","rank","todo","fortune","shindan","history","concierge","industry"];
+var VIEWS=["list","compare","saved","later","feature","intern","events","rank","todo","pipeline","fortune","shindan","history","concierge","industry"];
 function setView(v){
   state.view=v;
   VIEWS.forEach(function(k){ var e=el("v-"+k); if(e) e.classList.toggle("on", k===v); });
@@ -3297,6 +3483,7 @@ function go(v){
   if(v==="events") renderEvents();
   if(v==="rank") renderRank();
   if(v==="todo") renderTodo();
+  if(v==="pipeline") renderPipeline();
   if(v==="fortune") renderFortune();
   if(v==="shindan") renderShindan();
   if(v==="history") renderHistory();
@@ -3319,7 +3506,7 @@ function init(){
   renderKana("kana-grid"); renderKana("kana-strip");
   renderVcBanner();
   renderFilters(); syncFilterUI(); renderList();
-  updateSeen(); refreshSavedBadges(); refreshCmpBadges(); refreshTodoBadge(); renderReco(); renderEmptyPanel();
+  updateSeen(); refreshSavedBadges(); refreshCmpBadges(); refreshTodoBadge(); refreshPipeBadge(); renderReco(); renderEmptyPanel();
   checkVisit();
 
   /* やることリスト：企業選択肢＋追加・保存 */
