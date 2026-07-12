@@ -226,7 +226,7 @@
   .searchbox svg{flex:0 0 auto; color:var(--ink-3);}
   .searchbox input{flex:1; border:0; outline:none; padding:12px 0; font-size:15px; background:none; color:var(--ink);}
   .searchbox .clr{border:0; background:none; color:var(--ink-3); font-size:18px; display:none; padding:4px;}
-  @media(min-width:1100px){ .searchbox{display:none;} } /* PCはヘッダーのグローバル検索を使用 */
+  @media(min-width:1100px){ .searchbox{display:none;} #v-glossary .searchbox{display:flex;} } /* PCはヘッダーのグローバル検索を使用（用語集の検索は用語専用なのでPCでも表示） */
 
   /* クイックリンク（モバイル） */
   .qlinks{display:flex; gap:7px; overflow-x:auto; padding:2px 0 8px; scrollbar-width:none;}
