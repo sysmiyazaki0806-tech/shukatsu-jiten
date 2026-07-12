@@ -1111,6 +1111,37 @@
   .ind-keys span{font-size:11.5px; font-weight:700; color:var(--icol-d); background:var(--icol-t);
     border:1px solid var(--icol-b); border-radius:99px; padding:4px 11px;}
 
+  /* ---------- 付録：就活用語集 ---------- */
+  .ind-nav button.on{background:var(--brand); border-color:var(--brand); color:#fff;}
+  .ind-nav button.on .n{color:rgba(255,255,255,.75);}
+  .ind-nav button.on:hover{color:#fff;}
+  .gls-row{display:flex; align-items:center; gap:12px; margin:24px 0 10px;}
+  .gls-row .rk{font-family:var(--serif); font-size:20px; font-weight:700; color:var(--brand-d); width:34px; height:34px;
+    border:1px solid var(--brand); border-radius:9px; display:grid; place-items:center; background:var(--brand-t); flex:0 0 auto;}
+  .gls-row .rl{flex:1; height:1px; background:var(--line);}
+  .gls-row .rn{font-size:11px; font-weight:700; color:var(--ink-3); flex:0 0 auto;}
+  .gls{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); box-shadow:var(--shadow-s);
+    padding:15px 18px 14px 22px; margin:10px 0; position:relative; overflow:hidden; scroll-margin-top:130px; animation:cardin .45s both;}
+  .gls::before{content:""; position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--gcol);}
+  .gls.hl{box-shadow:0 0 0 2px var(--gcol), var(--shadow-s);}
+  .gls-h{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;}
+  .gls-h h3{font-family:var(--serif); font-size:18px; font-weight:700; color:var(--ink); letter-spacing:.02em; line-height:1.4; margin:0;}
+  .gls-h .gy{font-size:11px; font-weight:700; color:var(--ink-3);}
+  .gls-h .gc{margin-left:auto; font-size:10.5px; font-weight:800; color:var(--gcol); background:var(--gcol-t);
+    border:1px solid var(--gcol-b); border-radius:99px; padding:3px 10px; white-space:nowrap; flex:0 0 auto;}
+  .gls .gs{font-size:13.5px; font-weight:800; color:var(--ink); line-height:1.6; margin:8px 0 0;}
+  .gls .gd{font-size:12.5px; font-weight:600; color:var(--ink-2); line-height:1.8; margin:5px 0 0;}
+  .gls .gtip{display:flex; gap:8px; align-items:flex-start; margin:9px 0 0; border:1px dashed var(--gold);
+    background:rgba(176,138,46,.06); border-radius:9px; padding:8px 11px; font-size:12px; font-weight:700; color:var(--ink-2); line-height:1.65;}
+  .gls .gtip .tk{flex:0 0 auto; font-size:9.5px; font-weight:900; color:#8A6B20; border:1px solid var(--gold);
+    border-radius:5px; padding:1px 5px; margin-top:2px; letter-spacing:.08em;}
+  .gls .grel{display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:10px 0 0;}
+  .gls .grel .rlb{font-size:10.5px; font-weight:800; color:var(--ink-3); letter-spacing:.08em;}
+  .gls .grel button{font-size:11.5px; font-weight:700; color:var(--brand-d); background:var(--brand-t);
+    border:1px solid transparent; border-radius:99px; padding:3px 10px; transition:.14s;}
+  .gls .grel button:hover{border-color:var(--brand); transform:translateY(-1px);}
+  @media(max-width:560px){ .gls-h .gc{margin-left:0;} }
+
   /* ---------- 選考ダッシュボード ---------- */
   .estamp.p{color:#fff; border-color:var(--sc); background:var(--sc);}
 
@@ -1219,6 +1250,7 @@
         <button data-go="rank"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12H4a1 1 0 0 1-1-1v-10a1 1 0 0 1 1-1h3z"/><path d="M7 11l4.2-8a2 2 0 0 1 2.6-1 2 2 0 0 1 1.2 2.3L14 9h5.4a2 2 0 0 1 2 2.4l-1.7 8a2 2 0 0 1-2 1.6H7"/></svg></span>人気企業ランキング</button>
         <button data-go="feature"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.6L20 10l-5 3.8L16.5 20 12 16.6 7.5 20 9 13.8 4 10l6.1-1.4L12 3z"/></svg></span>特集</button>
         <button data-go="industry"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v18H6.5A2.5 2.5 0 0 0 4 22.5V4.5z"/><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M9 7h7M9 10.5h5"/></svg></span>業界図鑑</button>
+        <button data-go="glossary"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2"/><path d="M12 5v14"/><path d="M9 19h6"/></svg></span>就活用語集</button>
       </nav>
       <div class="snav">
         <button class="acc-h" id="acc-cat" aria-expanded="true"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v16M14 9h4a1 1 0 0 1 1 1v11"/><path d="M8 8h2M8 12h2M8 16h2"/></svg></span>業界からさがす<svg class="achev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
@@ -1275,6 +1307,7 @@
       <div class="qlinks" id="qlinks">
         <button data-go="feature"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.6L20 10l-5 3.8L16.5 20 12 16.6 7.5 20 9 13.8 4 10l6.1-1.4L12 3z"/></svg>特集</button>
         <button data-go="industry"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v18H6.5A2.5 2.5 0 0 0 4 22.5V4.5z"/><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/></svg>業界図鑑</button>
+        <button data-go="glossary"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2"/><path d="M12 5v14"/><path d="M9 19h6"/></svg>用語集</button>
         <button data-go="rank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M8 21V10M12 21V3M16 21v-7"/><path d="M4 21h16"/></svg>ランキング</button>
         <button data-go="intern"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21v-1a7 7 0 0 1 12-5"/></svg>インターン</button>
         <button data-go="events"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>説明会</button>
@@ -1458,6 +1491,19 @@
       <div class="ind-nav" id="ind-nav"></div>
       <div id="industry-box"></div>
       <div class="foot">業界の解説は、就活生が全体像をつかむための入門的な整理です（編集部まとめ・参考）。分類・規模感はおおまかな目安で、企業によって実態は異なります。掲載企業は本図鑑に収録されている会社の一覧です。</div>
+    </section>
+
+    <!-- 付録：就活用語集 -->
+    <section class="view" id="v-glossary">
+      <div class="hero"><h1>付録：就活用語集</h1><p>説明会や求人票に出てくる「就活のことば」を、ひくだけでわかる短い解説に。全<span class="js-gtotal">0</span>語を収録しています。</p></div>
+      <div class="searchbox">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+        <input id="glq" type="search" placeholder="用語でひく（例：ガクチカ・固定残業）" autocomplete="off" aria-label="用語をさがす">
+        <button class="clr" id="glqclr" aria-label="クリア">×</button>
+      </div>
+      <div class="ind-nav" id="gls-nav"></div>
+      <div id="glossary-box"></div>
+      <div class="foot">用語の説明は、就活生がことばの意味をつかむための入門的な整理です（編集部まとめ・参考）。制度の細かな条件・運用は企業や年度によって異なります。</div>
     </section>
   </main>
 
@@ -2843,6 +2889,93 @@ function openIndustry(cat){
   if(idx>=0){ var e=el("ind-"+idx); if(e) setTimeout(function(){ e.scrollIntoView({behavior:"smooth",block:"start"}); },70); }
 }
 
+/* ============================ 付録：就活用語集 ============================ */
+var GCOLOR={"書類・応募":"#4E79B8","選考・面接":"#0E9F92","イベント":"#C9862E","内定・入社":"#7E6BB5","働き方・待遇":"#3D9E57","基礎知識":"#B85C74"};
+var GROWS=[["あ","ぁあぃいぅうぇえぉお"],["か","かがきぎくぐけげこご"],["さ","さざしじすずせぜそぞ"],["た","ただちぢっつづてでとど"],["な","なにぬねの"],["は","はばぱひびぴふぶぷへべぺほぼぽ"],["ま","まみむめも"],["や","ゃやゅゆょよ"],["ら","らりるれろ"],["わ","わをん"]];
+var glsQ="", glsCat="";
+function glsRowOf(kana){
+  var c=(kana||"").charAt(0);
+  for(var i=0;i<GROWS.length;i++){ if(GROWS[i][1].indexOf(c)>=0) return i; }
+  return GROWS.length-1;
+}
+function glsHit(g,q){
+  return ((g.t||"")+(g.kana||"")+(g.short||"")+(g.desc||"")).toLowerCase().indexOf(q)>=0;
+}
+function renderGlossary(){
+  var nav=el("gls-nav"), box=el("glossary-box");
+  var gl=(typeof GLOSSARY!=="undefined" && GLOSSARY)?GLOSSARY:[];
+  document.querySelectorAll(".js-gtotal").forEach(function(e){ e.textContent=gl.length; });
+  if(!gl.length){
+    nav.innerHTML="";
+    box.innerHTML='<div class="empty"><div class="ic">📖</div><p>用語のデータがまだありません。</p><p style="font-size:12.5px">data.js の GLOSSARY に用語を追加すると、ここに表示されます。</p></div>';
+    return;
+  }
+  var cats=(typeof GCATS!=="undefined" && GCATS)?GCATS:[];
+  /* 上部：カテゴリ絞り込みチップ */
+  nav.innerHTML='<button data-gcat="" class="'+(glsCat===""?"on":"")+'">すべて<span class="n">'+gl.length+'</span></button>'
+    +cats.map(function(c){
+      var col=GCOLOR[c]||"#0E9F92", n=gl.filter(function(g){return g.cat===c;}).length;
+      return '<button data-gcat="'+esc(c)+'" class="'+(glsCat===c?"on":"")+'"><span class="cdot" style="background:'+col+'"></span>'+esc(c)+'<span class="n">'+n+'</span></button>';
+    }).join("");
+  /* 絞り込み＋用語内検索 */
+  var q=glsQ.trim().toLowerCase();
+  var hit=gl.filter(function(g){
+    if(glsCat && g.cat!==glsCat) return false;
+    return !q || glsHit(g,q);
+  });
+  if(!hit.length){
+    box.innerHTML='<div class="empty"><div class="ic">🔍</div><p>「'+esc(glsQ||glsCat)+'」にあてはまる用語が見つかりませんでした。</p><p style="font-size:12.5px">別のことばで試すか、カテゴリを「すべて」に戻してみてください。</p></div>';
+  } else {
+    /* 五十音の行ごとにまとめる */
+    var byRow={};
+    hit.forEach(function(g){ var r=glsRowOf(g.kana); (byRow[r]=byRow[r]||[]).push(g); });
+    var h="";
+    GROWS.forEach(function(row,ri){
+      var items=byRow[ri]; if(!items||!items.length) return;
+      items.sort(function(a,b){ return (a.kana||"")<(b.kana||"")?-1:1; });
+      h+='<div class="gls-row"><span class="rk">'+row[0]+'</span><span class="rl"></span><span class="rn">'+items.length+'語</span></div>';
+      h+=items.map(function(g){
+        var col=GCOLOR[g.cat]||"#0E9F92", idx=gl.indexOf(g);
+        var tipHTML=g.tip?'<div class="gtip"><span class="tk">MEMO</span><span>'+esc(g.tip)+'</span></div>':"";
+        var relHTML=(g.rel&&g.rel.length)
+          ?'<div class="grel"><span class="rlb">関連</span>'+g.rel.map(function(r){ return '<button data-grel="'+esc(r)+'">'+esc(r)+'</button>'; }).join("")+'</div>':"";
+        return '<article class="gls" id="gls-'+idx+'" style="--gcol:'+col+';--gcol-t:'+col+'16;--gcol-b:'+col+'55">'
+          +'<div class="gls-h"><h3>'+esc(g.t)+'</h3><span class="gy">'+esc(g.kana||"")+'</span><span class="gc">'+esc(g.cat||"")+'</span></div>'
+          +'<p class="gs">'+esc(g.short||"")+'</p>'
+          +'<p class="gd">'+esc(g.desc||"")+'</p>'
+          +tipHTML+relHTML
+        +'</article>';
+      }).join("");
+    });
+    box.innerHTML=h;
+  }
+  /* 配線 */
+  nav.querySelectorAll("[data-gcat]").forEach(function(b){
+    b.addEventListener("click",function(){ glsCat=b.dataset.gcat; renderGlossary(); });
+  });
+  box.querySelectorAll("[data-grel]").forEach(function(b){
+    b.addEventListener("click",function(){ openGlossaryTerm(b.dataset.grel); });
+  });
+}
+/* 関連用語タップ→その用語までスクロール（絞り込みで隠れていたら解除してから） */
+function openGlossaryTerm(t){
+  var gl=(typeof GLOSSARY!=="undefined" && GLOSSARY)?GLOSSARY:[];
+  var idx=-1;
+  for(var i=0;i<gl.length;i++){ if(gl[i].t===t){ idx=i; break; } }
+  if(idx<0) return;
+  var g=gl[idx], q=glsQ.trim().toLowerCase();
+  var visible=(!glsCat||g.cat===glsCat)&&(!q||glsHit(g,q));
+  if(!visible){
+    glsQ=""; glsCat="";
+    var qi=el("glq"); if(qi) qi.value="";
+    renderGlossary();
+  }
+  var e=el("gls-"+idx); if(!e) return;
+  e.scrollIntoView({behavior:"smooth",block:"center"});
+  e.classList.add("hl");
+  setTimeout(function(){ e.classList.remove("hl"); },1400);
+}
+
 /* ===== ログインボーナス（連続でひらいた日数・称号） ===== */
 var VISIT_TITLES=[[100,"百日の図鑑マスター"],[50,"五十日の賢者"],[30,"ひと月の研究家"],[14,"二週間の愛読者"],[7,"一週間の常連"],[3,"三日の読者"]];
 var VISIT_MS=[3,7,14,30,50,100];
@@ -3602,7 +3735,7 @@ function toggleUserMenu(){
 }
 
 /* ============================ ナビ ============================ */
-var VIEWS=["list","compare","saved","later","feature","intern","events","rank","todo","pipeline","fortune","bonus","shindan","history","concierge","industry"];
+var VIEWS=["list","compare","saved","later","feature","intern","events","rank","todo","pipeline","fortune","bonus","shindan","history","concierge","industry","glossary"];
 function setView(v){
   state.view=v;
   VIEWS.forEach(function(k){ var e=el("v-"+k); if(e) e.classList.toggle("on", k===v); });
@@ -3627,6 +3760,7 @@ function go(v){
   if(v==="history") renderHistory();
   if(v==="concierge") renderConcierge();
   if(v==="industry") renderIndustry();
+  if(v==="glossary") renderGlossary();
   setView(v);
   window.scrollTo(0,0);
 }
@@ -3643,6 +3777,16 @@ function init(){
   renderSideCats(); renderSideJobs(); renderSideRegs();
   renderKana("kana-grid"); renderKana("kana-strip");
   renderVcBanner();
+  /* 用語集の検索 */
+  var glq=el("glq"), glqTimer;
+  if(glq){
+    glq.addEventListener("input",function(){
+      clearTimeout(glqTimer);
+      glqTimer=setTimeout(function(){ glsQ=glq.value; renderGlossary(); },200);
+    });
+  }
+  var glqc=el("glqclr");
+  if(glqc){ glqc.addEventListener("click",function(){ glsQ=""; if(glq){ glq.value=""; glq.focus(); } renderGlossary(); }); }
   renderFilters(); syncFilterUI(); renderList();
   checkVisit(); /* 先に連続日数を更新してから、それを表示する描画を行う */
   updateSeen(); refreshSavedBadges(); refreshCmpBadges(); refreshTodoBadge(); refreshPipeBadge(); renderReco(); renderEmptyPanel();

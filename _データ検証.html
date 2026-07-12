@@ -47,7 +47,7 @@
   <p class="foot">
     チェック内容：必須項目／型／語彙（CATS・REGIONS・JOBS・WELFARES）／No.の重複・連番／能力値0–100／
     読みがな（ひらがな）／タグの#始まり／相互参照(rel)の実在／ロゴ画像ファイルの実在／数値の常識レンジ／
-    業界図鑑（INDUSTRIES）の cat・必須項目・誤解の形　ほか
+    業界図鑑（INDUSTRIES）の cat・必須項目・誤解の形／就活用語集（GLOSSARY）の cat・必須項目・関連語(rel)の実在　ほか
   </p>
 </div>
 
@@ -188,6 +188,37 @@
       if(isStr(ind.cat) && DATA.filter(function(d){return d.cat===ind.cat;}).length===0) W(t,"この業界に該当する企業が0社です（掲載企業欄が空になります）");
     });
     CATS.forEach(function(c){ if(!seenCat[c]) W({no:null,name:"業界図鑑（"+c+"）"},"業界「"+c+"」の解説が INDUSTRIES にありません"); });
+  }
+
+  /* ---- 就活用語集（GLOSSARY）チェック ---- */
+  if(typeof GLOSSARY==="undefined"){
+    W(null,"GLOSSARY（就活用語集）が未定義です（用語集ページが空になります）");
+  } else if(!isArr(GLOSSARY)){
+    E({no:null,name:"用語集"},"GLOSSARY が配列ではありません");
+  } else {
+    var gcats=(typeof GCATS!=="undefined"&&isArr(GCATS))?GCATS:[];
+    if(!gcats.length) E({no:null,name:"用語集"},"GCATS（用語カテゴリの語彙）が未定義です");
+    var seenTerm={};
+    GLOSSARY.forEach(function(g,gi){
+      var t={no:null, name:"用語集（"+(g&&isStr(g.t)?g.t:"#"+(gi+1))+"）"};
+      if(!g||!isStr(g.t)){ E(t,"t（用語）が空です"); return; }
+      if(seenTerm[g.t]) E(t,"用語「"+g.t+"」が重複しています");
+      seenTerm[g.t]=true;
+      if(!isStr(g.kana)) E(t,"kana が空です");
+      else if(!/^[ぁ-ゖー・]+$/.test(g.kana)) W(t,"kana「"+g.kana+"」にひらがな・「・」「ー」以外が含まれています");
+      if(!isStr(g.cat)) E(t,"cat が空です");
+      else if(gcats.length && gcats.indexOf(g.cat)<0) E(t,"cat「"+g.cat+"」が GCATS にありません");
+      if(!isStr(g.short)) E(t,"short（ひとことで）が空です");
+      if(!isStr(g.desc)) E(t,"desc（くわしい説明）が空です");
+      if(g.tip!==undefined && !isStr(g.tip)) E(t,"tip は文字列にしてください");
+      if(g.rel!==undefined && !isArr(g.rel)) E(t,"rel は配列にしてください");
+    });
+    /* rel の実在チェック（全用語を集めたあとで照合） */
+    GLOSSARY.forEach(function(g){
+      if(g&&isArr(g.rel)) g.rel.forEach(function(r){
+        if(!seenTerm[r]) E({no:null,name:"用語集（"+(isStr(g.t)?g.t:"?")+"）"},"関連用語「"+r+"」が GLOSSARY にありません（t と完全一致が必要です）");
+      });
+    });
   }
 
   /* ---- 描画 ---- */
