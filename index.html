@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0c8f87">
-<title>就活辞典【増補改訂 第二版】｜企業を、ひらく。</title>
-<meta name="description" content="辞典をひくように企業をしらべ、数字とことばで見比べる。就活生のための企業辞典。">
-<meta property="og:title" content="就活辞典【増補改訂 第二版】">
+<title>就活図鑑【増補改訂 第二版】｜企業を、ひらく。</title>
+<meta name="description" content="図鑑をひらくように企業をしらべ、数字とことばで見比べる。就活生のための企業図鑑。">
+<meta property="og:title" content="就活図鑑【増補改訂 第二版】">
 <meta property="og:type" content="website">
-<meta property="og:description" content="辞典をひくように企業をしらべ、数字とことばで見比べる。就活生のための企業辞典。">
+<meta property="og:description" content="図鑑をひらくように企業をしらべ、数字とことばで見比べる。就活生のための企業図鑑。">
 <meta property="og:url" content="https://sysmiyazaki0806-tech.github.io/shukatsu-jiten/">
 <meta property="og:image" content="https://sysmiyazaki0806-tech.github.io/shukatsu-jiten/assets/hero_dictionary.png">
 <link rel="icon" type="image/png" href="assets/icons/app_icon.png">
@@ -19,9 +19,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
   /* =========================================================
-     就活辞典 — 増補改訂 第二版（決定版）
+     就活図鑑 — 増補改訂 第二版（決定版）
      「企業図鑑」モックの機能・ボタンを細部まで模倣しつつ、
-     紙の辞典の意匠（栞・柱・五十音・明朝見出し語・紙色）を保持。
+     紙の図鑑の意匠（栞・柱・五十音・明朝見出し語・紙色）を保持。
      ヘッダー：グローバル検索(⌘K)・ナビ・通知ベル・プロフィール
      サイドバー：特集/職種/勤務地/インターン/イベント/あとで読む/おすすめカード
      中央：6項目フィルタパネル・こだわり条件・比較モードスイッチ・
@@ -49,7 +49,7 @@
   html,body{overflow-x:clip;} /* clip=横はみ出しを抑えつつ position:sticky を有効に保つ（hiddenはstickyを無効化する） */
   body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
     font-size:15px; line-height:1.7; letter-spacing:.01em; -webkit-font-smoothing:antialiased;
-    /* ごく薄い紙のドットムラ（辞典の紙面感） */
+    /* ごく薄い紙のドットムラ（図鑑の紙面感） */
     background-image:radial-gradient(rgba(32,39,47,.02) 1px, transparent 1.2px); background-size:26px 26px;}
   img{max-width:100%;}
   button{font-family:inherit; cursor:pointer;}
@@ -198,7 +198,7 @@
   .reco .rlist button:hover{border-color:var(--brand);}
   .reco .rlist .rc{width:22px; height:22px; border-radius:6px; display:grid; place-items:center; color:#fff; font-size:12px; font-weight:800; font-family:var(--serif); flex:0 0 auto;}
   .reco .redit{margin-top:2px; border:0; background:none; font-size:10.5px; color:var(--ink-3); text-decoration:underline; padding:2px;}
-  /* この辞典について */
+  /* この図鑑について */
   .abt{margin:14px 12px 0; padding:12px 0 0; border-top:1px solid var(--line); display:flex; align-items:center; gap:8px;
     border-radius:0; background:none; border-left:0; border-right:0; border-bottom:0; width:calc(100% - 24px);
     font-size:12px; font-weight:700; color:var(--ink-2); text-align:left;}
@@ -1035,7 +1035,7 @@
   .modal .mrow{display:flex; gap:10px;}
   .modal .mrow .mf{flex:1;}
 
-  /* ---------- 付録：業界辞典 ---------- */
+  /* ---------- 付録：業界図鑑 ---------- */
   .ind-nav{display:flex; flex-wrap:wrap; gap:7px; position:sticky; top:0; z-index:5;
     padding:12px 0 12px; margin:2px 0 6px; background:linear-gradient(var(--bg) 78%, transparent);}
   .ind-nav button{flex:0 0 auto; display:flex; align-items:center; gap:7px; border:1px solid var(--line);
@@ -1177,8 +1177,8 @@
 <header class="app">
   <div class="hd">
     <button class="logo" id="home-logo" aria-label="ホーム">
-      <span class="mk">辞</span>
-      <span class="nm">就活辞典<small>CAREER DICTIONARY</small></span>
+      <span class="mk">図</span>
+      <span class="nm">就活図鑑<small>CAREER ENCYCLOPEDIA</small></span>
     </button>
     <span class="edition">増補改訂 第二版</span>
     <span class="vr"></span>
@@ -1218,7 +1218,7 @@
         <button data-go="list" aria-current="true"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></span>企業をさがす</button>
         <button data-go="rank"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12H4a1 1 0 0 1-1-1v-10a1 1 0 0 1 1-1h3z"/><path d="M7 11l4.2-8a2 2 0 0 1 2.6-1 2 2 0 0 1 1.2 2.3L14 9h5.4a2 2 0 0 1 2 2.4l-1.7 8a2 2 0 0 1-2 1.6H7"/></svg></span>人気企業ランキング</button>
         <button data-go="feature"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.6L20 10l-5 3.8L16.5 20 12 16.6 7.5 20 9 13.8 4 10l6.1-1.4L12 3z"/></svg></span>特集</button>
-        <button data-go="industry"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v18H6.5A2.5 2.5 0 0 0 4 22.5V4.5z"/><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M9 7h7M9 10.5h5"/></svg></span>業界辞典</button>
+        <button data-go="industry"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v18H6.5A2.5 2.5 0 0 0 4 22.5V4.5z"/><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M9 7h7M9 10.5h5"/></svg></span>業界図鑑</button>
       </nav>
       <div class="snav">
         <button class="acc-h" id="acc-cat" aria-expanded="true"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v16M14 9h4a1 1 0 0 1 1 1v11"/><path d="M8 8h2M8 12h2M8 16h2"/></svg></span>業界からさがす<svg class="achev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
@@ -1250,7 +1250,7 @@
         <div class="bar"><i id="seen-bar" style="width:0"></i></div>
       </div>
       <div class="reco" id="reco"></div>
-      <button class="abt" id="abtbtn"><span class="amk">凡</span>凡例・この辞典について</button>
+      <button class="abt" id="abtbtn"><span class="amk">凡</span>凡例・この図鑑について</button>
       <div class="side-note">掲載数値は公開情報をもとにした<b>参考値</b>です。最新情報は各社の採用サイト・IRをご確認ください。</div>
     </div>
   </aside>
@@ -1262,7 +1262,7 @@
       <div class="hero withart">
         <div class="hero-tx">
           <h1>企業を、ひらく。</h1>
-          <p>条件を絞り込んで、辞典をひくように企業をしらべ、数字とことばで見比べる。</p>
+          <p>条件を絞り込んで、図鑑をひらくように企業をしらべ、数字とことばで見比べる。</p>
         </div>
         <img class="hero-art" src="assets/hero_dictionary.png" alt="" loading="lazy" onerror="this.remove()">
       </div>
@@ -1274,7 +1274,7 @@
       </div>
       <div class="qlinks" id="qlinks">
         <button data-go="feature"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.6L20 10l-5 3.8L16.5 20 12 16.6 7.5 20 9 13.8 4 10l6.1-1.4L12 3z"/></svg>特集</button>
-        <button data-go="industry"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v18H6.5A2.5 2.5 0 0 0 4 22.5V4.5z"/><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/></svg>業界辞典</button>
+        <button data-go="industry"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v18H6.5A2.5 2.5 0 0 0 4 22.5V4.5z"/><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/></svg>業界図鑑</button>
         <button data-go="rank"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M8 21V10M12 21V3M16 21v-7"/><path d="M4 21h16"/></svg>ランキング</button>
         <button data-go="intern"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21v-1a7 7 0 0 1 12-5"/></svg>インターン</button>
         <button data-go="events"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>説明会</button>
@@ -1330,7 +1330,7 @@
       <div id="list-empty"></div>
       <div class="pager" id="pager"></div>
       <div class="foot">
-        <b>就活辞典【増補改訂 第二版】</b>／ 掲載の数値は公開情報をもとにした<b>参考値</b>です。最新・正確な情報は各社の公式サイト（採用情報・IR）を必ずご確認ください。能力値（6項目）・星評価は各種公表データをもとに編集部が指標化したものです。
+        <b>就活図鑑【増補改訂 第二版】</b>／ 掲載の数値は公開情報をもとにした<b>参考値</b>です。最新・正確な情報は各社の公式サイト（採用情報・IR）を必ずご確認ください。能力値（6項目）・星評価は各種公表データをもとに編集部が指標化したものです。
       </div>
     </section>
 
@@ -1452,12 +1452,12 @@
       <div class="foot">履歴はこの端末のブラウザ内（localStorage）にのみ保存されます。「すべて消す」でいつでも削除できます。</div>
     </section>
 
-    <!-- 付録：業界辞典 -->
+    <!-- 付録：業界図鑑 -->
     <section class="view" id="v-industry">
-      <div class="hero"><h1>付録：業界辞典</h1><p>就活の第一歩は「業界を知ること」から。7つの業界を、辞典の見開きページのように読み解きます。</p></div>
+      <div class="hero"><h1>付録：業界図鑑</h1><p>就活の第一歩は「業界を知ること」から。7つの業界を、図鑑の見開きページのように読み解きます。</p></div>
       <div class="ind-nav" id="ind-nav"></div>
       <div id="industry-box"></div>
-      <div class="foot">業界の解説は、就活生が全体像をつかむための入門的な整理です（編集部まとめ・参考）。分類・規模感はおおまかな目安で、企業によって実態は異なります。掲載企業は本辞典に収録されている会社の一覧です。</div>
+      <div class="foot">業界の解説は、就活生が全体像をつかむための入門的な整理です（編集部まとめ・参考）。分類・規模感はおおまかな目安で、企業によって実態は異なります。掲載企業は本図鑑に収録されている会社の一覧です。</div>
     </section>
   </main>
 
@@ -1465,7 +1465,7 @@
   <aside class="dcol" id="dcol">
     <div class="dcol-in" id="dcol-in">
       <div class="d-empty" id="d-empty">
-        <div class="ji">辞</div>
+        <div class="ji">図</div>
         <p>一覧から企業をえらぶと、<br>ここに「項目」がひらきます。</p>
         <div class="dp-widgets" id="dp-widgets"></div>
       </div>
@@ -1533,7 +1533,7 @@
 <!-- 凡例モーダル -->
 <div class="modalbg" id="m-about">
   <div class="modal">
-    <h4>凡例 ― この辞典について<button class="mx" data-mclose="m-about" aria-label="とじる">×</button></h4>
+    <h4>凡例 ― この図鑑について<button class="mx" data-mclose="m-about" aria-label="とじる">×</button></h4>
     <dl class="hanrei">
       <dt>収録範囲</dt><dd>就活生に人気の日本企業<span class="js-total">20</span>社を収録。今後の改訂で増補予定。</dd>
       <dt>数値の扱い</dt><dd>各種数値は公開情報（採用情報・IR等）をもとにした<b>参考値</b>。最新・正確な情報は必ず各社公式をご確認ください。</dd>
@@ -2490,7 +2490,7 @@ function renderPager(pages){
   });
 }
 
-/* ============================ 企業詳細（辞典の項目） ============================ */
+/* ============================ 企業詳細（図鑑の項目） ============================ */
 function irow(ic,k,v){
   return '<div class="irow"><span class="ico">'+icon(ic,15)+'</span><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';
 }
@@ -2513,10 +2513,10 @@ function buildShareCard(d){
     x.fillStyle=gr; x.fillRect(0,0,W,14);
     /* ヘッダー（自作ロゴのみ・実在ロゴ不使用） */
     x.fillStyle=TEAL; rrect(x,64,58,72,72,16); x.fill();
-    x.fillStyle="#fff"; x.font='700 44px '+MIN; x.textAlign="center"; x.textBaseline="middle"; x.fillText("辞",100,96);
+    x.fillStyle="#fff"; x.font='700 44px '+MIN; x.textAlign="center"; x.textBaseline="middle"; x.fillText("図",100,96);
     x.textAlign="left"; x.textBaseline="alphabetic";
-    x.fillStyle=INK; x.font='800 40px '+MIN; x.fillText("就活辞典",156,100);
-    x.fillStyle=GRAY; x.font='700 17px '+SANS; x.fillText("C A R E E R   D I C T I O N A R Y",158,130);
+    x.fillStyle=INK; x.font='800 40px '+MIN; x.fillText("就活図鑑",156,100);
+    x.fillStyle=GRAY; x.font='700 17px '+SANS; x.fillText("C A R E E R   E N C Y C L O P E D I A",158,130);
     x.textAlign="right"; x.fillStyle=GRAY; x.font='700 30px '+SANS; x.fillText("No."+pad3(d.no),W-64,100); x.textAlign="left";
     /* 業界ピル（右上） */
     x.font='700 26px '+SANS; var tw=x.measureText(d.cat).width;
@@ -2573,7 +2573,7 @@ function buildShareCard(d){
     /* フッター */
     x.strokeStyle=LINE; x.lineWidth=2; x.beginPath(); x.moveTo(64,1266); x.lineTo(W-64,1266); x.stroke();
     x.fillStyle=GRAY; x.font='500 22px '+SANS; x.fillText("※数値は公開情報をもとにした参考値です", 64, 1310);
-    x.textAlign="right"; x.fillStyle=INK; x.font='700 27px '+MIN; x.fillText("就活辞典【増補改訂 第二版】", W-64, 1311); x.textAlign="left";
+    x.textAlign="right"; x.fillStyle=INK; x.font='700 27px '+MIN; x.fillText("就活図鑑【増補改訂 第二版】", W-64, 1311); x.textAlign="left";
     return new Promise(function(res){ cv.toBlob(function(b){ res({blob:b, url:cv.toDataURL("image/png")}); }, "image/png"); });
   });
 }
@@ -2582,7 +2582,7 @@ function openShare(d){
   prev.innerHTML='<div class="ldg">カードを作成中…</div>';
   openModal("m-share");
   buildShareCard(d).then(function(r){
-    _shareBlob=r.blob; _shareFile="就活辞典_"+d.name+".png";
+    _shareBlob=r.blob; _shareFile="就活図鑑_"+d.name+".png";
     prev.innerHTML='<img alt="共有カードのプレビュー" src="'+r.url+'">';
   });
 }
@@ -2680,7 +2680,7 @@ function ccAnswer(text){
       return;
     }
     var r=wishMatch(c);
-    var head=(r.relaxed? "条件に<b>すべて当てはまる企業は見つかりませんでした</b>が、近い順にご紹介します。" : "承知しました。この条件で辞典をひくと、この3社がおすすめです。")
+    var head=(r.relaxed? "条件に<b>すべて当てはまる企業は見つかりませんでした</b>が、近い順にご紹介します。" : "承知しました。この条件で図鑑をひらくと、この3社がおすすめです。")
       +'<div class="cc-conds">'+c.chips.map(function(x){ return "<span>"+x+"</span>"; }).join("")+"</div>";
     var body=r.list.map(function(d){
       return '<div class="cc-hit"><button class="relchip" data-open="'+d.no+'">'+rcHTML(d)+d.name+'</button>'
@@ -2700,7 +2700,7 @@ function renderConcierge(){
   }
   if(!ccStarted){
     ccStarted=true;
-    ccPush("こんにちは、就活辞典のコンシェルジュです。<br>「<b>年収800万くらいで、東京で働けて、社員の仲がいい会社</b>」のように、希望をことばで教えてください。掲載"+DATA.length+"社から条件に合う会社をおさがしします。","bot");
+    ccPush("こんにちは、就活図鑑のコンシェルジュです。<br>「<b>年収800万くらいで、東京で働けて、社員の仲がいい会社</b>」のように、希望をことばで教えてください。掲載"+DATA.length+"社から条件に合う会社をおさがしします。","bot");
   }
 }
 function renderHistory(){
@@ -2762,7 +2762,7 @@ function renderHistory(){
   });
 }
 
-/* ============================ 付録：業界辞典 ============================ */
+/* ============================ 付録：業界図鑑 ============================ */
 function renderIndustry(){
   var nav=el("ind-nav"), box=el("industry-box");
   var inds=(typeof INDUSTRIES!=="undefined" && INDUSTRIES)?INDUSTRIES:[];
@@ -2803,7 +2803,7 @@ function renderIndustry(){
           +'<div class="yomi">'+esc(ind.kana||"")+'</div>'
         +'</div>'
         +'<div class="cnt">'
-          +'<div class="big">'+comps.length+'</div><div class="lbl">この辞典の掲載社数</div>'
+          +'<div class="big">'+comps.length+'</div><div class="lbl">この図鑑の掲載社数</div>'
           +'<button class="go" data-goind="'+esc(ind.cat)+'">この業界の企業をさがす<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>'
         +'</div>'
       +'</div>'
@@ -2813,7 +2813,7 @@ function renderIndustry(){
         +'<div class="panel"><h3><span class="lbl">職種</span>主な職種</h3><div class="chips2">'+jobsHTML+'</div></div>'
         +'<div class="panel"><h3><span class="lbl">相性</span>向いている人</h3><div class="ind-fit">'+fitHTML+'</div></div>'
         +'<div class="panel w2"><h3><span class="lbl">注意</span>よくある誤解<small>（イメージと実際）</small></h3><div class="ind-myths">'+mythHTML+'</div></div>'
-        +'<div class="panel w2"><h3><span class="lbl">企業</span>この辞典に載っている'+esc(ind.cat)+'の企業<small>（'+comps.length+'社）</small></h3><div class="ind-companies">'+cosHTML+'</div></div>'
+        +'<div class="panel w2"><h3><span class="lbl">企業</span>この図鑑に載っている'+esc(ind.cat)+'の企業<small>（'+comps.length+'社）</small></h3><div class="ind-companies">'+cosHTML+'</div></div>'
         +(keysHTML?'<div class="panel w2"><h3><span class="lbl">語句</span>関連キーワード</h3><div class="ind-keys">'+keysHTML+'</div></div>':'')
       +'</div></div>'
     +'</article>';
@@ -2832,7 +2832,7 @@ function renderIndustry(){
     });
   });
 }
-/* 業界名タップ→業界辞典を開き、その業界までスクロール（詳細の業界タグ等から） */
+/* 業界名タップ→業界図鑑を開き、その業界までスクロール（詳細の業界タグ等から） */
 function openIndustry(cat){
   go("industry");
   histAdd({k:"i",cat:cat});
@@ -2844,7 +2844,7 @@ function openIndustry(cat){
 }
 
 /* ===== ログインボーナス（連続でひらいた日数・称号） ===== */
-var VISIT_TITLES=[[100,"百日の辞典マスター"],[50,"五十日の賢者"],[30,"ひと月の研究家"],[14,"二週間の愛読者"],[7,"一週間の常連"],[3,"三日の読者"]];
+var VISIT_TITLES=[[100,"百日の図鑑マスター"],[50,"五十日の賢者"],[30,"ひと月の研究家"],[14,"二週間の愛読者"],[7,"一週間の常連"],[3,"三日の読者"]];
 var VISIT_MS=[3,7,14,30,50,100];
 function visitTitle(n){
   for(var i=0;i<VISIT_TITLES.length;i++){ if(n>=VISIT_TITLES[i][0]) return VISIT_TITLES[i][1]; }
@@ -2909,7 +2909,7 @@ function checkVisit(){
   saveStore();
   var title=visitTitle(v.streak);
   var msg = v.streak===1
-    ? (v.total===1? "はじめまして！辞典をひらいてくれてありがとうございます" : "おかえりなさい！今日も辞典をひらきました（通算"+v.total+"日）")
+    ? (v.total===1? "はじめまして！図鑑をひらいてくれてありがとうございます" : "おかえりなさい！今日も図鑑をひらきました（通算"+v.total+"日）")
     : "ログインボーナス：連続"+v.streak+"日目！"+(title? "　称号「"+title+"」":"");
   setTimeout(function(){ toast("📖 "+msg); }, 900);
 }
@@ -3255,7 +3255,7 @@ function openDetail(no){
     +'<div class="dbody">'
     +'<div class="headword">'
       +'<div class="yomi"><span class="kbr">【'+kanaBr+'】</span>'+d.kana+'</div>'
-      +'<h2>'+d.name+(d.official?'<span class="ochip">'+OBADGE+'企業公認</span>':'')+(matchOf(d)!=null?'<span class="mtch">相性 <b>'+matchOf(d)+'%</b></span>':'')+'<span class="tag catlink" role="button" tabindex="0" data-goind2="'+esc(d.cat)+'" title="「'+esc(d.cat)+'」業界を業界辞典で見る">'+d.cat+'</span></h2>'
+      +'<h2>'+d.name+(d.official?'<span class="ochip">'+OBADGE+'企業公認</span>':'')+(matchOf(d)!=null?'<span class="mtch">相性 <b>'+matchOf(d)+'%</b></span>':'')+'<span class="tag catlink" role="button" tabindex="0" data-goind2="'+esc(d.cat)+'" title="「'+esc(d.cat)+'」業界を業界図鑑で見る">'+d.cat+'</span></h2>'
       +'<div class="en">'+d.en+'<span class="code">証券コード '+d.code+'</span></div>'
     +'</div>'
     +'<div class="dcatch">'+d.catch+'</div>'
@@ -3588,7 +3588,7 @@ function toggleUserMenu(){
     +'<button class="mi" data-act="profile">'+icon("person",15)+'プロフィールを編集</button>'
     +'<button class="mi" data-act="saved">'+icon("doc",15)+'栞をはさんだ企業<span class="mbadge">'+store.saved.length+'</span></button>'
     +'<button class="mi" data-act="later">'+icon("clock",15)+'あとで読む<span class="mbadge">'+store.later.length+'</span></button>'
-    +'<button class="mi" data-act="about">'+icon("doc",15)+'凡例・この辞典について</button>';
+    +'<button class="mi" data-act="about">'+icon("doc",15)+'凡例・この図鑑について</button>';
   var dd=showDD(el("userbtn"), html);
   dd.querySelectorAll("[data-act]").forEach(function(b){
     b.addEventListener("click",function(){
@@ -3668,7 +3668,7 @@ function init(){
     if(!_shareBlob) return;
     var f=new File([_shareBlob], _shareFile, {type:"image/png"});
     if(navigator.canShare && navigator.canShare({files:[f]})){
-      navigator.share({files:[f], title:"就活辞典"}).catch(function(){});
+      navigator.share({files:[f], title:"就活図鑑"}).catch(function(){});
     }else{
       el("share-dl").click();
       toast("この環境では共有シートが使えないため、画像を保存しました");

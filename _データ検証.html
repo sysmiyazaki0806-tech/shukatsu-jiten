@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>就活辞典 データ検証</title>
+<title>就活図鑑 データ検証</title>
 <link rel="icon" href="assets/icons/app_icon.png">
 <style>
   :root{ --brand:#0E9F92; --gold:#B08A2E; --ink:#2A2E33; --ink3:#8A95A3; --err:#D64545; --warn:#D68A2B; --ok:#2E9E63; --line:#E4E0D6; }
@@ -37,7 +37,7 @@
 </head>
 <body>
 <div class="wrap">
-  <h1>就活辞典　データ検証</h1>
+  <h1>就活図鑑　データ検証</h1>
   <p class="sub">
     <code>data.js</code> を編集したら、このページを開き直すだけで自動チェックが走ります（更新は F5）。<br>
     ✕（エラー）は必ず直してから共有してください。△（注意）は内容を確認のうえ、意図的ならそのままで構いません。<br>
@@ -47,7 +47,7 @@
   <p class="foot">
     チェック内容：必須項目／型／語彙（CATS・REGIONS・JOBS・WELFARES）／No.の重複・連番／能力値0–100／
     読みがな（ひらがな）／タグの#始まり／相互参照(rel)の実在／ロゴ画像ファイルの実在／数値の常識レンジ／
-    業界辞典（INDUSTRIES）の cat・必須項目・誤解の形　ほか
+    業界図鑑（INDUSTRIES）の cat・必須項目・誤解の形　ほか
   </p>
 </div>
 
@@ -163,15 +163,15 @@
   var sorted=allNos.slice().sort(function(a,b){return a-b;});
   for(var i=0;i<sorted.length;i++){ if(sorted[i]!==i+1){ W(null,"no が 1〜"+DATA.length+" の連番になっていません（欠番や飛びがあります）"); break; } }
 
-  /* ---- 業界辞典（INDUSTRIES）チェック ---- */
+  /* ---- 業界図鑑（INDUSTRIES）チェック ---- */
   if(typeof INDUSTRIES==="undefined"){
-    W(null,"INDUSTRIES（業界辞典）が未定義です（業界辞典ページが空になります）");
+    W(null,"INDUSTRIES（業界図鑑）が未定義です（業界図鑑ページが空になります）");
   } else if(!isArr(INDUSTRIES)){
-    E({no:null,name:"業界辞典"},"INDUSTRIES が配列ではありません");
+    E({no:null,name:"業界図鑑"},"INDUSTRIES が配列ではありません");
   } else {
     var seenCat={};
     INDUSTRIES.forEach(function(ind){
-      var t={no:null, name:"業界辞典（"+(ind&&isStr(ind.cat)?ind.cat:"?")+"）"};
+      var t={no:null, name:"業界図鑑（"+(ind&&isStr(ind.cat)?ind.cat:"?")+"）"};
       if(!isStr(ind.cat)){ E(t,"cat が空です"); return; }
       if(CATS.indexOf(ind.cat)<0) E(t,"cat「"+ind.cat+"」が CATS にありません");
       if(seenCat[ind.cat]) E(t,"cat「"+ind.cat+"」が重複しています");
@@ -187,7 +187,7 @@
       if(ind.keys!==undefined && !isArr(ind.keys)) E(t,"keys は配列にしてください");
       if(isStr(ind.cat) && DATA.filter(function(d){return d.cat===ind.cat;}).length===0) W(t,"この業界に該当する企業が0社です（掲載企業欄が空になります）");
     });
-    CATS.forEach(function(c){ if(!seenCat[c]) W({no:null,name:"業界辞典（"+c+"）"},"業界「"+c+"」の解説が INDUSTRIES にありません"); });
+    CATS.forEach(function(c){ if(!seenCat[c]) W({no:null,name:"業界図鑑（"+c+"）"},"業界「"+c+"」の解説が INDUSTRIES にありません"); });
   }
 
   /* ---- 描画 ---- */
