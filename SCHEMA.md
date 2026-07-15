@@ -94,7 +94,8 @@
 | `persons` | 配列 | ○ | 求める人物像を**3つ**（採用サイトの表現を要約） | `["現地現物で考え抜ける人", ...]` |
 | `tags2` | 配列 | ○ | 索引タグ3〜4個。**必ず `#` 始まり** | `["#世界トップ級","#安定"]` |
 | `official` | 真偽値 | 任意 | **企業公認フラグ**。企業の担当者に掲載内容を直接確認できた場合のみ `true`。社名の横に公認マーク（✓）が表示される。未確認の企業には書かない | `official:true` |
-| `web` | 文字列 | 推奨 | **公式サイトURL**（`https://` 始まり）。詳細ページの基本データに青文字リンクで表示される。未設定だとリンク行が出ない（検証で注意扱い） | `web:"https://global.toyota/jp/"` |
+| `web` | 文字列 | 推奨 | **公式サイトURL**（`https://` 始まり）。詳細ページの基本データに青のピル型リンクで表示される。未設定だとリンク行が出ない（検証で注意扱い） | `web:"https://global.toyota/jp/"` |
+| `recruit` | 文字列 | 推奨 | **新卒採用サイトURL**（`https://` 始まり）。詳細ページの基本データにティールのピル型リンク「新卒採用サイトを見る」で表示される（公式サイトより上＝就活生の本命導線）。**年度付きURL（…/2028/ など）は翌年切れるので避け、年度に依存しない入口ページを入れる**。未設定だとリンク行が出ない（検証で注意扱い） | `recruit:"https://recruit.toyota/"` |
 
 ### 2-6. 就活情報
 
@@ -171,7 +172,7 @@
 DATA の末尾（最後の `}` と `];` の間）に `,` を付けてから貼り付け、`◆` を全部埋めてください。
 
 ```js
- {no:◆,logo:"◆NN_slug",web:"https://◆",name:"◆",kana:"◆すべてひらがな",en:"◆",code:"◆",cat:"◆CATSから",field:"◆",bizType:"◆対個人|対企業|両",region:"◆REGIONSから",
+ {no:◆,logo:"◆NN_slug",web:"https://◆",recruit:"https://◆新卒採用サイト",name:"◆",kana:"◆すべてひらがな",en:"◆",code:"◆",cat:"◆CATSから",field:"◆",bizType:"◆対個人|対企業|両",region:"◆REGIONSから",
   founded:"◆年",foundedY:◆,hq:"◆",addr:"◆",listing:"◆",capital:"約◆",employees:"約◆(連結)",sales:"約◆",salaryV:"約◆万円",
   startU:"◆円",startG:"◆円",startV:◆,holidays:◆,paid:◆,womenP:◆,avgAge:◆,ot:◆,
   stats:{scale:◆,salary:◆,stable:◆,growth:◆,wlb:◆,fame:◆},

@@ -854,6 +854,9 @@
   .weblink:hover{background:#1A56C4; border-color:#1A56C4; color:#fff; box-shadow:0 2px 8px rgba(26,86,196,.28);}
   .weblink svg{flex:0 0 auto; margin:0; transition:transform .16s;}
   .weblink:hover svg{transform:translate(1.5px,-1.5px);}
+  /* 採用サイトリンク（ブランドティールのピル型・就活生の本命導線） */
+  .weblink.rec{color:#0B7C72; background:rgba(14,159,146,.07); border-color:rgba(14,159,146,.35); line-height:1.35;}
+  .weblink.rec:hover{background:#0E9F92; border-color:#0E9F92; color:#fff; box-shadow:0 2px 8px rgba(14,159,146,.28);}
 
   /* エントリー記録（インターン／本選考） */
   .entryrow{display:flex; align-items:center; gap:7px; margin:10px 0 0; flex-wrap:wrap;}
@@ -3313,6 +3316,7 @@ function openDetail(no){
       +irow("yen","平均年収",d.salaryV)
       +irow("lm","上場",d.listing+' <small>証券コード '+d.code+'</small>')
       +irow("build","資本金",d.capital)
+      +(d.recruit? irow("globe","採用サイト",'<a class="weblink rec" href="'+d.recruit+'" target="_blank" rel="noopener noreferrer">新卒採用サイトを見る<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M9 7h8v8"/></svg></a>') : "")
       +(d.web? irow("globe","公式サイト",'<a class="weblink" href="'+d.web+'" target="_blank" rel="noopener noreferrer">'+d.web.replace(/^https?:\/\//,"").replace(/\/$/,"")+'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M9 7h8v8"/></svg></a>') : "")
     +'</div></div>'
     +'<div class="panel"><h3><span class="lbl">初任給</span><small>（月給・参考値）</small></h3>'+startpayHTML+'</div>'

@@ -145,6 +145,12 @@
       if(!isStr(d.web)||!/^https:\/\/[^\s"]+$/.test(d.web)) E(d,"web は https:// で始まるURLにしてください");
     }else W(d,"web（公式サイトURL）が未設定です（詳細ページにリンクが出ません）");
 
+    /* recruit（新卒採用サイトURL・推奨） */
+    if(d.recruit!==undefined){
+      if(!isStr(d.recruit)||!/^https:\/\/[^\s"]+$/.test(d.recruit)) E(d,"recruit は https:// で始まるURLにしてください");
+      else if(/\/20\d\d\/?$/.test(d.recruit)) W(d,"recruit「"+d.recruit+"」が年度付きURLです（翌年リンク切れの恐れ。年度に依存しない入口ページを推奨）");
+    }else W(d,"recruit（新卒採用サイトURL）が未設定です（詳細ページに採用リンクが出ません）");
+
     /* logo 命名 */
     if(isStr(d.logo) && !/^\d{2}_[a-z0-9_]+$/.test(d.logo)) W(d,"logo「"+d.logo+"」は NN_英小文字slug 形式を推奨します");
 
